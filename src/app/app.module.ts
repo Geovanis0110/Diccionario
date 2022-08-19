@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from "./app-routing.module";
 
 
-
-
-//Importando Angular Material
+//Angular Material Imports
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
@@ -41,6 +40,13 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
+import { ShowVideosComponent } from './Components/show-videos/show-videos.component';
+import { ShowImagesComponent } from './Components/show-images/show-images.component';
+import { ShowInfoComponent } from './Components/show-info/show-info.component';
+import { ShowHelpComponent } from './Components/show-help/show-help.component';
+import { ShowEstadisticsComponent } from './Components/show-estadistics/show-estadistics.component';
+import { AlphabethComponent } from './Components/alphabeth/alphabeth.component';
+import { FilterPipe } from './Pipes/filter.pipe';
 
 
 
@@ -51,7 +57,13 @@ import { MatTreeModule } from "@angular/material/tree";
 @NgModule({
   declarations: [
     AppComponent,
-
+    ShowVideosComponent,
+    ShowImagesComponent,
+    ShowInfoComponent,
+    ShowHelpComponent,
+    ShowEstadisticsComponent,
+    AlphabethComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +101,8 @@ import { MatTreeModule } from "@angular/material/tree";
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule
+    MatTreeModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
