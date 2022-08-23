@@ -1,0 +1,14 @@
+.container_words {
+  display: grid;
+  grid-template-columns: repeat(5, auto );
+  grid-gap: 10px;
+}
+
+@media screen and (max-width: 640px) {
+
+  .container_words {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

@@ -6,9 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./show-videos.component.css']
 })
 export class ShowVideosComponent implements OnInit {
-
+  videosGalery = new Array(100)
   constructor() { }
-
   ngOnInit(): void {
   }
 

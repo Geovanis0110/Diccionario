@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./show-images.component.css']
 })
 export class ShowImagesComponent implements OnInit {
-
+  imagesGalery = new Array(100);
   constructor() { }
 
   ngOnInit(): void {

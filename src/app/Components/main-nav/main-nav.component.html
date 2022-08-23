@@ -1,13 +1,34 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Diccionario <br>B&aacute;sico Escolar 5.0</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async)? 'over': 'side'">
+    <mat-toolbar>Navegación</mat-toolbar>
+    <mat-nav-list [hidden]="isHide">
+      <a mat-list-item routerLink="/diccionario" href="">
+        <mat-icon>home</mat-icon>
+        Diccionario</a>
+      <a mat-list-item href="#" routerLink="/videos">
+        <mat-icon class="mx-1" svgIcon="video-icon" aria-hidden="false" aria-label="Videos"></mat-icon>
+        Video</a>
+      <a mat-list-item href="#" routerLink="/images">
+<!--        <mat-icon>image</mat-icon>-->
+        <mat-icon class="mx-1" svgIcon="image-icon" aria-hidden="false" aria-label="Image"></mat-icon>
+        Images</a>
+      <a mat-list-item href="#" routerLink="/info">
+<!--        <mat-icon>info</mat-icon>-->
+        <mat-icon class="mx-1" svgIcon="info-icon" aria-hidden="false" aria-label="Info"></mat-icon>
+        Info</a>
+      <a mat-list-item href="#" routerLink="/estadistics">
+<!--        <mat-icon>leaderboard</mat-icon>-->
+        <mat-icon class="mx-1" svgIcon="estadistics-icon" aria-hidden="false" aria-label="Estadistics"></mat-icon>
+        Estadistics</a>
+      <a mat-list-item href="" routerLink="/help">
+<!--        <mat-icon>help</mat-icon>-->
+        <mat-icon class="mx-1" svgIcon="help-icon" aria-hidden="false" aria-label="Help"></mat-icon>
+        Help</a>
+      <a mat-list-item href="">
+<!--        <mat-icon>logout</mat-icon>-->
+        <mat-icon class="mx-1" svgIcon="exit-icon" aria-hidden="false" aria-label="Exit"></mat-icon>
+        Exit</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,11 +38,15 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span></span>
+      <div class="d-flex justify-content-between">
+        <span class="webTitle">Diccionario B&aacute;sico Escolar 5.0</span>
+        <mat-icon>home</mat-icon>
+      </div>
     </mat-toolbar>
     <!-- Add Content Here -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

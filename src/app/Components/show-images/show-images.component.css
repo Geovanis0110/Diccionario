@@ -1,0 +1,12 @@
+.container_img{
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  grid-gap: 20px;
+}
+@media screen and (max-width: 640px){
+  .container_img{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

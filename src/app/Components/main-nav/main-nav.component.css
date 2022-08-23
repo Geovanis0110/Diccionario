@@ -2,21 +2,27 @@
   height: 100%;
 }
 
-.sidenav {
+.sidenav{
   width: 250px;
 }
 
 .sidenav .mat-toolbar {
   background: inherit;
-  background-color: cornflowerblue;
+  background-color: #06283D;
   color: white;
-  font-size: 25px;
-  font-weight: bold;
-  text-shadow: 1px 1px 5px black;
 }
 
 .mat-toolbar.mat-primary {
+  background-color: #06283D;
   position: sticky;
   top: 0;
   z-index: 1;
+}
+.webTitle{
+  background-color: #1363DF;
+  border-radius: 5px;
+  padding: 5px;
+}
+.icon-A{
+  border-radius: 50%;
 }

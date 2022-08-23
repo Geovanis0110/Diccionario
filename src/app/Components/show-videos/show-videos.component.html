@@ -1,1 +1,17 @@
-<p>show-videos works!</p>
+<div class="container text-center"><h1>Galería de Videos</h1></div>
+<div class="container container_videos" style="border: 1px solid gray">
+  <mat-card *ngFor="let videos of videosGalery; index as i;">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Video {{i+1}}</mat-card-title>
+<!--      <mat-card-subtitle>Dog Breed</mat-card-subtitle>-->
+    </mat-card-header>
+    <img mat-card-image src="https://th.bing.com/th/id/OIP.NqW-FbGXqPQqF628Iw1pbAHaFj?pid=ImgDet&rs=1" alt="Photo of a Shiba Inu">
+    <div class="d-flex justify-content-between">
+      <mat-icon>skip_previous</mat-icon>
+      <mat-icon>play_arrow</mat-icon>
+      <mat-icon>skip_next</mat-icon></div>
+    <mat-card-content>
+    </mat-card-content>
+  </mat-card>
+</div>

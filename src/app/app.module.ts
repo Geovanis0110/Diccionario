@@ -48,7 +48,8 @@ import { ShowEstadisticsComponent } from './Components/show-estadistics/show-est
 import { AlphabethComponent } from './Components/alphabeth/alphabeth.component';
 import { FilterPipe } from './Pipes/filter.pipe';
 import { MainNavComponent } from './Components/main-nav/main-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
+import { DashBoardComponent } from './Components/dash-board/dash-board.component';
+
 
 
 
@@ -67,6 +68,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     AlphabethComponent,
     FilterPipe,
     MainNavComponent,
+    DashBoardComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,8 +107,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    AppRoutingModule,
-    LayoutModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
