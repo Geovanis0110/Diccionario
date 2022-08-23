@@ -3,7 +3,7 @@
   <div class="forms-header d-flex justify-content-center">
     <mat-form-field appearance="outline" class="mat-elevation-z0">
       <mat-label>Buscar Palabras</mat-label>
-      <input matInput placeholder="Escriba..." (keyup)="onSearch($event)" >
+      <input matInput type="text" name="filtrar" placeholder="Escriba..."   (keyup)="onSearch($event)" >
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
@@ -13,10 +13,10 @@
     <h1>Esto es lo inicoapfna lanbanlkvanlkvn </h1>
   </div>
   <div class="container_words   container" *ngIf="input_search">
-    <mat-card *ngFor="let word of words">
+    <mat-card *ngFor="let word of words  | filter:'orth':wordSearch">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
+        <mat-card-title>{{word}}</mat-card-title>
         <mat-card-subtitle>Dog Breed</mat-card-subtitle>
       </mat-card-header>
 
