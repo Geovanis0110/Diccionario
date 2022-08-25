@@ -40,6 +40,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTooltipModule} from "@angular/material/tooltip";
+
 import {MatTreeModule} from "@angular/material/tree";
 import {ShowVideosComponent} from './Components/show-videos/show-videos.component';
 import {ShowImagesComponent} from './Components/show-images/show-images.component';
@@ -50,6 +51,7 @@ import {AlphabethComponent} from './Components/alphabeth/alphabeth.component';
 import {FilterPipe} from './Pipes/filter.pipe';
 import {MainNavComponent} from './Components/main-nav/main-nav.component';
 import {DashBoardComponent} from './Components/dash-board/dash-board.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -103,7 +105,8 @@ import {DashBoardComponent} from './Components/dash-board/dash-board.component';
     MatTooltipModule,
     MatTreeModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

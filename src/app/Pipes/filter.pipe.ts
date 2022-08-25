@@ -1,19 +1,23 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
+
+
 
 @Pipe({
   name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
-
-  transform(value:any,propName:string,arg:any):any {
+  transform(value: any, propOne: string, propTwo: string, propSubTwo: string, arg: any): any {
     const resultList = [];
+    const resultIdList = [];
     //Parseando el JSON
-    for(let item of value){
-      resultList.push(item[propName][0])
+    for (let item of value) {
+      resultList.push(item[propOne][0])
+      resultIdList.push(item[propTwo][propSubTwo])
     }
+
     //Eliminando Duplicados
-    let result = resultList.reduce((a,e) => {
-      if(!a.find((d:any) => d == e)){
+    let result = resultList.reduce((a, e) => {
+      if (!a.find((d: any) => d == e)) {
         a.push(e);
       }
       return a;
@@ -24,8 +28,8 @@ export class FilterPipe implements PipeTransform {
     // console.log(result);
     //
     const wordStringList = [''];
-    for(let itemString of result){
-      if(itemString.includes(arg)){
+    for (let itemString of result) {
+      if (itemString.includes(arg)) {
         wordStringList.push(itemString);
       }
     }
@@ -33,6 +37,4 @@ export class FilterPipe implements PipeTransform {
     wordStringList.shift()
     return wordStringList;
   }
-
-
 }

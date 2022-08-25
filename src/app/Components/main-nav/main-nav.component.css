@@ -8,12 +8,12 @@
 
 .sidenav .mat-toolbar {
   background: inherit;
-  background-color: #06283D;
+  background-color: #002B5B;
   color: white;
 }
 
 .mat-toolbar.mat-primary {
-  background-color: #06283D;
+  background-color: #002B5B;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -23,6 +23,8 @@
   border-radius: 5px;
   padding: 5px;
 }
-.icon-A{
-  border-radius: 50%;
+.iconTheme{
+
 }
+
+
