@@ -1,35 +1,57 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async)? 'over': 'side'">
-    <mat-toolbar>Navegación</mat-toolbar>
-    <mat-nav-list [hidden]="isHide">
-      <a mat-list-item routerLink="/diccionario" href="">
-        <mat-icon>home</mat-icon>
-        Diccionario</a>
-      <a mat-list-item href="#" routerLink="/videos">
-        <mat-icon class="mx-1" svgIcon="video-icon" aria-hidden="false" aria-label="Videos"></mat-icon>
-        Video</a>
-      <a mat-list-item href="#" routerLink="/images">
-<!--        <mat-icon>image</mat-icon>-->
-        <mat-icon class="mx-1" svgIcon="image-icon" aria-hidden="false" aria-label="Image"></mat-icon>
-        Images</a>
-      <a mat-list-item href="#" routerLink="/info">
-<!--        <mat-icon>info</mat-icon>-->
-        <mat-icon class="mx-1" svgIcon="info-icon" aria-hidden="false" aria-label="Info"></mat-icon>
-        Info</a>
-      <a mat-list-item href="#" routerLink="/estadistics">
-<!--        <mat-icon>leaderboard</mat-icon>-->
-        <mat-icon class="mx-1" svgIcon="estadistics-icon" aria-hidden="false" aria-label="Estadistics"></mat-icon>
-        Estadistics</a>
-      <a mat-list-item href="" routerLink="/help">
-<!--        <mat-icon>help</mat-icon>-->
-        <mat-icon class="mx-1" svgIcon="help-icon" aria-hidden="false" aria-label="Help"></mat-icon>
-        Help</a>
-      <a mat-list-item href="">
-<!--        <mat-icon>logout</mat-icon>-->
-        <mat-icon class="mx-1" svgIcon="exit-icon" aria-hidden="false" aria-label="Exit"></mat-icon>
-        Exit</a>
-    </mat-nav-list>
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async)? 'over': 'side'">
+<!--    <mat-toolbar>-->
+<!--      <h2 class="mx-2 toolbarText">Secciones</h2>-->
+<!--    </mat-toolbar>-->
+
+    <div class="toolbar p-2">
+      <img class="imgBg" src="./assets/img/cla_logo.png" alt="">
+    </div>
+    <mat-divider></mat-divider>
+    <div class="container mx-3 d-flex align-items-center">
+      <mat-icon>segment</mat-icon>
+      <h5 class="toolbarHeader">Contenido</h5>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="container">
+
+      <mat-nav-list [hidden]="isHide">
+        <a mat-list-item class="iconCSS" routerLink="/diccionario" href="">
+          <mat-icon style="color: darkblue">menu_book</mat-icon>
+          <!--       <mat-icon class="mx-1 iconCss1" aria-hidden="false" aria-label="Diccionary"></mat-icon>-->
+          <h5 class="mt-2 mx-3">Diccionario</h5></a>
+        <a mat-list-item href="#" class="iconCSS" routerLink="/videos">
+          <mat-icon style="color: red">movies</mat-icon>
+          <!--       <mat-icon class="mx-1 iconCss2" aria-hidden="false" aria-label="Videos"></mat-icon>-->
+          <h5 class="mt-2 mx-3">Videos</h5></a>
+        <div class="icon">
+          <a mat-list-item href="#" class="iconCSS" routerLink="/images">
+            <mat-icon style="color: salmon">image</mat-icon>
+            <!--         <mat-icon class="mx-1 iconCss3" aria-hidden="false" aria-label="Image"></mat-icon>-->
+            <h5 class="mt-2 mx-3">Imágenes</h5></a>
+        </div>
+        <a mat-list-item href="#" class="iconCSS" routerLink="/info">
+          <mat-icon color="primary">info</mat-icon>
+          <!--      <mat-icon class="mx-1 iconCss4" aria-hidden="false" aria-label="Info"></mat-icon>-->
+          <h5 class="mt-2 mx-3">Información</h5></a>
+        <a mat-list-item href="#" class="iconCSS" routerLink="/estadistics">
+          <mat-icon style="color: green">leaderboard</mat-icon>
+          <!--      <mat-icon class="mx-1 iconCss5 " aria-hidden="false" aria-label="Estadistics"></mat-icon>-->
+          <h5 class="mt-2 mx-3">Estadisticas</h5></a>
+        <a mat-list-item href="" class="iconCSS" routerLink="/help">
+          <mat-icon color="primary">help</mat-icon>
+          <!--      <mat-icon class="mx-1 iconCss6"  aria-hidden="false" aria-label="Help"></mat-icon>-->
+          <h5 class="mt-2 mx-3">Ayuda</h5></a>
+        <a mat-list-item href="" class="iconCSS">
+          <mat-icon style="color: darkred">close</mat-icon>
+          <!--       <mat-icon class="mx-1 iconCss7"   aria-hidden="false" aria-label="Exit"></mat-icon>-->
+          <h5 class="mt-2 mx-3">Salir</h5>
+        </a>
+      </mat-nav-list>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
@@ -39,7 +61,8 @@
         mat-icon-button
         (click)="drawer.toggle()"
       >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <mat-icon>menu</mat-icon>
+        <!--        <mat-icon class="iconCss"></mat-icon>-->
       </button>
       <div class="d-flex justify-content-between">
         <span class="webTitle">Diccionario B&aacute;sico Escolar 5.0</span>

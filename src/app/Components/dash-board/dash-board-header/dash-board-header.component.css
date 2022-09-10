@@ -1,0 +1,17 @@
+.formField{
+  width: 100%;
+}
+.buttonColor{
+  color: #fff;
+  background-color: #0096FF;
+  width: 50px;
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+.btnColor{
+  background-color: #00D7FF;
+}
+.myPanel{
+  width: 400px;
+}

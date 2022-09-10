@@ -1,94 +1,18 @@
-<!--Contendor Principal-->
-<div class="container" >
-<!--Subcontenedor-->
-  <div class=" justify-content-around forms-header d-flex p-2">
-<!--"Input" de la entrada-->
-    <mat-form-field appearance="outline" class="mat-elevation-z0 formField">
-      <mat-label>Buscar Palabras</mat-label>
-      <input matInput type="text" name="filtrar" placeholder="Escriba..."   (keyup)="onSearch($event)" >
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-<!--"Select" de los modos de busqueda-->
-    <mat-form-field appearance="outline" class="mx-3 mt-1" [hidden]="hiddenSelect.value">
-      <mat-label>Modos de b&uacute;squeda</mat-label>
-      <mat-select>
-        <mat-option value="af">Comienzo por</mat-option>
-        <mat-option value="reg">Contiene</mat-option>
-        <mat-option value="subf">Termina en</mat-option>
-      </mat-select>
-    </mat-form-field>
-<!--    Boton para ocultar o mostar la busqueda avanzad-->
-    <div>
-<!--      Version Desktop-->
-      <div *ngIf="!(isHandSet | async)">
-          <button mat-raised-button [matMenuTriggerFor]="menu" class="mat-elevation-z3 mx-2 mt-2 p-2 buttonColor"><mat-icon matSuffix>add</mat-icon>
-          </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item ><mat-checkbox  color="primary" [formControl]="hiddenSelect">Activar B&uacute;squeda avanzada</mat-checkbox></button>
-        </mat-menu>
+<div class="container">
+  <h3 class="mt-2 p-2">Diccionario</h3>
+  <mat-divider></mat-divider>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <!--Header-->
+        <app-dash-board-header (wordFinding)="onSearch($event)" (clickingButton)="onClickButton()"></app-dash-board-header>
+        <!--Content-->
+        <app-dash-board-ifo [searching]="input_search" [Letter]="indexWord" [itemList]="wordResults" [cEntry]="entry"></app-dash-board-ifo>
       </div>
-<!--      Version Movil-->
-      <div *ngIf="(isHandSet | async)">
-        <mat-label>Hidden Movil </mat-label>
-        <mat-slide-toggle color="primary" [formControl]="hiddenSelect">
-        </mat-slide-toggle>
+      <div class="col-lg-8">
+        <!--Main Content-->
+        <app-dash-board-content ></app-dash-board-content>
       </div>
     </div>
-<!--    Zona de busqueda-->
-    <div [hidden]="!hiddenSelect.value" style="display: flex">
-<!--    "Select" del criterio de busqueda-->
-      <mat-form-field appearance="outline">
-        <mat-label>Criterios de B&uacute;squeda</mat-label>
-        <mat-select (selectionChange)="setTrueDisable()">
-          <mat-option  value="1">1</mat-option>
-          <mat-option  value="2">2</mat-option>
-          <mat-option  value="3">3</mat-option>
-        </mat-select>
-      </mat-form-field>
-      &nbsp;
-      &nbsp;
-      <mat-form-field appearance="outline">
-        <mat-label>Selecci&oacute;n</mat-label>
-        <mat-select [disabled]="!disableSelect">
-          <mat-option value="1">1</mat-option>
-          <mat-option value="2">2</mat-option>
-          <mat-option value="3">3</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-  </div>
-
-  <div class="welcome container" *ngIf="!input_search">
-    <mat-card class="example-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-      <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <div class="container_words container" *ngIf="input_search">
-    <mat-card (click)="onClickSelection(word) " class="matCardGenerator" *ngFor="let word of words | filter:'orth':'$':'id':wordSearch; index as i;">
-      <mat-card-header>
-<!--        <div mat-card-avatar class="example-header-image"></div>-->
-        <mat-card-title>{{word}}</mat-card-title>
-        <mat-card-subtitle>{{i}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-      </mat-card-content>
-    </mat-card>
   </div>
 </div>

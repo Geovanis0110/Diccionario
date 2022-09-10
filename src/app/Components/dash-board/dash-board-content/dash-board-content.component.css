@@ -1,0 +1,25 @@
+.welcome{
+  width: 100%;
+}
+.example-card{
+  background-color: #f1f1f1;
+}
+.container_words {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 10px;
+}
+@media screen and (max-width: 640px) {
+  .container_words {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.matCardGenerator:hover{
+  background-color: #2B4865;
+  color: white;
+  cursor: pointer;
+  box-shadow: 1px 0px 12px #8FE3CF;
+}
+

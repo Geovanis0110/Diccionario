@@ -34,7 +34,7 @@ export class FilterPipe implements PipeTransform {
       }
     }
     //Removiendo primer elemento del arreglo
-    wordStringList.shift()
+    wordStringList.shift();
     return wordStringList;
   }
 }

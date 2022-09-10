@@ -52,6 +52,8 @@ import {FilterPipe} from './Pipes/filter.pipe';
 import {MainNavComponent} from './Components/main-nav/main-nav.component';
 import {DashBoardComponent} from './Components/dash-board/dash-board.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { DashBoardHeaderComponent } from './Components/dash-board/dash-board-header/dash-board-header.component';
+import { DashBoardContentComponent } from './Components/dash-board/dash-board-content/dash-board-content.component';
 
 
 @NgModule({
@@ -66,6 +68,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     FilterPipe,
     MainNavComponent,
     DashBoardComponent,
+    DashBoardHeaderComponent,
+    DashBoardContentComponent,
   ],
   imports: [
     BrowserModule,

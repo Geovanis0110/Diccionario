@@ -1,0 +1,11 @@
+<mat-divider></mat-divider>
+  <div class="mt-3">
+    <select size="9" style="width: 100%;" class="form-select form-select-style">
+      <option value="{{item}}" (dblclick)="onSelectWord($event)"  *ngFor="let item of itemList | filter:'orth':'$':'id':currentEntry" >{{item}}</option>
+    </select>
+  </div>
+  <div class="mt-3">
+    <select size="3" style="width: 100%;" class="form-select"></select>
+</div>
+
+

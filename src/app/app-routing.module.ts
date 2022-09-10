@@ -13,8 +13,9 @@ import {DashBoardComponent} from "./Components/dash-board/dash-board.component";
 
 const routes: Routes = [
   {
-    path:'#',
-    component:AppComponent
+    path:'',
+    redirectTo: '/diccionario',
+    pathMatch: 'full',
   },{
     path: 'videos',
     component: ShowVideosComponent
@@ -39,6 +40,7 @@ const routes: Routes = [
     path: 'diccionario',
     component: DashBoardComponent
   }
+
 ];
 
 @NgModule({
