@@ -1,19 +1,17 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-
-
 @Pipe({
   name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
-  transform(value: any, propOne: string, propTwo: string, propSubTwo: string, arg: any): any {
-    const resultList = [];
-    const resultIdList = [];
+  transform(arrayFinal: any[], propOne: string, propTwo: string, propSubTwo: string, arg: any): any {
+    const resultList: any[] = [];
+    // const resultIdList: any[] = [];
     //Parseando el JSON
-    for (let item of value) {
-      resultList.push(item[propOne][0])
-      resultIdList.push(item[propTwo][propSubTwo])
-    }
+    arrayFinal.forEach((item:any, index:number) => {
+      resultList.push(item[propOne][0]);
+      // resultIdList.push(item[propTwo][propSubTwo]);
+    })
 
     //Eliminando Duplicados
     let result = resultList.reduce((a, e) => {
@@ -28,6 +26,8 @@ export class FilterPipe implements PipeTransform {
     // console.log(result);
     //
     const wordStringList = [''];
+
+    //Realizando filtrado de las palabras e insertando en el listado final que va a ser mostrado
     for (let itemString of result) {
       if (itemString.includes(arg)) {
         wordStringList.push(itemString);

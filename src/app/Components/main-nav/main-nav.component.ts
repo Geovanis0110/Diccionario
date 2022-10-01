@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
-
+import {Component} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
+import {SharedData} from "../../Services/shared-data";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -14,60 +13,37 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class MainNavComponent {
   Icon: string = 'menu_book_FILL0_wght400_GRAD0_opsz48.svg';
-  isHide: boolean = false;
+  isChecked: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
+
   constructor(private breakpointObserver: BreakpointObserver,
-              private iconRegistry: MatIconRegistry,
-              private sanitizer: DomSanitizer) {
-    this.iconRegistry.addSvgIcon(
-      'menu-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/menu_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'video-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/movie_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'image-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/image_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'help-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/help_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'search-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/search_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'info-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/info_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'estadistics-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/leaderboard_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'exit-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/exit_to_app_FILL0_wght400_GRAD0_opsz48.svg')
-    )
-    this.iconRegistry.addSvgIcon(
-      'diccionary-icon',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/img/menu_book_FILL0_wght400_GRAD0_opsz48.svg')
-    )
+              private _shareD: SharedData,
+              private snackbar: MatSnackBar) {
   }
 
+  // hideLinks() {
+  //   if (this.isHide == false) {
+  //     this.isHide = true;
+  //   } else {
+  //     this.isHide = false;
+  //   }
+  // }
 
-  hideLinks(){
-    if(this.isHide == false){
-      this.isHide = true;
-    }else{
-      this.isHide = false;
-    }
-
+  onActivateAdvSearch(){
+    this.isChecked ? this.isChecked = false : this.isChecked = true;
+      this._shareD.behaviorSub.next(this.isChecked);
+      if(this.isChecked){
+        this.snackbar.open('Busqueda Avanzada Activada','none', {
+          duration: 2 * 1000
+        })
+      }else{
+        this.snackbar.open('Busqueda Normal Activada', '', {
+          duration: 2 * 1000
+        })
+      }
   }
 }

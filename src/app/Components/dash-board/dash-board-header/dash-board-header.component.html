@@ -7,8 +7,8 @@
 <mat-divider></mat-divider>
 <!--"Select" de los modos de busqueda-->
 <div class="row">
-  <div class="col-lg-6 col-sm-6">
-    <mat-form-field appearance="fill" class="mt-3 mat-elevation-z0" [hidden]="hiddenSelect.value">
+  <div>
+    <mat-form-field appearance="fill" class="mt-2 mat-elevation-z0" [hidden]="hiddenSelect.value">
       <mat-label>Modos de b&uacute;squeda</mat-label>
       <mat-select>
         <mat-option value="af">Comienzo por</mat-option>
@@ -16,42 +16,7 @@
         <mat-option value="subf">Termina en</mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-  <div class="col-lg-3 col-sm-2" *ngIf="!(isHandSet | async)">
-    <button mat-icon-button [matMenuTriggerFor]="menu" class=" buttonColor">
-      <mat-icon>add</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>manage_search</mat-icon>
-        <mat-checkbox color="primary" [formControl]="hiddenSelect" labelPosition="before">Activar B&uacute;squeda
-          avanzada
-        </mat-checkbox>
-      </button>
-    </mat-menu>
-  </div>
-  <div class="col-lg-3">
-    <button mat-icon-button class="buttonColor" (click)="onCurrentTest()">
-      <mat-icon>checked</mat-icon>
-    </button>
-  </div>
-</div>
-
-
-
-<!-- "Select" de las sugerencias de palabras -->
-<!--    <mat-form-field appearance="outline" color="primary" class="mx-4 mt-1 mat-elevation-z0" matBadge="3"-->
-<!--                    matBadgeOverlap="false" matBadgeColor="warn" [hidden]="hiddenSelect.value">-->
-<!--      <mat-label>No querras decir</mat-label>-->
-<!--      <mat-select>-->
-<!--        <mat-option></mat-option>-->
-<!--      </mat-select>-->
-<!--    </mat-form-field>-->
-
-<!--    Boton para ocultar o mostar la busqueda avanzad-->
-<!--      Version Desktop-->
 <div>
-
   <!--      Version Movil-->
   <div *ngIf="(isHandSet | async)">
     <mat-label>Hidden Movil</mat-label>
@@ -62,7 +27,7 @@
 <!--    Zona de busqueda-->
 
 <!--    "Select" del criterio de busqueda-->
-<div [hidden]="!hiddenSelect.value" style="display: flex">
+<div [hidden]="!hideSelect">
   <mat-form-field appearance="fill">
     <mat-label>Criterios de B&uacute;squeda</mat-label>
     <mat-select (selectionChange)="setDisabledTrue()">
@@ -71,8 +36,6 @@
       <mat-option value="3">3</mat-option>
     </mat-select>
   </mat-form-field>
-  &nbsp;
-  &nbsp;
   <mat-form-field appearance="fill">
     <mat-label>Selecci&oacute;n</mat-label>
     <mat-select [disabled]="!disableSelect">

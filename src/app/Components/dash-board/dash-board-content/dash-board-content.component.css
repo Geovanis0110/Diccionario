@@ -22,4 +22,7 @@
   cursor: pointer;
   box-shadow: 1px 0px 12px #8FE3CF;
 }
+.card-opacity{
+  opacity: 0.6;
+}
 

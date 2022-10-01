@@ -1,7 +1,7 @@
 <div class="container">
   <h4 class="mt-3 p-2">Galería de Imagenes</h4>
   <mat-divider></mat-divider>
-  <div class="container_img mt-3">
+  <div class="container_img mt-3" [@slow-entry]>
     <mat-card *ngFor="let img of imagesGalery; index as i;">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>

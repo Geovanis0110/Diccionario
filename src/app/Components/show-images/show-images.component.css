@@ -11,6 +11,6 @@
   }
 }
 .imgCss{
-  width: 264px;
+  background-size: contain;
   height: 200px;
 }

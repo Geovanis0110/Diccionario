@@ -3,9 +3,10 @@
   height: 100%;
 }
 .sidenav{
-  width: 250px;
+  width: 280px;
   /*background-color: #0096FF;*/
-  background-color: #acabab;
+  /*background-color: #333339;*/
+  background-color: #1957DB;
   color: #fff;
 }
 .sidenav .mat-toolbar {
@@ -14,7 +15,7 @@
   /*box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.6);*/
 }
 .mat-toolbar.mat-primary {
-  background-color: #14279B;
+  /*background-color: #14279B;*/
   position: sticky;
   top: 0;
   z-index: 1;
@@ -31,7 +32,9 @@
   color: white;
 }
 .iconCSS:hover{
-  background-color: #ffffff;
+  /*background-color: #0d6efd;*/
+  background-color: #fff;
+  /*color: white;*/
   color: black;
   border-radius: 0.375em;
 }
@@ -40,7 +43,7 @@
 }
 .imgBg{
   width: 100%;
-  height: 100%;
+  height: 120%;
   border-radius: 7px;
   z-index: 0;
 }
@@ -51,6 +54,9 @@
 .toolbarHeader{
   padding: 10px;
   margin: 5px;
+}
+.example-spacer {
+  flex: 1 1 auto;
 }
 
 

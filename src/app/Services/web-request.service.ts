@@ -1,58 +1,60 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {escapeXml} from "@angular/compiler/src/i18n/serializers/xml_helper";
-import {serializeNodes} from "@angular/compiler/src/i18n/digest";
+import {setTypeScriptVersionForTesting} from "@angular/compiler-cli/src/typescript_support";
 
+//Alias para los atributos del objeto palabra
+type wordAttributes = {
+  word: string,
+  def: string,
+  eg: string;
+  notes: string,
+  gramGrp: string,
+  pos: string,
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebRequestService {
-  readonly ROOT_URL;
+  readonly ROOT_URL: string = '';
   serverQuery: XMLHttpRequest = new XMLHttpRequest();
-  description: string[] | null = [];
-   /* wordData: {
-      word: string,
-     definition: string,
-     syllDivition: string,
-     sex: string,
-     gen: string,
-     gramGrp: string,
-     example: {text: string, note: string}
+  wordInfo: wordAttributes = {word: '', def: '', eg: '', notes: '', gramGrp: '', pos: ''};
+  wordsInfo: wordAttributes[] = [];
+  table: string = '';
 
-  };*/
 
   constructor(private http: HttpClient) {
     this.ROOT_URL = 'http://localhost:2021';
-  }
-
-  getServer(url: string) {
-    return this.http.get(`${this.ROOT_URL}/${url}`, {responseType: "arraybuffer"})
   }
 
   get(url: string) {
     return this.http.get(`${this.ROOT_URL}/${url}`)
   }
 
-  getDataFromServer(url: string): any{
+  getDataFromServer(url: string): any {
     this.serverQuery.open('GET', `${this.ROOT_URL}/${url}`, false);
     this.serverQuery.send(null);
-    if(this.serverQuery.status == 200){
+    if (this.serverQuery.status == 200) {
       return this.convertHTMLtoJSON(this.serverQuery.responseText);
     }
   }
-  convertHTMLtoJSON(xmltext: string): string[] | null {
-    let xml = (new DOMParser()).parseFromString(xmltext, "text/xml");
+
+  convertHTMLtoJSON(xmltext: string): wordAttributes[] {
+    let xml = (new DOMParser()).parseFromString(xmltext, "text/html");
     console.log(xml);
-    let entry = xml.getElementsByTagName('entry');
-    // let form  = xml.getElementsByTagName('form');
-    let orth = xml.getElementsByTagName('orth');
-    let gramGrp = xml.getElementsByTagName('gramGrp');
-    let def = xml.getElementsByTagName('def');
-    let example = xml.getElementsByTagName('eg');
-    let sense = xml.getElementsByTagName('sense');
+    this.table = xml.getElementsByTagName("table")[0].innerHTML;
+    let tableContent = xml.getElementsByTagName('table');
+    let tableHeaderWord: string = tableContent[0].getElementsByTagName('table')[0].getElementsByTagName('b')[0].innerHTML;
+    let tableHeaderPos = tableContent[0].getElementsByTagName('table')[0].getElementsByTagName('pos')[0].textContent;
+    let tableBody = tableContent[0].getElementsByTagName('table')[1].textContent;
+    let tableFooter = tableContent[0].getElementsByTagName('table')[2].textContent;
+    console.log(tableHeaderWord, tableHeaderPos)
+    console.log(tableBody)
+    console.log(tableFooter)
+    return this.wordsInfo;
+  }
 
-
-    return this.description;
+  sendTable() {
+    return this.table;
   }
 }

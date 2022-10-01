@@ -1,9 +1,7 @@
-.formField{
+mat-form-field{
   width: 100%;
 }
 .buttonColor{
-  color: #fff;
-  background-color: #0096FF;
   width: 50px;
   height: 50px;
   margin-top: 20px;
@@ -14,4 +12,7 @@
 }
 .myPanel{
   width: 400px;
+}
+.myBtn{
+
 }

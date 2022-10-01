@@ -54,6 +54,7 @@ import {DashBoardComponent} from './Components/dash-board/dash-board.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { DashBoardHeaderComponent } from './Components/dash-board/dash-board-header/dash-board-header.component';
 import { DashBoardContentComponent } from './Components/dash-board/dash-board-content/dash-board-content.component';
+import { DashBoardIfoComponent } from "./Components/dash-board/dash-board-ifo/dash-board-ifo.component";
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { DashBoardContentComponent } from './Components/dash-board/dash-board-co
     DashBoardComponent,
     DashBoardHeaderComponent,
     DashBoardContentComponent,
+    DashBoardIfoComponent
   ],
   imports: [
     BrowserModule,
