@@ -39,11 +39,21 @@ export class DashBoardComponent implements OnInit {
   entry: string = '';
   input_search: boolean = false;
   wordArray: wordAttributes[] = []
+  isNewSearch: boolean = false;
 
   constructor(private queryService: EntryWordListService) {
   }
 
   ngOnInit(): void {
+  }
+
+  onAlphaWords(alphaData: { apLetter: string }) {
+    this.indexWord = alphaData.apLetter;
+    this.queryService.getWordsIndex(this.indexWord);
+    this.isNewSearch = true;
+    this.queryService.getWordListFromServer().subscribe((data => {
+      this.wordResults = data;
+    }))
   }
 
   onSearch(headerData: { indexWord: string, currentEntry: string }): void {
@@ -55,7 +65,7 @@ export class DashBoardComponent implements OnInit {
     }))
   }
 
-  onClickButton(ifoData: {onClicked: boolean, wordArray: wordAttributes[] }) {
+  onClickButton(ifoData: { onClicked: boolean, wordArray: wordAttributes[] }) {
     this.input_search = ifoData.onClicked;
     // this.wordArray.word = ifoData.wordArray.word;
     // this.wordArray.def = ifoData.wordArray.def;

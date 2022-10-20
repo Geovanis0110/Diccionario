@@ -1,13 +1,44 @@
-<!-- Initial Content -->
+<!-- Hidden Content -->
 
+  <mat-card [hidden]="!hideSelect" class="hiddenSelect mat-elevation-z2 mt-3">
+    <mat-card-header>
+      <h5 class="text-center">Criterios de b&uacute;squeda</h5>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-form-field appearance="legacy">
+      <mat-label>[Selecciona criterio]</mat-label>
+      <mat-select (selectionChange)="setDisabledTrue(firstSelect)" #firstSelect>
+        <mat-option value="1">Categoria gramatical</mat-option>
+        <mat-option value="2">Tipo de uso</mat-option>
+        <mat-option value="3">Informacion geografica</mat-option>
+        <mat-option value="4">Area de conocimientos</mat-option>
+        <mat-option value="5">Palabras con afijos</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="legacy" *ngFor="let item of selectionArray">
+      <mat-label>Selecci&oacute;n</mat-label>
+      <mat-select [disabled]="!disableSelect" #selection>
+        <mat-option *ngFor="let element of currentArraySelect; index as i" value="{{i}}" (click)="onSelectOption(selection)">{{element}}</mat-option>
+      </mat-select>
+      <mat-icon class="icon-hover" matSuffix [hidden]="!hideDeleteButton" (click)="onDeleteSelectionField()" color="accent">delete</mat-icon>
+    </mat-form-field>
+    <button mat-mini-fab color="primary" class="mat-elevation-z6" (click)="onAddSelectionField()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <!-- <button mat-mini-fab [hidden]="!hideDeleteButton" color="primary" (click)="onDeleteSelectionField()">
+      <mat-icon>cancel</mat-icon>
+    </button> -->
+  </mat-card>
+<!-- Initial Content -->
 <div class="mt-3 welcome" *ngIf="!selectClick">
   <div class="card bg-dark text-white" [@fade]>
-    <img src="https://uruguayeduca.anep.edu.uy/sites/default/files/2019-08/diccionario_0.jpg" class="card-img card-opacity" alt="Photo of a Shiba Inu">
+<!--    <img src="https://uruguayeduca.anep.edu.uy/sites/default/files/2019-08/diccionario_0.jpg" class="card-img card-opacity" alt="Photo of a Shiba Inu">-->
+    <h3 class="card-title">Reseña del Diccionario</h3>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid architecto at commodi inventore laudantium magni, modi nam nihil non odio officia porro ratione repellendus voluptatum? Debitis earum laudantium optio?</p>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis doloremque eius exercitationem libero mollitia praesentium vitae! Ad debitis ipsum, laudantium magnam magni maiores minima odit officia placeat similique voluptatem!</p>
+    <p class="card-text">Last updated 3 mins ago</p>
     <div class="card-img-overlay">
-      <h3 class="card-title">Reseña del Diccionario</h3>
-      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid architecto at commodi inventore laudantium magni, modi nam nihil non odio officia porro ratione repellendus voluptatum? Debitis earum laudantium optio?</p>
-      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis doloremque eius exercitationem libero mollitia praesentium vitae! Ad debitis ipsum, laudantium magnam magni maiores minima odit officia placeat similique voluptatem!</p>
-      <p class="card-text">Last updated 3 mins ago</p>
+
     </div>
   </div>
 <!--  <mat-card class="example-card mat-elevation-z0">-->
@@ -24,6 +55,8 @@
 <!--    </mat-card-content>-->
 <!--  </mat-card>-->
 </div>
+
+<!-- Search Content -->
 <div class="welcome mt-3" *ngIf="selectClick">
   <p id="this"></p>
   <mat-card class="example-card mat-elevation-z0" *ngFor="let item of wordList">
@@ -34,8 +67,6 @@
 <!--    <p>{{item.def}}</p>-->
 <!--    <h5>Ejemplos</h5>-->
 <!--    <p>{{item.eg}}</p>-->
-
   </mat-card>
-
 </div>
-<!-- Search Content -->
+

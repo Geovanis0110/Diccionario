@@ -1,14 +1,26 @@
 <!--"Input" de la entrada-->
-<mat-form-field appearance="fill" color="primary" class="mat-elevation-z0 formField d-block mt-3">
+<mat-form-field appearance="outline" color="primary" class="mat-elevation-z0 formField d-block mt-3">
   <mat-label>Buscar Palabras</mat-label>
-  <input matInput type="text" name="filtrar" placeholder="Escriba..." (keyup)="onCurrentSearch($event)">
-  <mat-icon matSuffix color="primary">search</mat-icon>
+  <input matInput type="text" name="filtrar" placeholder="Escriba..." #myInput (keyup)="onCurrentSearch($event)">
+  <mat-icon matSuffix color="primary" fontIcon="sharp">search</mat-icon>
 </mat-form-field>
+<mat-button-toggle-group appearance="legacy" class="mat-elevation-z1 toggle-css" (click)="onKeyboardLetter($event, myInput)">
+  <mat-button-toggle>á</mat-button-toggle>
+  <mat-button-toggle>é</mat-button-toggle>
+  <mat-button-toggle>í</mat-button-toggle>
+  <mat-button-toggle>ó</mat-button-toggle>
+  <mat-button-toggle>ú</mat-button-toggle>
+  <mat-button-toggle>ü</mat-button-toggle>
+  <mat-button-toggle>ñ</mat-button-toggle>
+</mat-button-toggle-group>
+<div class="row mb-3">
+
+</div>
+
 <mat-divider></mat-divider>
 <!--"Select" de los modos de busqueda-->
 <div class="row">
-  <div>
-    <mat-form-field appearance="fill" class="mt-2 mat-elevation-z0" [hidden]="hiddenSelect.value">
+    <mat-form-field appearance="outline" class="mt-2 mat-elevation-z0" [hidden]="hiddenSelect.value">
       <mat-label>Modos de b&uacute;squeda</mat-label>
       <mat-select>
         <mat-option value="af">Comienzo por</mat-option>
@@ -17,31 +29,7 @@
       </mat-select>
     </mat-form-field>
 <div>
-  <!--      Version Movil-->
-  <div *ngIf="(isHandSet | async)">
-    <mat-label>Hidden Movil</mat-label>
-    <mat-slide-toggle color="primary" [formControl]="hiddenSelect">
-    </mat-slide-toggle>
-  </div>
-</div>
 <!--    Zona de busqueda-->
 
 <!--    "Select" del criterio de busqueda-->
-<div [hidden]="!hideSelect">
-  <mat-form-field appearance="fill">
-    <mat-label>Criterios de B&uacute;squeda</mat-label>
-    <mat-select (selectionChange)="setDisabledTrue()">
-      <mat-option value="1">1</mat-option>
-      <mat-option value="2">2</mat-option>
-      <mat-option value="3">3</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Selecci&oacute;n</mat-label>
-    <mat-select [disabled]="!disableSelect">
-      <mat-option value="1">1</mat-option>
-      <mat-option value="2">2</mat-option>
-      <mat-option value="3">3</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+

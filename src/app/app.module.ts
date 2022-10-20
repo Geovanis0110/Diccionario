@@ -40,8 +40,10 @@ import {MatTableModule} from "@angular/material/table";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTooltipModule} from "@angular/material/tooltip";
-
 import {MatTreeModule} from "@angular/material/tree";
+
+
+//Components
 import {ShowVideosComponent} from './Components/show-videos/show-videos.component';
 import {ShowImagesComponent} from './Components/show-images/show-images.component';
 import {ShowInfoComponent} from './Components/show-info/show-info.component';
@@ -52,9 +54,9 @@ import {FilterPipe} from './Pipes/filter.pipe';
 import {MainNavComponent} from './Components/main-nav/main-nav.component';
 import {DashBoardComponent} from './Components/dash-board/dash-board.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import { DashBoardHeaderComponent } from './Components/dash-board/dash-board-header/dash-board-header.component';
-import { DashBoardContentComponent } from './Components/dash-board/dash-board-content/dash-board-content.component';
-import { DashBoardIfoComponent } from "./Components/dash-board/dash-board-ifo/dash-board-ifo.component";
+import {DashBoardHeaderComponent} from './Components/dash-board/dash-board-header/dash-board-header.component';
+import {DashBoardContentComponent} from './Components/dash-board/dash-board-content/dash-board-content.component';
+import {DashBoardIfoComponent} from "./Components/dash-board/dash-board-ifo/dash-board-ifo.component";
 
 
 @NgModule({

@@ -25,4 +25,17 @@
 .card-opacity{
   opacity: 0.6;
 }
-
+.hiddenSelect mat-form-field{
+  padding: 0 10px;
+}
+.hiddenSelect button{
+  position: relative;
+  /*bottom: 10px;*/
+  margin: 5px;
+}
+.hiddenSelect{
+  background-color: #ccc;
+}
+.icon-hover:hover{
+  cursor: pointer;
+}

@@ -4,11 +4,14 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
+  
+  
   transform(arrayFinal: any[], propOne: string, propTwo: string, propSubTwo: string, arg: any): any {
-    const resultList: any[] = [];
+
     // const resultIdList: any[] = [];
     //Parseando el JSON
-    arrayFinal.forEach((item:any, index:number) => {
+    let resultList: Array<any> = [];
+    arrayFinal.forEach((item: any) => {
       resultList.push(item[propOne][0]);
       // resultIdList.push(item[propTwo][propSubTwo]);
     })
@@ -25,8 +28,8 @@ export class FilterPipe implements PipeTransform {
     //Mostrando arreglo sin duplicados
     // console.log(result);
     //
-    const wordStringList = [''];
 
+    let wordStringList: Array<string> = [''];
     //Realizando filtrado de las palabras e insertando en el listado final que va a ser mostrado
     for (let itemString of result) {
       if (itemString.includes(arg)) {

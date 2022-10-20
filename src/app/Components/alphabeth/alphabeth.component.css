@@ -1,0 +1,16 @@
+table{
+    color: white;
+    margin: 0;
+    border-radius: 7px;
+}
+.table-css td{
+    padding: 5px;
+}
+.table-css{
+    background: linear-gradient(to bottom, gray 50%, darkgray);
+}
+td:hover{
+    transform: scale(1.2);
+    text-decoration: underline;
+    cursor: pointer;
+}

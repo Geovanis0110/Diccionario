@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {SharedData} from "../../Services/shared-data";
+import {SharedData} from "../../Services/shared-data.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
@@ -37,7 +37,7 @@ export class MainNavComponent {
     this.isChecked ? this.isChecked = false : this.isChecked = true;
       this._shareD.behaviorSub.next(this.isChecked);
       if(this.isChecked){
-        this.snackbar.open('Busqueda Avanzada Activada','none', {
+        this.snackbar.open('Busqueda Avanzada Activada','', {
           duration: 2 * 1000
         })
       }else{

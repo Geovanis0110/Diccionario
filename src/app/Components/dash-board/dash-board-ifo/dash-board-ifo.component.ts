@@ -23,6 +23,7 @@ export class DashBoardIfoComponent implements OnInit {
   @Input('itemList') itemList: any;
   @Input('cEntry') currentEntry: string = '';
   @Input('clickSelection') currentClick: any;
+  @Input('newCurrentSearch') newSearch!: boolean;
   @Output() backClick: any = new EventEmitter<{
     onClicked: boolean, wordArray: wordAttributes[]
   }>();
@@ -30,6 +31,7 @@ export class DashBoardIfoComponent implements OnInit {
   wordArray: wordAttributes[] = []
   clicked: boolean = false;
   table: string = '';
+
 
   constructor(private entryService: EntryWordDescriptionService, private webService: WebRequestService) {
   }
@@ -39,7 +41,7 @@ export class DashBoardIfoComponent implements OnInit {
 
   onSelectWord(e: Event) {
     this.clicked = true;
-    let text: string = (e.target as HTMLInputElement).value;
+    let text: string = (e.target as HTMLSelectElement).value;
     this.itemList.forEach((object: any) => {
       // console.log('id: '+object['$']['id'] + '\n palabra: '+object['orth'][0])
       if (text == object['orth'][0]) {
@@ -52,9 +54,19 @@ export class DashBoardIfoComponent implements OnInit {
     this.entryService.getWordIndexDes(this.letterIndex);
     this.wordArray = this.entryService.getWordListDescription();
     this.table = this.webService.sendTable();
-
-
-
     this.backClick.emit({onClicked: this.clicked, wordArray: this.wordArray});
+  }
+
+  onSelectWordWithEnter(e: Event){
+    console.log(e);
+    console.log((e.currentTarget as HTMLSelectElement).value);
+  }
+
+  onSelected(option: HTMLOptionElement){
+    console.log(option.value);
+    return true;
+  }
+
+  onCleanSelect(selectProps: HTMLSelectElement){
   }
 }
