@@ -21,3 +21,6 @@ mat-button-toggle {
   color: black;
   font-size: 15px;
 }
+.spacer{
+  margin: 1px;
+}

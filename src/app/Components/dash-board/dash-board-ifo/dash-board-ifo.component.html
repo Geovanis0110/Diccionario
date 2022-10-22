@@ -1,7 +1,7 @@
 <mat-divider></mat-divider>
   <div class="mt-3">
     <select size="9" class="form-select bg-light" #mySelect>
-      <option class="p-1" (click)="onSelectWord($event)" *ngFor="let item of itemList | filter:'orth':'$':'id':currentEntry; index as i" value="{{item}}">
+      <option class="p-1" (click)="onSelectWord($event)" *ngFor="let item of itemList | filter:'orth':selMod:currentEntry; index as i" value="{{item}}">
         {{item}}
       </option>
 <!--      <option *ngFor="let item of itemList | json" value="{{item}}" >{{item}}</option>-->
@@ -9,7 +9,7 @@
   </div>
   <mat-divider></mat-divider>
   <div class="mt-3">
-    <select size="3" style="width: 100%;" class="form-select bg-light"></select>
+    <select size="3" class="form-select bg-light w-100"></select>
 </div>
 
 

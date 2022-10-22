@@ -6,9 +6,9 @@
     <div class="row">
       <div class="col-lg-3 col-md-4">
         <!--Header-->
-        <app-dash-board-header (wordFinding)="onSearch($event)" ></app-dash-board-header>
+        <app-dash-board-header (selectModeSignal)="onSelectionMode($event)" (wordFinding)="onSearch($event)" ></app-dash-board-header>
         <!--Content-->
-        <app-dash-board-ifo [newCurrentSearch]="isNewSearch" [letter]="indexWord" [itemList]="wordResults" [cEntry]="entry" (backClick)="onClickButton($event)"></app-dash-board-ifo>
+        <app-dash-board-ifo [selectionMode]="selectionMode" [newCurrentSearch]="isNewSearch" [letter]="indexWord" [itemList]="wordResults" [cEntry]="entry" (backClick)="onClickButton($event)"></app-dash-board-ifo>
       </div>
         <div class="col-lg-9 col-md-8">
           <!--Main Content-->

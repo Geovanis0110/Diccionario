@@ -24,6 +24,7 @@ export class DashBoardIfoComponent implements OnInit {
   @Input('cEntry') currentEntry: string = '';
   @Input('clickSelection') currentClick: any;
   @Input('newCurrentSearch') newSearch!: boolean;
+  @Input('selectionMode') selMod: string = '';
   @Output() backClick: any = new EventEmitter<{
     onClicked: boolean, wordArray: wordAttributes[]
   }>();
@@ -67,6 +68,4 @@ export class DashBoardIfoComponent implements OnInit {
     return true;
   }
 
-  onCleanSelect(selectProps: HTMLSelectElement){
-  }
 }

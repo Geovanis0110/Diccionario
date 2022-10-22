@@ -4,31 +4,27 @@
   <input matInput type="text" name="filtrar" placeholder="Escriba..." #myInput (keyup)="onCurrentSearch($event)">
   <mat-icon matSuffix color="primary" fontIcon="sharp">search</mat-icon>
 </mat-form-field>
-<mat-button-toggle-group appearance="legacy" class="mat-elevation-z1 toggle-css" (click)="onKeyboardLetter($event, myInput)">
-  <mat-button-toggle>á</mat-button-toggle>
-  <mat-button-toggle>é</mat-button-toggle>
-  <mat-button-toggle>í</mat-button-toggle>
-  <mat-button-toggle>ó</mat-button-toggle>
-  <mat-button-toggle>ú</mat-button-toggle>
-  <mat-button-toggle>ü</mat-button-toggle>
-  <mat-button-toggle>ñ</mat-button-toggle>
-</mat-button-toggle-group>
-<div class="row mb-3">
-
-</div>
-
 <mat-divider></mat-divider>
+<div class="btn-group m-1 w-100" (click)="onKeyboardLetter($event, myInput)">
+  <button class="spacer btn btn-outline-secondary bg-gradient">á</button>
+  <button class="spacer btn btn-outline-secondary bg-gradient">é</button>
+  <button class="spacer btn btn-outline-secondary bg-gradient">í</button>
+  <button class="spacer btn btn-outline-secondary bg-gradient">ó</button>
+  <button class="spacer btn btn-outline-secondary bg-gradient">ú</button>
+  <button class="spacer btn btn-outline-secondary bg-gradient">ü</button>
+  <button class="spacer btn btn-outline-secondary bg-gradient">ñ</button>
+</div>
 <!--"Select" de los modos de busqueda-->
 <div class="row">
-    <mat-form-field appearance="outline" class="mt-2 mat-elevation-z0" [hidden]="hiddenSelect.value">
+    <mat-form-field  appearance="outline" class="mt-2 mat-elevation-z0" [hidden]="hiddenSelect.value">
       <mat-label>Modos de b&uacute;squeda</mat-label>
-      <mat-select>
+      <mat-select (selectionChange)="onSelectMode($event)">
         <mat-option value="af">Comienzo por</mat-option>
         <mat-option value="reg">Contiene</mat-option>
         <mat-option value="subf">Termina en</mat-option>
       </mat-select>
     </mat-form-field>
-<div>
+</div>
 <!--    Zona de busqueda-->
 
 <!--    "Select" del criterio de busqueda-->

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EntryWordListService} from "../../Services/entry-word-list.service";
 import {animate, keyframes, query, stagger, style, transition, trigger} from "@angular/animations";
 
+
 type wordAttributes = {
   word: string,
   def: string,
@@ -40,11 +41,15 @@ export class DashBoardComponent implements OnInit {
   input_search: boolean = false;
   wordArray: wordAttributes[] = []
   isNewSearch: boolean = false;
+  selectionMode: string = '';
 
   constructor(private queryService: EntryWordListService) {
   }
 
   ngOnInit(): void {
+  }
+  onSelectionMode(selectMode: {selMod: string}){
+    this.selectionMode = selectMode.selMod;
   }
 
   onAlphaWords(alphaData: { apLetter: string }) {

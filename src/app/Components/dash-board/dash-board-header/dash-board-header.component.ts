@@ -6,6 +6,7 @@ import {FormControl} from "@angular/forms";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Observable} from "rxjs";
 import {map, shareReplay} from "rxjs/operators";
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -16,7 +17,7 @@ import {map, shareReplay} from "rxjs/operators";
 
 export class DashBoardHeaderComponent implements OnInit{
   @Output() wordFinding = new EventEmitter<{ indexWord: string, currentEntry: string }>();
-
+  @Output() selectModeSignal = new EventEmitter<{selMod: string}>();
   isHandSet: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(results => results.matches),
@@ -35,6 +36,7 @@ export class DashBoardHeaderComponent implements OnInit{
   panelOpenState: boolean = false;
   hideSelect!: boolean;
   underInputLetter: string = '';
+  selectMode: string = '';
 
 
   constructor(
@@ -44,7 +46,10 @@ export class DashBoardHeaderComponent implements OnInit{
   ngOnInit(): void {
   }
 
-
+  onSelectMode(e: MatSelectChange){
+    this.selectMode = e.value;
+    this.selectModeSignal.emit({selMod:this.selectMode});
+  }
 
   setDisabledTrue() {
     this.disableSelect = true;
