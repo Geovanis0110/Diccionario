@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, DoCheck} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {WebRequestService} from "../../../Services/web-request.service";
 import {animate, keyframes, state, style, transition, trigger} from "@angular/animations";
 import {SharedData} from "../../../Services/shared-data.service";
@@ -31,7 +31,7 @@ type wordAttributes = {
   ]
 })
 
-export class DashBoardContentComponent implements OnInit, DoCheck {
+export class DashBoardContentComponent implements OnInit {
   @Input('selectionClicked') selectClick: boolean = false;
   @Input('wordsArray') wordList: wordAttributes[] = [];
   // wordArrayFinal: wordAttributes[] = [];
@@ -120,18 +120,11 @@ export class DashBoardContentComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
-
-  }
-
-  ngDoCheck() {
-    this.sharedService.behaviorSub.subscribe((item: boolean) => {
-      this.hideSelect = item;
-    })
-    const asTable = document.getElementById('this');
-    this.table = this.webService.sendTable();
-    if (asTable != null) {
-      asTable.innerHTML = this.table;
-    }
+    this.sharedService.advanceSearchActivated.subscribe(
+      (result) => {
+        this.hideSelect = result;
+      }
+    )
   }
 
   setDisabledTrue(fselect: MatSelect) {

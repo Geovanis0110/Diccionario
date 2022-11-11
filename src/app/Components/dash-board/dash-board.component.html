@@ -1,19 +1,31 @@
-<div class="container-fluid">
-  <h3 class="mt-1 p-1 text-center">Diccionario</h3>
-  <div class="container">
-    <mat-divider></mat-divider>
-    <app-alphabeth (alphaClick)="onAlphaWords($event)" ></app-alphabeth>
-    <div class="row">
-      <div class="col-lg-3 col-md-4">
-        <!--Header-->
-        <app-dash-board-header (selectModeSignal)="onSelectionMode($event)" (wordFinding)="onSearch($event)" ></app-dash-board-header>
-        <!--Content-->
-        <app-dash-board-ifo [selectionMode]="selectionMode" [newCurrentSearch]="isNewSearch" [letter]="indexWord" [itemList]="wordResults" [cEntry]="entry" (backClick)="onClickButton($event)"></app-dash-board-ifo>
-      </div>
-        <div class="col-lg-9 col-md-8">
-          <!--Main Content-->
-          <app-dash-board-content [selectionClicked]="input_search" [wordsArray]="wordArray"></app-dash-board-content>
-        </div>
+<div class="container mt-3">
+  <app-alphabeth
+    (alphaClick)="onAlphaWords($event)"
+  ></app-alphabeth>
+  <div class="row">
+    <div class="col-lg-3 col-md-4">
+      <!--Header-->
+      <app-dash-board-header
+        (selectModeSignal)="onSelectionMode($event)"
+        (wordFinding)="onSearch($event)"
+      ></app-dash-board-header>
+      <!--Content-->
+      <app-dash-board-ifo
+        [selectionMode]="selectionMode"
+        [newCurrentSearch]="isNewSearch"
+        [letter]="indexWord"
+        [itemList]="wordResults"
+        [cEntry]="entry"
+        (backClick)="onClickButton($event)"
+      ></app-dash-board-ifo>
+    </div>
+    <div class="col-lg-9 col-md-8">
+      <!--Main Content-->
+      <app-dash-board-content
+        [selectionClicked]="input_search"
+        [wordsArray]="wordArray"
+      ></app-dash-board-content>
     </div>
   </div>
 </div>
+

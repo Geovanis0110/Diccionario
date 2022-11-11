@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EntryWordDescriptionService} from "../../../Services/entry-word-description.service";
 import {WebRequestService} from "../../../Services/web-request.service";
+import {AllWord} from "../../../Interfaces/word.interface";
 
 
 type wordAttributes = {
@@ -20,7 +21,7 @@ type wordAttributes = {
 export class DashBoardIfoComponent implements OnInit {
   @Input('searching') input_search: boolean = false;
   @Input('letter') letterIndex: string = '';
-  @Input('itemList') itemList: any;
+  @Input('itemList') itemList!: AllWord[];
   @Input('cEntry') currentEntry: string = '';
   @Input('clickSelection') currentClick: any;
   @Input('newCurrentSearch') newSearch!: boolean;
@@ -41,21 +42,7 @@ export class DashBoardIfoComponent implements OnInit {
   }
 
   onSelectWord(e: Event) {
-    this.clicked = true;
-    let text: string = (e.target as HTMLSelectElement).value;
-    this.itemList.forEach((object: any) => {
-      // console.log('id: '+object['$']['id'] + '\n palabra: '+object['orth'][0])
-      if (text == object['orth'][0]) {
-        // alert(object['$']['id'])
-        this.wordID = object['$']['id']
-      }
-    })
-    // alert(this.wordID)
-    this.entryService.getIdWord(this.wordID);
-    this.entryService.getWordIndexDes(this.letterIndex);
-    this.wordArray = this.entryService.getWordListDescription();
-    this.table = this.webService.sendTable();
-    this.backClick.emit({onClicked: this.clicked, wordArray: this.wordArray});
+
   }
 
   onSelectWordWithEnter(e: Event){

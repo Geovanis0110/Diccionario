@@ -35,7 +35,7 @@ export class MainNavComponent {
 
   onActivateAdvSearch(){
     this.isChecked ? this.isChecked = false : this.isChecked = true;
-      this._shareD.behaviorSub.next(this.isChecked);
+      this._shareD.advanceSearchActivated.emit(this.isChecked);
       if(this.isChecked){
         this.snackbar.open('Busqueda Avanzada Activada','', {
           duration: 2 * 1000

@@ -1,6 +1,6 @@
 .container_videos{
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(4, auto);
   grid-gap: 10px;
 }
 
@@ -8,6 +8,20 @@
   .container_videos{
     display: grid;
     grid-template-columns: auto;
+  }
+}
+@media screen and (max-width: 720px){
+  .container_videos{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 10px;
+  }
+}
 
+@media screen and (max-width: 1280px){
+  .container_videos{
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 20px;
   }
 }

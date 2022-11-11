@@ -60,6 +60,8 @@ export class DashBoardHeaderComponent implements OnInit{
     this.indexWord = this.tempWord.substring(0, 1);
     if (this.indexWord == '') {
       this.indexWord = 'a';
+    } else if (this.indexWord == '-') {
+      this.indexWord = 'az';
     }
     let standardWord: string = this.onNormalizeWord(this.indexWord);
     this.wordFinding.emit({indexWord: standardWord, currentEntry: this.tempWord})

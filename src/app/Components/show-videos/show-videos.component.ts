@@ -24,8 +24,9 @@ import {animate, keyframes, query, stagger, style, transition, trigger} from "@a
 })
 
 export class ShowVideosComponent implements OnInit {
-  videosGalery = new Array(20);
-  videoUrl: string = '../../../assets/videos/video.mp4';
+  videosGalery: Array<string> = [
+  ];
+  videoUrl: string = `../../../assets/videos/a_`;
 
   videoIconImg: string = 'play_arrow';
   videoDisabled: boolean = true;
@@ -35,6 +36,10 @@ export class ShowVideosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    for (let i = 0; i < 9; i++){
+      this.videosGalery.push(`../../../assets/videos/a_${i+1}.webm`);
+    }
+    
   }
 
   changeImg() {

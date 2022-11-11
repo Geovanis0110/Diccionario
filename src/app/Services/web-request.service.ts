@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {setTypeScriptVersionForTesting} from "@angular/compiler-cli/src/typescript_support";
+
 
 //Alias para los atributos del objeto palabra
 type wordAttributes = {
@@ -39,18 +39,19 @@ export class WebRequestService {
     }
   }
 
-  convertHTMLtoJSON(xmltext: string): wordAttributes[] {
-    let xml = (new DOMParser()).parseFromString(xmltext, "text/html");
-    console.log(xml);
-    this.table = xml.getElementsByTagName("table")[0].innerHTML;
-    let tableContent = xml.getElementsByTagName('table');
+  convertHTMLtoJSON(htmltext: string): wordAttributes[] {
+    let htmlSource = (new DOMParser()).parseFromString(htmltext, "text/html");
+    console.log(htmlSource);
+    this.table = htmlSource.getElementsByTagName("table")[0].innerHTML;
+    let tableContent = htmlSource.getElementsByTagName('table');
     let tableHeaderWord: string = tableContent[0].getElementsByTagName('table')[0].getElementsByTagName('b')[0].innerHTML;
     let tableHeaderPos = tableContent[0].getElementsByTagName('table')[0].getElementsByTagName('pos')[0].textContent;
     let tableBody = tableContent[0].getElementsByTagName('table')[1].textContent;
     let tableFooter = tableContent[0].getElementsByTagName('table')[2].textContent;
-    console.log(tableHeaderWord, tableHeaderPos)
-    console.log(tableBody)
-    console.log(tableFooter)
+    console.log("Palabra: ", tableHeaderWord);
+    console.log("Pos de la palabra: ", tableHeaderPos);
+    console.log("Cuerpo de la palabra: ", tableBody);
+    console.log("Pie de la palabra: ", tableFooter);
     return this.wordsInfo;
   }
 

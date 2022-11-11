@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {AllWord} from "../Interfaces/word.interface";
 
 @Pipe({
   name: 'filter'
@@ -6,57 +7,39 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class FilterPipe implements PipeTransform {
 
 
-  transform(arrayFinal: Array<any>, propOne: string, searchMode: string, arg: string): any {
-    console.log(searchMode);
-    //Parseando el JSON
-    let resultList: Array<any> = [];
-    try {
-      arrayFinal.forEach((item: any) => {
-        resultList.push(item[propOne][0]);
-      })
-    } catch (error) {
-    }
+  transform(arrayFinal: Array<any>, searchMode: string, arg: string): AllWord[]{
+    let _allWord: AllWord[] = arrayFinal;
 
+    let _result: AllWord[] = [];
 
-    //Eliminando Duplicados
-    let result: Array<string> = resultList.reduce((a: Array<string>, e: string) => {
-      if (!a.find((d: string) => d == e)) {
+    _allWord = _allWord.reduce((a: Array<AllWord>, e: AllWord) => {
+      if (!a.find((d: AllWord) => d.word == e.word)) {
         a.push(e);
       }
       return a;
-    }, [])
+    }, []);
 
+    // console.log(_allWord);
 
-    let wordStringList: Array<string> = [''];
-    //Realizando filtrado de las palabras e insertando en el listado final que va a ser mostrado
-
-    if(searchMode == ''){
-      for (let itemString of result) {
-        if (itemString.match(arg)) {
-          wordStringList.push(itemString);
+    if(searchMode === 'reg1' || searchMode === ''){
+      _allWord.forEach((item)=>{
+        if(item.word.startsWith(arg)){
+          _result.push({...item})
         }
-      }
-    } else if(searchMode == 'af'){
-      for (let itemString of result) {
-        if (itemString.startsWith(arg, 0)) {
-          wordStringList.push(itemString);
+      })
+    }else if(searchMode === 'reg2'){
+      _allWord.forEach((item)=>{
+        if(item.word.includes(arg)){
+          _result.push({...item})
         }
-      }
-    }else if(searchMode == 'reg'){
-      for (let itemString of result) {
-        if (itemString.includes(arg)) {
-          wordStringList.push(itemString);
+      })
+    }else if(searchMode === 'reg3'){
+      _allWord.forEach((item)=>{
+        if(item.word.endsWith(arg)){
+          _result.push({...item})
         }
-      }
-    }else if(searchMode == 'subf'){
-      for (let itemString of result) {
-        if (itemString.endsWith(arg)) {
-          wordStringList.push(itemString);
-        }
-      }
+      })
     }
-    //Removiendo primer elemento del arreglo
-    wordStringList.shift();
-    return wordStringList;
+    return _result;
   }
 }

@@ -1,10 +1,25 @@
 <!--"Input" de la entrada-->
-<mat-form-field appearance="outline" color="primary" class="mat-elevation-z0 formField d-block mt-3">
+<mat-form-field
+  appearance="legacy"
+  [floatLabel]="'never'"
+  color="primary"
+  class="mat-elevation-z0 formField d-block mt-3"
+>
   <mat-label>Buscar Palabras</mat-label>
-  <input matInput type="text" name="filtrar" placeholder="Escriba..." #myInput (keyup)="onCurrentSearch($event)">
-  <mat-icon matSuffix color="primary" fontIcon="sharp">search</mat-icon>
+  <input
+    matInput
+    type="text"
+    name="filtrar"
+    placeholder="Escriba..."
+    #myInput
+    (keyup.enter)="onCurrentSearch($event)"
+  >
+  <mat-icon
+    matSuffix
+    color="primary"
+    fontIcon="sharp"
+  >search</mat-icon>
 </mat-form-field>
-<mat-divider></mat-divider>
 <div class="btn-group m-1 w-100" (click)="onKeyboardLetter($event, myInput)">
   <button class="spacer btn btn-outline-secondary bg-gradient">á</button>
   <button class="spacer btn btn-outline-secondary bg-gradient">é</button>
@@ -16,12 +31,19 @@
 </div>
 <!--"Select" de los modos de busqueda-->
 <div class="row">
-    <mat-form-field  appearance="outline" class="mt-2 mat-elevation-z0" [hidden]="hiddenSelect.value">
+    <mat-form-field
+      appearance="legacy"
+      [floatLabel]="'never'"
+      class="mt-2 mat-elevation-z0"
+      [hidden]="hiddenSelect.value"
+    >
       <mat-label>Modos de b&uacute;squeda</mat-label>
-      <mat-select (selectionChange)="onSelectMode($event)">
-        <mat-option value="af">Comienzo por</mat-option>
-        <mat-option value="reg">Contiene</mat-option>
-        <mat-option value="subf">Termina en</mat-option>
+      <mat-select
+        (selectionChange)="onSelectMode($event)"
+      >
+        <mat-option value="reg1">Comienzo por</mat-option>
+        <mat-option value="reg2">Contiene</mat-option>
+        <mat-option value="reg3">Termina en</mat-option>
       </mat-select>
     </mat-form-field>
 </div>
