@@ -7,26 +7,37 @@
       </h5>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-form-field appearance="legacy">
-      <mat-label>[Selecciona criterio]</mat-label>
-      <mat-select (selectionChange)="setDisabledTrue(firstSelect)" #firstSelect>
-        <mat-option value="1">Categoria gramatical</mat-option>
-        <mat-option value="2">Tipo de uso</mat-option>
-        <mat-option value="3">Informacion geografica</mat-option>
-        <mat-option value="4">Area de conocimientos</mat-option>
-        <mat-option value="5">Palabras con afijos</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="legacy" *ngFor="let item of selectionArray">
-      <mat-label>Selecci&oacute;n</mat-label>
-      <mat-select [disabled]="!disableSelect" #selection>
-        <mat-option *ngFor="let element of currentArraySelect; index as i" value="{{i}}" (click)="onSelectOption(selection)">{{element}}</mat-option>
-      </mat-select>
-      <mat-icon class="icon-hover" matSuffix [hidden]="!hideDeleteButton" (click)="onDeleteSelectionField()" color="accent">delete</mat-icon>
-    </mat-form-field>
-    <button mat-mini-fab color="primary" class="mat-elevation-z6" (click)="onAddSelectionField()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="row">
+      <div class="col-lg-5">
+        <mat-form-field class="w-100" appearance="legacy">
+          <mat-label>[Selecciona criterio]</mat-label>
+          <mat-select (selectionChange)="setDisabledTrue($event)">
+            <mat-option value="cat">Categoria gramatical</mat-option>
+            <mat-option value="tip">Tipo de uso</mat-option>
+            <mat-option value="geo">Informacion geografica</mat-option>
+            <mat-option value="con">Area de conocimientos</mat-option>
+            <mat-option value="afjGram">Palabras con afijos</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-5">
+        <mat-form-field class="w-100" appearance="legacy" *ngFor="let item of searchCriteriaFilters">
+          <mat-label>Selecci&oacute;n</mat-label>
+          <mat-select [disabled]="!disableSelect" #selection>
+            <mat-option *ngFor="let element of catGram; index as i" value="{{i}}" (click)="onSelectOption(selection)">{{element}}</mat-option>
+          </mat-select>
+          <mat-icon class="icon-hover mb-1" matSuffix [hidden]="!hideDeleteButton" (click)="onDeleteSelectionField()" color="accent" svgIcon="delete"></mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-2">
+        <button [hidden]="addDisabled" mat-mini-fab color="primary" class="mat-elevation-z6" (click)="onAddSelectionField()">
+          <mat-icon class="mb-2" svgIcon="add"></mat-icon>
+        </button>
+      </div>
+    </div>
+
+
+
     <!-- <button mat-mini-fab [hidden]="!hideDeleteButton" color="primary" (click)="onDeleteSelectionField()">
       <mat-icon>cancel</mat-icon>
     </button> -->

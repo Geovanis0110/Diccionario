@@ -1,15 +1,11 @@
 <div class="container">
-  <h4 class="mt-3 p-2">Galería de Imagenes</h4>
-  <mat-divider></mat-divider>
-  <div class="container_img  container mt-3">
-    <mat-card *ngFor="let img of imagesGalery; index as i;">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{img.word}}</mat-card-title>
-        <!--      <mat-card-subtitle>Dog Breed</mat-card-subtitle>-->
-      </mat-card-header>
-        <img mat-card-image class="imgCss"   [src]="img.img">
-    </mat-card>
+  <div class="row">
+    <div class="col-lg-2 col-md-3 col-sm-4" *ngFor="let item of imagesGalery; index as i">
+      <button class="me-2" mat-icon-button matTooltip="Click aquí para ver imagen" (click)="onOpenImage(item.img)">
+        <mat-icon class="svgcss" svgIcon="photo_library"></mat-icon>
+      </button>
+      <span class="fw-bold"  (click)="onShowWord()">{{item.word}}</span>
+    </div>
   </div>
 </div>
 

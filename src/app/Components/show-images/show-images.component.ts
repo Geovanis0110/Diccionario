@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, keyframes, query, stagger, style, transition, trigger } from "@angular/animations";
+import {MatDialog} from "@angular/material/dialog";
+import {DomSanitizer} from "@angular/platform-browser";
+import {PHOTO_LIBRARY_ICON} from "../../Icons/icons";
+import {MatIconRegistry} from "@angular/material/icon";
+import {ImageModalComponent} from "../modals/image-modal/image-modal.component";
+
 
 export interface imgWord{
   word: string,
@@ -26,6 +32,7 @@ export interface imgWord{
   ]
 })
 export class ShowImagesComponent implements OnInit {
+  overWord: boolean = false;
   imagesGalery: Array<imgWord> = [
     {
       word: 'aborigen',
@@ -46,12 +53,32 @@ export class ShowImagesComponent implements OnInit {
     {
       word: 'agricultor',
       img: '../../../assets/img/agricultor.jpg'
+    },
+    {
+      word: 'afeitar',
+      img: '../../../assets/img/afeitar.jpg'
+    },
+    {
+      word: 'agua',
+      img: '../../../assets/img/agua.jpg'
     }
   ]
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIconLiteral('photo_library', sanitizer.bypassSecurityTrustHtml(PHOTO_LIBRARY_ICON));
+  }
 
   ngOnInit(): void {
   }
 
+  onOpenImage(imgSrc: string){
+    this.dialog.open(ImageModalComponent, {data: imgSrc});
+  }
+
+  onShowWord(){
+  }
 }

@@ -57,6 +57,10 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {DashBoardHeaderComponent} from './Components/dash-board/dash-board-header/dash-board-header.component';
 import {DashBoardContentComponent} from './Components/dash-board/dash-board-content/dash-board-content.component';
 import {DashBoardIfoComponent} from "./Components/dash-board/dash-board-ifo/dash-board-ifo.component";
+import {ImageModalComponent} from "./Components/modals/image-modal/image-modal.component";
+import {VideoModalComponent} from "./Components/modals/video-modal/video-modal.component";
+import {VerbalTableModalComponent} from "./Components/modals/verbal-table-modal/verbal-table-modal.component";
+
 
 
 @NgModule({
@@ -73,7 +77,10 @@ import {DashBoardIfoComponent} from "./Components/dash-board/dash-board-ifo/dash
     DashBoardComponent,
     DashBoardHeaderComponent,
     DashBoardContentComponent,
-    DashBoardIfoComponent
+    DashBoardIfoComponent,
+    VerbalTableModalComponent,
+    VideoModalComponent,
+    ImageModalComponent
   ],
   imports: [
     BrowserModule,

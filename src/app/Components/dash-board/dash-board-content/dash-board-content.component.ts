@@ -2,7 +2,14 @@ import {Component, OnInit, Input} from '@angular/core';
 import {WebRequestService} from "../../../Services/web-request.service";
 import {animate, keyframes, state, style, transition, trigger} from "@angular/animations";
 import {SharedData} from "../../../Services/shared-data.service";
-import {MatSelect} from "@angular/material/select";
+import {MatSelect, MatSelectChange} from "@angular/material/select";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
+import * as MyIcons from "../../../Icons/icons";
+import {FilterField} from "../../../Interfaces/filter.interface";
+import {FilterBuilder} from "../../../Builders/filter.builder";
+import {FilterCriteria} from "../../../Interfaces/filter-criteria.interface";
+
 
 type wordAttributes = {
   word: string,
@@ -32,18 +39,23 @@ type wordAttributes = {
 })
 
 export class DashBoardContentComponent implements OnInit {
+  searchCriteriaFilters: Array<FilterField> = [{
+    id: 1,
+    selectedValue: ''
+  }];
+
+
   @Input('selectionClicked') selectClick: boolean = false;
   @Input('wordsArray') wordList: wordAttributes[] = [];
   // wordArrayFinal: wordAttributes[] = [];
   table: string = '';
   hideSelect: boolean = false;
   disableSelect: boolean = false;
-  selectionNumber: number = 1;
-  selectionArray = new Array(this.selectionNumber);
   hideDeleteButton: boolean = false;
-  currentArraySelect: string [] = [];
-  currentSelectOption: number = 0;
-  catGram: string[] = [
+  currentSelectedOption: string = '';
+  addDisabled: boolean = false;
+  id: number = 1;
+  catGram: Array<string> = [
     'adjetivo',
     'advervio',
     'articulo',
@@ -115,7 +127,11 @@ export class DashBoardContentComponent implements OnInit {
 
 
   constructor(private webService: WebRequestService,
-              private sharedService: SharedData) {
+              private sharedService: SharedData,
+              iconRegistry: MatIconRegistry,
+              sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIconLiteral('add', sanitizer.bypassSecurityTrustHtml(MyIcons.ADD_ICON));
+    iconRegistry.addSvgIconLiteral('delete', sanitizer.bypassSecurityTrustHtml(MyIcons.DELETE_ICON));
 
   }
 
@@ -125,45 +141,26 @@ export class DashBoardContentComponent implements OnInit {
         this.hideSelect = result;
       }
     )
+
   }
 
-  setDisabledTrue(fselect: MatSelect) {
+  setDisabledTrue(sel: MatSelectChange) {
     this.disableSelect = true;
-    this.currentSelectOption = fselect.value;
-    if (this.currentSelectOption == 1) {
-      this.currentArraySelect = this.catGram;
-    } else if (this.currentSelectOption == 2) {
-      this.currentArraySelect = this.tpUso;
-    } else if (this.currentSelectOption == 3) {
-      this.currentArraySelect = this.infoGeo;
-    } else if (this.currentSelectOption == 4) {
-      this.currentArraySelect = this.areaConocimiento;
-    } else if (this.currentSelectOption == 5) {
-      this.currentArraySelect = this.palAfjPfj;
-    } else {
-      this.currentArraySelect = [];
-    }
+    sel.value != 'cat' ? this.addDisabled = true  : this.addDisabled = false;
   }
 
-  onSelectOption(sel: MatSelect){
-    console.log(sel.triggerValue)
+  onSelectOption(sel: MatSelect) {
   }
 
   onAddSelectionField() {
-    if (this.selectionNumber < 3) {
-      this.selectionNumber += 1;
-      this.selectionArray = new Array(this.selectionNumber);
-      this.hideDeleteButton = true;
+    if (this.searchCriteriaFilters.length < 3) {
+      const criteriaFilter: FilterField = FilterBuilder.newInstance()
+        .withId(++this.id)
+        .build();
+      this.searchCriteriaFilters.push(criteriaFilter);
     }
   }
 
   onDeleteSelectionField() {
-    if (this.selectionNumber <= 3 && this.selectionNumber > 1) {
-      this.selectionNumber -= 1;
-      this.selectionArray = new Array(this.selectionNumber);
-      if (this.selectionNumber == 1) {
-        this.hideDeleteButton = false;
-      }
-    }
   }
 }

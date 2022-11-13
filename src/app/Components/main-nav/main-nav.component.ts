@@ -4,6 +4,9 @@ import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {SharedData} from "../../Services/shared-data.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import * as MyIcons from "../../Icons/icons";
+import {DomSanitizer} from "@angular/platform-browser";
+import {MatIconRegistry} from "@angular/material/icon";
 
 
 @Component({
@@ -22,7 +25,20 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private _shareD: SharedData,
-              private snackbar: MatSnackBar) {
+              private snackbar: MatSnackBar,
+              iconRegistry: MatIconRegistry,
+              sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIconLiteral('menu_book', sanitizer.bypassSecurityTrustHtml(MyIcons.MENU_BOOK_ICON));
+    iconRegistry.addSvgIconLiteral('movies', sanitizer.bypassSecurityTrustHtml(MyIcons.MOVIE_ICON));
+    iconRegistry.addSvgIconLiteral('image', sanitizer.bypassSecurityTrustHtml(MyIcons.IMAGE_ICON));
+    iconRegistry.addSvgIconLiteral('info', sanitizer.bypassSecurityTrustHtml(MyIcons.INFO_ICON));
+    iconRegistry.addSvgIconLiteral('help', sanitizer.bypassSecurityTrustHtml(MyIcons.HELP_ICON));
+    iconRegistry.addSvgIconLiteral('leaderboard', sanitizer.bypassSecurityTrustHtml(MyIcons.LEADER_BOARD_ICON));
+    iconRegistry.addSvgIconLiteral('close', sanitizer.bypassSecurityTrustHtml(MyIcons.CLOSE_ICON));
+    iconRegistry.addSvgIconLiteral('segment', sanitizer.bypassSecurityTrustHtml(MyIcons.SEGMENT_ICON));
+    iconRegistry.addSvgIconLiteral('menu', sanitizer.bypassSecurityTrustHtml(MyIcons.MENU_ICON));
+    iconRegistry.addSvgIconLiteral('manage_search', sanitizer.bypassSecurityTrustHtml(MyIcons.MANAGE_SEARCH_ICON));
+    iconRegistry.addSvgIconLiteral('more_vert', sanitizer.bypassSecurityTrustHtml(MyIcons.MORE_VERT_ICON));
   }
 
   // hideLinks() {

@@ -7,6 +7,9 @@ import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Observable} from "rxjs";
 import {map, shareReplay} from "rxjs/operators";
 import { MatSelectChange } from '@angular/material/select';
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
+import * as MyIcons from "../../../Icons/icons";
 
 
 @Component({
@@ -40,14 +43,17 @@ export class DashBoardHeaderComponent implements OnInit{
 
 
   constructor(
-    private breakpointObserver: BreakpointObserver) {
+    private breakpointObserver: BreakpointObserver,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(MyIcons.SEARCH_ICON));
   }
 
   ngOnInit(): void {
   }
 
-  onSelectMode(e: MatSelectChange){
-    this.selectMode = e.value;
+  onSelectMode(e: Event){
+    this.selectMode = (<HTMLSelectElement>e.target).value;
     this.selectModeSignal.emit({selMod:this.selectMode});
   }
 

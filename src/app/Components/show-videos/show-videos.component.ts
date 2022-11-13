@@ -1,7 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {animate, keyframes, query, stagger, style, transition, trigger} from "@angular/animations";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
+import {VIDEO_LIBRARY_ICON} from "../../Icons/icons";
+import {MatDialog} from "@angular/material/dialog";
+import {VideoModalComponent} from "../modals/video-modal/video-modal.component";
 
 
+
+export interface videoWord{
+  word: string,
+  src: string
+}
 
 @Component({
   selector: 'app-show-videos',
@@ -24,7 +34,7 @@ import {animate, keyframes, query, stagger, style, transition, trigger} from "@a
 })
 
 export class ShowVideosComponent implements OnInit {
-  videosGalery: Array<string> = [
+  videosGalery: Array<videoWord> = [
   ];
   videoUrl: string = `../../../assets/videos/a_`;
 
@@ -32,24 +42,26 @@ export class ShowVideosComponent implements OnInit {
   videoDisabled: boolean = true;
 
 
-  constructor() {
+  constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    public dialog: MatDialog
+  ) {
+    iconRegistry.addSvgIconLiteral('video_library', sanitizer.bypassSecurityTrustHtml(VIDEO_LIBRARY_ICON));
   }
 
   ngOnInit(): void {
     for (let i = 0; i < 9; i++){
-      this.videosGalery.push(`../../../assets/videos/a_${i+1}.webm`);
+      this.videosGalery.push({
+        word: 'palabra#' + i,
+        src: `../../../assets/videos/a_${i+1}.webm`
+      });
     }
-    
+
   }
 
-  changeImg() {
-    if (this.videoIconImg == 'play_arrow') {
-      this.videoIconImg = 'pause';
-      this.videoDisabled = false;
-    } else {
-      this.videoIconImg = 'play_arrow';
-      this.videoDisabled = true;
-    }
+  onOpenVideo(videoSrc: string){
+    this.dialog.open(VideoModalComponent, {data: videoSrc});
   }
 
 }

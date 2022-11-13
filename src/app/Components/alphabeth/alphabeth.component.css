@@ -1,9 +1,11 @@
-table{
-    color: white;
-    margin: 0;
-    border-radius: 7px;
+table {
+  color: white;
+  margin: 0;
+  font-weight: bold;
 }
-td:hover{
-    text-decoration: underline;
-    cursor: pointer;
+
+td:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: orange;
 }

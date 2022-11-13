@@ -1,17 +1,11 @@
-.container_img{
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-gap: 20px;
+.svgcss{
+  width: 40px;
+  height: 40px;
+  color: #2B4865;
 }
-@media screen and (max-width: 640px){
-  .container_img{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+
+span:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }
-.imgCss{
-  background-size: contain;
-  width: 250px;
-  height: 200px;
-}
+

@@ -22,7 +22,7 @@ export class EntryWordDescriptionService {
     this.entryIdvalue = id;
   }
   getWordListDescription(){
-    return this._http.get(this.urlBase + this.entrada + this.letterPref + this.letter + this.entryId + this.entryIdvalue);
+    return this._http.get(this.urlBase + this.entrada + this.letterPref + this.letter + this.entryId + this.entryIdvalue, {responseType: 'text'});
   }
 
 }

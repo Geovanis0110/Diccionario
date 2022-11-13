@@ -19,7 +19,6 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 .webTitle{
   font-family: "Trebuchet MS",Verdana, SansSerif, Serif;
@@ -58,5 +57,9 @@
 .example-spacer {
   flex: 1 1 auto;
 }
-
+.myCSS{
+  /*background-color: #2563BC;*/
+  background-color: lightgray;
+  height: 30px;
+}
 

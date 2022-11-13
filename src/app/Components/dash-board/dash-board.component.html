@@ -1,31 +1,86 @@
-<div class="container mt-3">
-  <app-alphabeth
-    (alphaClick)="onAlphaWords($event)"
-  ></app-alphabeth>
-  <div class="row">
-    <div class="col-lg-3 col-md-4">
-      <!--Header-->
-      <app-dash-board-header
-        (selectModeSignal)="onSelectionMode($event)"
-        (wordFinding)="onSearch($event)"
-      ></app-dash-board-header>
-      <!--Content-->
-      <app-dash-board-ifo
-        [selectionMode]="selectionMode"
-        [newCurrentSearch]="isNewSearch"
-        [letter]="indexWord"
-        [itemList]="wordResults"
-        [cEntry]="entry"
-        (backClick)="onClickButton($event)"
-      ></app-dash-board-ifo>
+<section id="title">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="dictionary">
+          <h3 class="fw-bold dictionary-shadow">Diccionario</h3>
+          <h4 class="text-start dictionary-shadow">Básico Escolar <span class="fw-bold">5.0</span></h4>
+          <h4 class="text-start dictionary-shadow">--------------------</h4>
+
+        </div>
+      </div>
+      <div class="col-lg-9">
+      </div>
     </div>
-    <div class="col-lg-9 col-md-8">
-      <!--Main Content-->
-      <app-dash-board-content
-        [selectionClicked]="input_search"
-        [wordsArray]="wordArray"
-      ></app-dash-board-content>
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm">
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon svgIcon="manage_search"></mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-checkbox
+            color="primary"
+            labelPosition="before"
+            (change)="onAdvActivate($event)"
+            >
+            <span *ngIf="!activateMode">Activar busqueda</span>
+            <span *ngIf="activateMode">Desactivar busqueda</span>
+            </mat-checkbox>
+          </button>
+        </mat-menu>
+        <span class="fw-bold" *ngIf="!activateMode">Busqueda Avanzada</span>
+        <span class="fw-bold" *ngIf="activateMode">Busqueda Normal</span> -->
+        <mat-card class="w-100 p-2 adv-css mat-elevation-z1" matTooltip="Click aqui para activar busqueda avazanda">
+          <mat-icon
+          svgIcon="manage_search"
+          matPrefix
+          class="p-0"
+          ></mat-icon>
+          <mat-checkbox
+          class="p-0"
+          color="primary"
+          labelPosition="before"
+          (change)="onAdvActivate($event)"
+          >
+          <span *ngIf="!activateMode" class="fw-bold">Búsqueda Avanzada</span>
+          <span *ngIf="activateMode" class="fw-bold">Búsqueda Normal</span>
+        </mat-checkbox>
+        </mat-card>
+      </div>
+      <div class="col-lg-9 col-md-8 col-sm">
+        <app-alphabeth
+        (alphaClick)="onAlphaWords($event)"
+      ></app-alphabeth>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-4">
+        <!--Header-->
+        <app-dash-board-header
+          (selectModeSignal)="onSelectionMode($event)"
+          (wordFinding)="onSearch($event)"
+        ></app-dash-board-header>
+        <!--Content-->
+        <app-dash-board-ifo
+          [selectionMode]="selectionMode"
+          [newCurrentSearch]="isNewSearch"
+          [letter]="indexWord"
+          [itemList]="wordResults"
+          [cEntry]="entry"
+          (backClick)="onClickButton($event)"
+        ></app-dash-board-ifo>
+      </div>
+      <div class="col-lg-9 col-md-8">
+        <!--Main Content-->
+        <app-dash-board-content
+          class="bg-secondary"
+          [selectionClicked]="input_search"
+          [wordsArray]="wordArray"
+        ></app-dash-board-content>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
 

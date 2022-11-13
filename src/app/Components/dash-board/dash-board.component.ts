@@ -1,10 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {EntryWordListService} from "../../Services/entry-word-list.service";
 import {TrasformDataJson} from "../../Services/transform-data-json.service";
+import { SharedData } from "../../Services/shared-data.service";
 
 import {animate, keyframes, query, stagger, style, transition, trigger} from "@angular/animations";
 import {AllWord} from "../../Interfaces/word.interface";
-
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
+import { MANAGE_SEARCH_ICON } from "../../Icons/icons";
 
 type wordAttributes = {
   word: string,
@@ -45,11 +49,16 @@ export class DashBoardComponent implements OnInit {
   wordArray: wordAttributes[] = []
   isNewSearch: boolean = false;
   selectionMode: string = '';
+  activateMode: boolean = false;
 
   constructor(
     private queryService: EntryWordListService,
-    private dataTransform: TrasformDataJson
+    private dataTransform: TrasformDataJson,
+    private _sharedData: SharedData,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
   ) {
+    iconRegistry.addSvgIconLiteral('manage_search', sanitizer.bypassSecurityTrustHtml(MANAGE_SEARCH_ICON));
   }
 
   ngOnInit(): void {
@@ -100,5 +109,14 @@ export class DashBoardComponent implements OnInit {
     // this.wordArray.pos = ifoData.wordArray.pos;
     this.wordArray = ifoData.wordArray;
     console.log(this.wordArray);
+  }
+
+  onAdvActivate(e: MatCheckboxChange){
+    e.checked ? this.activateMode = true : this.activateMode = false;
+    if(this.activateMode){
+      this._sharedData.advanceSearchActivated.emit(this.activateMode);
+    }else {
+      this._sharedData.advanceSearchActivated.emit(this.activateMode);
+    }
   }
 }
