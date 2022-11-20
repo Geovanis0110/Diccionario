@@ -1,15 +1,17 @@
 <section id="title">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row d-flex justify-content-between">
       <div class="col-lg-3">
         <div class="dictionary">
           <h3 class="fw-bold dictionary-shadow">Diccionario</h3>
           <h4 class="text-start dictionary-shadow">Básico Escolar <span class="fw-bold">5.0</span></h4>
           <h4 class="text-start dictionary-shadow">--------------------</h4>
-
         </div>
       </div>
-      <div class="col-lg-9">
+      <div class="col-lg-2">
+        <div class="figure-img">
+          <img src="./assets/fig07b.png" class="rounded-3 container-fluid p-0" alt="">
+        </div>
       </div>
     </div>
     <div class="row">
@@ -38,6 +40,7 @@
           class="p-0"
           ></mat-icon>
           <mat-checkbox
+          [checked]="activateMode"
           class="p-0"
           color="primary"
           labelPosition="before"

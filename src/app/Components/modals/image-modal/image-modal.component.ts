@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {CLOSE_ICON} from "../../../Icons/icons";
+import {imgWord} from "../../show-images/show-images.component";
 
 
 
@@ -13,9 +14,8 @@ import {CLOSE_ICON} from "../../../Icons/icons";
 })
 
 export class ImageModalComponent implements OnInit{
-  imgSrc: string = '';
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: string,
+    @Inject(MAT_DIALOG_DATA) public data: imgWord,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -23,6 +23,6 @@ export class ImageModalComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.imgSrc = this.data;
+
   }
 }

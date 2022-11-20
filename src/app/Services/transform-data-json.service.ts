@@ -1,5 +1,44 @@
 import {Injectable} from '@angular/core';
-import {AllWord, Word, WordData} from '../Interfaces/word.interface';
+import {
+  AllWord,
+  binaryObject,
+  catGram,
+  catGramWithId,
+  FinalWord,
+  FormField,
+  senseField,
+  Word,
+  WordData
+} from '../Interfaces/word.interface';
+import {FormFieldBuilder} from "../Builders/form-field.builder";
+import {BinaryObjectBuilder} from "../Builders/binary-object.builder";
+import {TestWordPlusBuilder} from "../Builders/test-word-plus.builder";
+import {SenseFieldBuilder} from "../Builders/sense-field.builder";
+import {FinalWordBuilder} from "../Builders/final-word.builder";
+import {DataParserService} from "./data-parser.service";
+
+export interface testWord {
+  textos: string,
+  idTextos: any
+}
+
+export interface testWordPlus {
+  textos: string,
+  lemmaid: string,
+  id: string
+}
+
+export interface xmlObj {
+  name: string,
+  content: any
+}
+
+export interface xmlObjPlus {
+  id: string,
+  name: string,
+  content: any
+}
+
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +67,9 @@ export class TrasformDataJson {
 
   wordData: WordData = {
     wordOrth: '',
-    contarget:  ''
+    contarget: '',
+    definition: [],
+    examples: []
   }
 
   // Campos de los indices de la palabra
@@ -53,13 +94,13 @@ export class TrasformDataJson {
   conjtarget: string = '';
 
   // Arrays de los campos
-  formArray: any;
-  gramGrpArray: any = [];
-  senseArray: any = [];
-  attributeArray: any = [];
+  formArray: Array<any> = [];
+  gramGrpArray: Array<any> = [];
+  senseArray: Array<any> = [];
+  attributeArray: Array<any> = [];
 
 
-  constructor() {
+  constructor(private _dataParser: DataParserService) {
   }
 
   onTransformData(data: any) {
@@ -76,7 +117,7 @@ export class TrasformDataJson {
       // Guardando los usg
       this.wordAll.usg = element[this.usgForm];
       //   Guardando el objeto en un array
-      this.wordAll.reverseWord = '';
+      this.wordAll.reverseWord = 'no have reversed word';
       this.completeAllWord.push({
         id: this.wordAll.id,
         word: this.wordAll.word,
@@ -116,36 +157,189 @@ export class TrasformDataJson {
     });
     return this.completeAllWord;
   }
-  onTransformDataWord(dataWord: any) {
-    let body;
-    let entry;
-    let form;
-    let afjGram;
-    let sense;
 
-    console.log(dataWord);
-    body = dataWord.getElementsByTagName('body');
-    if(body[0].lastChild.localName == 'entry') {
-      console.log("Tiene una sola entrada");
-      entry = body[0].childNodes[0];
-      if (entry.attributes[1]) {
-        this.wordData.contarget = entry.attributes[1].nodeValue;
-      } else {
-        this.wordData.contarget = '';
+  onTransformDataWord(dataWord: any) {
+    //Split the entry
+    const entrys: Array<any> = Array.from(dataWord.querySelectorAll("entry")).map((x: any) => {
+      return x;
+    })
+    // const entrysChildsName: any = Array.from(dataWord.querySelectorAll("entry").children).map((x: any) => {
+    //   return x.tagName;
+    // })
+
+    const senseCount = Array.from(dataWord.querySelectorAll("sense")).map(x => x);
+    console.log("senseCount: ", senseCount.length);
+
+    console.log("Entradas (Comienzo)", entrys);
+
+    // Objeto con la palabra, error y silaba
+    let wordTry1: Array<xmlObjPlus> = [];
+
+    // Objeto con la gramatica de la palabra
+    let gramTry1: Array<xmlObjPlus> = [];
+
+    // Objeto que contiene el arbol de definiciones y ejemplos
+    let senseTry1: Array<xmlObjPlus> = [];
+    // Objeto que contiene las definiciones con su id
+    let definity: Array<testWordPlus> = [];
+
+
+    // Objeto de nivel superior al texto de ejmplos
+    let eg: Array<xmlObjPlus> = [];
+
+    // Objeto que contiene la gramatica de los ejemplos
+    let defGramGrp: Array<xmlObjPlus> = [];
+
+    // Objeto que contiene los ejemplos finales por id
+    let finalExample: Array<testWordPlus> = [];
+    // Cadena que contiene el numero de la tabla verbal
+    let contarget: string = '';
+    // const fnWs: Array<FinalWord> =[];
+
+    if (entrys.length > 1) {
+      console.log("Multiples Entradas", entrys);
+
+    } else if (entrys.length === 1) {
+
+      if (entrys[0].attributes != undefined) {
+        contarget = entrys[0].attributes['conjtarget']?.value;
       }
-      this.wordData.wordOrth = entry.getElementsByTagName('form')[0].getElementsByTagName(this.ortographyForm)[0].textContent;
-    }else if(body[0].lastChild.localName == 'superentry'){
-      console.log("Tiene dos o mas entradas");
-    }else {
-      console.log("Entrada Incorrecta");
+      console.log("Tiene Tabla Verbal con Id:", contarget);
+
+      this.apiData = Array.from(dataWord.querySelector("entry").children).map((x: any, i) => {
+        return x;
+      })
+
+      wordTry1 = this._dataParser.onEntryChildrenSplitter(this.apiData, 'form');
+      gramTry1 =  this._dataParser.onEntryChildrenSplitter(this.apiData, 'gramGrp');
+      senseTry1 = this._dataParser.onEntryChildrenSplitter(this.apiData, 'sense');
+
+      console.log("!!!!!WORD", wordTry1)
+      console.log("!!!!!GRAM", gramTry1);
+      console.log("!!!!!SENSE", senseTry1);
+
+      definity = this._dataParser.onDefSenseChildrenSplitter(senseTry1, 'def');
+      eg = this._dataParser.onEgSenseChildrenSplitter(senseTry1, 'eg');
+      defGramGrp = this._dataParser.onGramGrpSenseChildrenSplitter(senseTry1, 'gramGrp');
+      finalExample = this._dataParser.onExampleSenseChildrenSplitter(eg, wordTry1[0].content);
+
+      console.log("!!!!!DEFINITIONS => ",definity);
+      console.log("!!!!!EG => ",eg);
+      console.log("!!!!!GRAMTICAL DEFINITIONS => ",defGramGrp);
+      console.log("!!!!!EXAMPLES => ",finalExample);
     }
 
-    console.log(body);
-    console.log(this.wordData);
-    return this.wordData;
+    const some: FormField = {orth: '', syll: '', posError: '', gram: ''};
+    const other: FormField = {orth: '', syll: '', posError: '', gram: ''};
+    const anothersForms: Array<FormField> = [];
+    wordTry1.forEach((item) => {
+      if(item.id === '0'){
+        if(item.name === 'orth'){
+          some.orth = item.content
+        }else if(item.name === 'syll'){
+          some.syll = item.content
+        }else if(item.name === 'posError'){
+          some.posError = item.content
+        }
+      } else if(item.id !== '0'){
+        if(item.name === 'orth'){
+          other.orth = item.content
+        }else if(item.name === 'syll'){
+          other.syll = item.content
+        }else if(item.name === 'posError'){
+          other.posError = item.content
+        }else if(item.name === 'gram'){
+          other.gram = item.content
+        }
+        anothersForms.push(other);
+      }
+    })
+    console.log("Palabras",some)
+    console.log("Otras Formas", anothersForms);
+
+    const some2: catGram = {pos: '', itype: ''};
+    gramTry1.forEach((item) => {
+      if(item.name === 'pos'){
+        some2.pos = item.content
+      }else if(item.name === 'itype'){
+        some2.itype = item.content
+      }
+    })
+    console.log("Gramatica", some2)
+
+    const resultsOfGram: Array<catGramWithId> = [];
+    defGramGrp.forEach((item, index) => {
+      const tempGram1: catGramWithId = { id:'', pos: '', itype: ''}
+      if (item.name === 'pos') {
+        tempGram1.id = item.id;
+        tempGram1.pos = item.content;
+      } else if (item.name === 'itype') {
+        tempGram1.id = item.id;
+        tempGram1.itype = item.content;
+      }
+      resultsOfGram.push(tempGram1);
+    })
+    console.log(resultsOfGram);
+
+    const resultsOfResults: Array<Array<testWordPlus>> = [];
+    let count: number = 0;
+    while (count != senseCount.length){
+      const results: Array<testWordPlus> = definity.filter(x => x.id === (count+1).toString());
+      count++;
+      resultsOfResults.push(results);
+    }
+    console.log("Definiciones",resultsOfResults);
+
+
+    const examplesOfResults: Array<Array<testWordPlus>> = [];
+    let countExamples: number = 0;
+    while(countExamples != senseCount.length){
+      const results: Array<testWordPlus> = finalExample.filter(x => x.id === (countExamples + 1).toString());
+      countExamples++;
+      console.log(results);
+
+      examplesOfResults.push(results);
+    }
+    console.log("Ejemplos", examplesOfResults);
+
+
+
+    const sensesVector: Array<senseField> = [];
+    senseCount.forEach((item, index) => {
+      const gramGrp: Array<catGram> = resultsOfGram.filter((x)=> x.id === (index + 1).toString());
+      const def: Array<Array<testWordPlus>> = resultsOfResults.filter((x, i) => i === index);
+      const ex: Array<Array<testWordPlus>> = examplesOfResults.filter((x, i) => i === index);
+      const sense: senseField = SenseFieldBuilder.newInstance()
+        .withCategoriaGramatical(gramGrp)
+        .withDefiniciones(def)
+        .withEjemplos(ex)
+        .build();
+      sensesVector.push(sense);
+    })
+    console.log("SENSESS",sensesVector);
+
+    // console.log(this.apiData);
+
+    return FinalWordBuilder.newInstance()
+      .withPalabra(some)
+      .withContarget(contarget)
+      .withCategoriaGramatical(some2)
+      .withSense(sensesVector)
+      .withHomofonas(anothersForms.slice(1))
+      .build();
   }
 
   onClearCurrentData() {
     this.completeWord = [];
   }
+
+  // dividerInTwo(value: Array<Array<any>>): Array<testWordPlus>{
+  //   if(value.length === 0) throw new Error("Error Vector Vacio");
+  //   if(value.length === 1) return value[0];
+  //   const result: binaryObject = BinaryObjectBuilder.newInstance()
+  //     .withLeftOperand(value[0])
+  //     .withRightOperand((this.dividerInTwo(value.slice(1))))
+  //     .build();
+  //   return result.leftOperand
+  // }
 }

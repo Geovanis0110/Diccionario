@@ -39,7 +39,7 @@
         <a mat-list-item href="#" class="iconCSS" routerLink="/estadistics">
           <mat-icon svgIcon="leaderboard"></mat-icon>
           <!--      <mat-icon class="mx-1 iconCss5 " aria-hidden="false" aria-label="Estadistics"></mat-icon>-->
-          <h5 class="mt-2 mx-3">Estadisticas</h5></a>
+          <h5 class="mt-2 mx-3">Estad&iacute;sticas</h5></a>
         <a mat-list-item href="" class="iconCSS" routerLink="/help">
           <mat-icon svgIcon="help"></mat-icon>
           <!--      <mat-icon class="mx-1 iconCss6"  aria-hidden="false" aria-label="Help"></mat-icon>-->
@@ -58,18 +58,6 @@
         <mat-icon class="mb-1" svgIcon="menu"></mat-icon>
       </button>
 <!--      <span class="webTitle">Diccionario B&aacute;sico Escolar 5.0</span>-->
-      <span class="example-spacer"></span>
-      <button class="mb-2" mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon svgIcon="more_vert"></mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon svgIcon="manage_search"></mat-icon>
-          <mat-checkbox color="primary" (change)="onActivateAdvSearch()" labelPosition="before">
-            <p>B&uacute;squeda avanzada</p>
-          </mat-checkbox>
-        </button>
-      </mat-menu>
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>

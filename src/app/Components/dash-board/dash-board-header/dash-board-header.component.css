@@ -22,7 +22,7 @@ mat-form-field{
   height: 35px;
   margin: 1.1px;
   border-radius: 3px;
-  border: 1px solid black;
+  border: 1px solid #ccc;
 }
 
 .spacer button:hover{

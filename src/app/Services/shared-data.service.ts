@@ -6,7 +6,7 @@ import {Injectable} from '@angular/core';
 })
 
 export class SharedData{
-  advanceSearchActivated = new EventEmitter<boolean>();
-
+  advancedSearchActivated = new EventEmitter<boolean>();
+  advancedSearchClose = new EventEmitter<boolean>();
   constructor(){}
 }

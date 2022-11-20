@@ -4,11 +4,13 @@ import {TrasformDataJson} from "../../Services/transform-data-json.service";
 import { SharedData } from "../../Services/shared-data.service";
 
 import {animate, keyframes, query, stagger, style, transition, trigger} from "@angular/animations";
-import {AllWord} from "../../Interfaces/word.interface";
+import {AllWord, FinalWord} from "../../Interfaces/word.interface";
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MANAGE_SEARCH_ICON } from "../../Icons/icons";
+import {MatSnackBar} from "@angular/material/snack-bar";
+
 
 type wordAttributes = {
   word: string,
@@ -46,7 +48,7 @@ export class DashBoardComponent implements OnInit {
   indexWord: string = '';
   entry: string = '';
   input_search: boolean = false;
-  wordArray: wordAttributes[] = []
+  wordArray!: FinalWord;
   isNewSearch: boolean = false;
   selectionMode: string = '';
   activateMode: boolean = false;
@@ -55,6 +57,7 @@ export class DashBoardComponent implements OnInit {
     private queryService: EntryWordListService,
     private dataTransform: TrasformDataJson,
     private _sharedData: SharedData,
+    private _snackbar: MatSnackBar,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -62,6 +65,9 @@ export class DashBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._sharedData.advancedSearchClose.subscribe((result) => {
+      this.activateMode = result;
+    })
   }
   onSelectionMode(selectMode: {selMod: string}){
     this.selectionMode = selectMode.selMod;
@@ -100,23 +106,24 @@ export class DashBoardComponent implements OnInit {
     }
   }
 
-  onClickButton(ifoData: { onClicked: boolean, wordArray: wordAttributes[] }) {
+  onClickButton(ifoData: { onClicked: boolean, wordArray: FinalWord }) {
     this.input_search = ifoData.onClicked;
-    // this.wordArray.word = ifoData.wordArray.word;
-    // this.wordArray.def = ifoData.wordArray.def;
-    // this.wordArray.eg = ifoData.wordArray.eg;
-    // this.wordArray.gramGrp = ifoData.wordArray.gramGrp;
-    // this.wordArray.pos = ifoData.wordArray.pos;
     this.wordArray = ifoData.wordArray;
     console.log(this.wordArray);
   }
 
   onAdvActivate(e: MatCheckboxChange){
     e.checked ? this.activateMode = true : this.activateMode = false;
-    if(this.activateMode){
-      this._sharedData.advanceSearchActivated.emit(this.activateMode);
-    }else {
-      this._sharedData.advanceSearchActivated.emit(this.activateMode);
+    this._sharedData.advancedSearchActivated.emit(this.activateMode);
+    if(this.activateMode) {
+      this._snackbar.open('Búsqueda Avanzada ha sido activada', '', {
+        duration: 2 * 1000
+      })
+    }else{
+      this._snackbar.open('Búsqueda Avazanda ha sido desactivada', '', {
+        duration: 2 * 1000
+      })
     }
+
   }
 }

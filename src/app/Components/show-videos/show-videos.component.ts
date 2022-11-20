@@ -55,9 +55,8 @@ export class ShowVideosComponent implements OnInit {
       this.videosGalery.push({
         word: 'palabra#' + i,
         src: `../../../assets/videos/a_${i+1}.webm`
-      });
+      }); 
     }
-
   }
 
   onOpenVideo(videoSrc: string){

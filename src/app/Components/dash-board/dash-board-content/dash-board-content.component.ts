@@ -1,23 +1,31 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {WebRequestService} from "../../../Services/web-request.service";
-import {animate, keyframes, state, style, transition, trigger} from "@angular/animations";
-import {SharedData} from "../../../Services/shared-data.service";
-import {MatSelect, MatSelectChange} from "@angular/material/select";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
-import * as MyIcons from "../../../Icons/icons";
-import {FilterField} from "../../../Interfaces/filter.interface";
-import {FilterBuilder} from "../../../Builders/filter.builder";
-import {FilterCriteria} from "../../../Interfaces/filter-criteria.interface";
-
+import { Component, OnInit, Input } from '@angular/core';
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { SharedData } from '../../../Services/shared-data.service';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as MyIcons from '../../../Icons/icons';
+import { FilterField } from '../../../Interfaces/filter.interface';
+import { FilterBuilder } from '../../../Builders/filter.builder';
+import { FilterCriteria } from '../../../Interfaces/filter-criteria.interface';
+import { FinalWord } from 'src/app/Interfaces/word.interface';
+import { EntryWordDescriptionService } from 'src/app/Services/entry-word-description.service';
+import { TrasformDataJson } from 'src/app/Services/transform-data-json.service';
 
 type wordAttributes = {
-  word: string,
-  def: string,
+  word: string;
+  def: string;
   eg: string;
-  notes: string,
-  gramGrp: string,
-  pos: string,
+  notes: string;
+  gramGrp: string;
+  pos: string;
 };
 
 @Component({
@@ -26,32 +34,41 @@ type wordAttributes = {
   styleUrls: ['./dash-board-content.component.css'],
   animations: [
     trigger('fade', [
-      state('in', style({opacity: 1})),
+      state('in', style({ opacity: 1 })),
       transition('void => *', [
-        animate('2s ease-in', keyframes([
-          style({opacity: 0, transform: 'translateX(75px)', offset: 0}),
-          style({opacity: .5, transform: 'translateX(-25px)', offset: .3}),
-          style({opacity: 1, transform: 'translateX(0)', offset: 1})
-        ]))
-      ])
-    ])
-  ]
+        animate(
+          '2s ease-in',
+          keyframes([
+            style({ opacity: 0, transform: 'translateX(75px)', offset: 0 }),
+            style({
+              opacity: 0.5,
+              transform: 'translateX(-25px)',
+              offset: 0.3,
+            }),
+            style({ opacity: 1, transform: 'translateX(0)', offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+  ],
 })
-
 export class DashBoardContentComponent implements OnInit {
-  searchCriteriaFilters: Array<FilterField> = [{
-    id: 1,
-    selectedValue: ''
-  }];
-
+  searchCriteriaFilters: Array<FilterField> = [
+    {
+      id: 1,
+      selectedValue: '',
+    },
+  ];
 
   @Input('selectionClicked') selectClick: boolean = false;
-  @Input('wordsArray') wordList: wordAttributes[] = [];
-  // wordArrayFinal: wordAttributes[] = [];
+  @Input('wordsArray') wordList!: FinalWord;
+  dataToParse: any;
+  selectionsOptions: Array<string> = [''];
   table: string = '';
   hideSelect: boolean = false;
   disableSelect: boolean = false;
   hideDeleteButton: boolean = false;
+  hideAllButtons: boolean = false;
   currentSelectedOption: string = '';
   addDisabled: boolean = false;
   id: number = 1;
@@ -73,21 +90,16 @@ export class DashBoardContentComponent implements OnInit {
     'verbo impersonal',
     'verbo intransitivo',
     'verbo pronominal',
-    'verbo transitivo'
+    'verbo transitivo',
   ];
   tpUso: string[] = [
     'coloquial',
     'despectivo',
     'familiar',
     'sentido figurado',
-    'popular'
+    'popular',
   ];
-  infoGeo: string[] = [
-    'americanismo',
-    'anglicismo',
-    'cubanismo',
-    'galicismo'
-  ];
+  infoGeo: string[] = ['americanismo', 'anglicismo', 'cubanismo', 'galicismo'];
   areaConocimiento: string[] = [
     'Anatomia',
     'Arquitectura',
@@ -116,41 +128,96 @@ export class DashBoardContentComponent implements OnInit {
     'Politica',
     'Quimica',
     'Religion',
-    'Zoologia'
-  ]
+    'Zoologia',
+  ];
   palAfjPfj: string[] = [
     'con prefijo(s)',
     'con afijo(s)',
     'con prefijo(s) o afijo(s)',
-    'con prefijo(s) y afijo(s)'
+    'con prefijo(s) y afijo(s)',
   ];
 
-
-  constructor(private webService: WebRequestService,
-              private sharedService: SharedData,
-              iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIconLiteral('add', sanitizer.bypassSecurityTrustHtml(MyIcons.ADD_ICON));
-    iconRegistry.addSvgIconLiteral('delete', sanitizer.bypassSecurityTrustHtml(MyIcons.DELETE_ICON));
-
+  constructor(
+    private sharedService: SharedData,
+    private fapi: EntryWordDescriptionService,
+    private _transformData: TrasformDataJson,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIconLiteral(
+      'add',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.ADD_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'close',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.CLOSE_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'remove',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.REMOVE_ICON)
+    );
   }
 
   ngOnInit(): void {
-    this.sharedService.advanceSearchActivated.subscribe(
-      (result) => {
-        this.hideSelect = result;
-      }
-    )
-
+    this.sharedService.advancedSearchActivated.subscribe((result) => {
+      this.hideSelect = result;
+    });
   }
 
-  setDisabledTrue(sel: MatSelectChange) {
+  setDisabledTrue(sel: Event) {
+    this.currentSelectedOption = (<HTMLSelectElement>sel.target).value;
     this.disableSelect = true;
-    sel.value != 'cat' ? this.addDisabled = true  : this.addDisabled = false;
+    if (this.currentSelectedOption === 'defaultValue') {
+      this.hideAllButtons = true;
+      this.disableSelect = false;
+      this.searchCriteriaFilters = [
+        {
+          id: 1,
+          selectedValue: '',
+        },
+      ];
+    } else if (this.currentSelectedOption === 'cat') {
+      this.hideAllButtons = true;
+      this.selectionsOptions = this.catGram;
+    } else if (this.currentSelectedOption === 'tip') {
+      this.searchCriteriaFilters = [
+        {
+          id: 1,
+          selectedValue: '',
+        },
+      ];
+      this.selectionsOptions = this.tpUso;
+    } else if (this.currentSelectedOption === 'geo') {
+      this.searchCriteriaFilters = [
+        {
+          id: 1,
+          selectedValue: '',
+        },
+      ];
+      this.selectionsOptions = this.infoGeo;
+    } else if (this.currentSelectedOption === 'con') {
+      this.searchCriteriaFilters = [
+        {
+          id: 1,
+          selectedValue: '',
+        },
+      ];
+      this.selectionsOptions = this.areaConocimiento;
+    } else if (this.currentSelectedOption === 'afjGram') {
+      this.searchCriteriaFilters = [
+        {
+          id: 1,
+          selectedValue: '',
+        },
+      ];
+      this.selectionsOptions = this.palAfjPfj;
+    }
+    (<HTMLSelectElement>sel.target).value != 'cat'
+      ? (this.addDisabled = true)
+      : (this.addDisabled = false);
   }
 
-  onSelectOption(sel: MatSelect) {
-  }
+  onSelectOption(sel: MatSelect) {}
 
   onAddSelectionField() {
     if (this.searchCriteriaFilters.length < 3) {
@@ -161,6 +228,24 @@ export class DashBoardContentComponent implements OnInit {
     }
   }
 
-  onDeleteSelectionField() {
+  onDeleteSelectionField(value: FilterField) {
+    this.searchCriteriaFilters.splice(
+      this.searchCriteriaFilters.indexOf(value),
+      1
+    );
+  }
+
+  onCloseAdvSearch() {
+    this.hideSelect ? (this.hideSelect = false) : (this.hideSelect = true);
+    this.sharedService.advancedSearchClose.emit(this.hideSelect);
+  }
+
+  onLemmaWord(lemmaId: string){
+    this.fapi.setWordIndex(lemmaId.substring(0,1));
+    this.fapi.setWordId(lemmaId);
+    this.fapi.getWordListDescription().subscribe((arg) => {
+      this.dataToParse = (new DOMParser().parseFromString(arg, 'text/xml'));
+      this.wordList = this._transformData.onTransformDataWord(this.dataToParse);
+    })
   }
 }

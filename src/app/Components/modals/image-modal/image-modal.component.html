@@ -4,5 +4,8 @@
       <mat-icon svgIcon="close" class="mb-1"></mat-icon>
     </button>
   </div>
-  <img class="container" [src]="imgSrc" alt="">
+  <div class="text-center">
+    <label class="fw-bolder">{{data.word}}</label>
+    <img class="container-fluid p-0" [src]="data.img" alt="">
+  </div>
 </div>

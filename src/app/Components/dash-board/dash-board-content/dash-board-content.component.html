@@ -1,85 +1,174 @@
 <!-- Hidden Content -->
-
-  <mat-card [hidden]="!hideSelect" class="hiddenSelect mat-elevation-z2 mt-3">
-    <mat-card-header>
-      <h5 class="text-bold">
-        <span>Criterios de b&uacute;squeda</span>
-      </h5>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-lg-5">
-        <mat-form-field class="w-100" appearance="legacy">
-          <mat-label>[Selecciona criterio]</mat-label>
-          <mat-select (selectionChange)="setDisabledTrue($event)">
-            <mat-option value="cat">Categoria gramatical</mat-option>
-            <mat-option value="tip">Tipo de uso</mat-option>
-            <mat-option value="geo">Informacion geografica</mat-option>
-            <mat-option value="con">Area de conocimientos</mat-option>
-            <mat-option value="afjGram">Palabras con afijos</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-lg-5">
-        <mat-form-field class="w-100" appearance="legacy" *ngFor="let item of searchCriteriaFilters">
-          <mat-label>Selecci&oacute;n</mat-label>
-          <mat-select [disabled]="!disableSelect" #selection>
-            <mat-option *ngFor="let element of catGram; index as i" value="{{i}}" (click)="onSelectOption(selection)">{{element}}</mat-option>
-          </mat-select>
-          <mat-icon class="icon-hover mb-1" matSuffix [hidden]="!hideDeleteButton" (click)="onDeleteSelectionField()" color="accent" svgIcon="delete"></mat-icon>
-        </mat-form-field>
-      </div>
-      <div class="col-lg-2">
-        <button [hidden]="addDisabled" mat-mini-fab color="primary" class="mat-elevation-z6" (click)="onAddSelectionField()">
-          <mat-icon class="mb-2" svgIcon="add"></mat-icon>
-        </button>
-      </div>
+<div [hidden]="!hideSelect" class="card mat-elevation-z1">
+  <div class="card-title d-flex">
+    <span class="fw-bolder">Criterios de b&uacute;squeda</span>
+    <span class="tecnicaly"></span>
+    <button mat-icon-button class="btn btn-outline-secondary icon-button">
+      <mat-icon
+        class="mb-3"
+        svgIcon="close"
+        (click)="onCloseAdvSearch()"
+      ></mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="row d-flex justify-content-center mt-2">
+    <div class="col-lg-5 col-md-4 select-style">
+      <select
+        (change)="setDisabledTrue($event)"
+        class="form-select mat-elevation-z1">
+        <option [defaultSelected]="" selected value="defaultValue">[Seleccione criterio]</option>
+        <option value="cat">Categoria gramatical</option>
+        <option value="tip">Tipo de uso</option>
+        <option value="geo">Informacion geografica</option>
+        <option value="con">Area de conocimientos</option>
+        <option value="afjGram">Palabras con afijos</option>
+      </select>
     </div>
-
-
-
-    <!-- <button mat-mini-fab [hidden]="!hideDeleteButton" color="primary" (click)="onDeleteSelectionField()">
-      <mat-icon>cancel</mat-icon>
-    </button> -->
-  </mat-card>
-<!-- Initial Content -->
-<div class="mt-3 welcome" *ngIf="!selectClick">
-  <div class="card bg-dark text-white" [@fade]>
-<!--    <img src="https://uruguayeduca.anep.edu.uy/sites/default/files/2019-08/diccionario_0.jpg" class="card-img card-opacity" alt="Photo of a Shiba Inu">-->
-    <h3 class="card-title">Reseña del Diccionario</h3>
-    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid architecto at commodi inventore laudantium magni, modi nam nihil non odio officia porro ratione repellendus voluptatum? Debitis earum laudantium optio?</p>
-    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis doloremque eius exercitationem libero mollitia praesentium vitae! Ad debitis ipsum, laudantium magnam magni maiores minima odit officia placeat similique voluptatem!</p>
-    <p class="card-text">Last updated 3 mins ago</p>
-    <div class="card-img-overlay">
-
+    <div class="col-lg-6 col-md-4 ">
+      <div class="row" *ngFor="let item of searchCriteriaFilters; index as i">
+        <div class="col-lg-8">
+          <div class="mb-3">
+            <select [disabled]="!disableSelect" class="form-select mat-elevation-z1" name="" id="">
+              <option selected>Seleccione una opci&oacute;n</option>
+              <option value="" *ngFor="let value of selectionsOptions">{{value}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 genrer">
+          <div *ngIf="hideAllButtons" class="select-style">
+            <button
+              [hidden]="addDisabled"
+              *ngIf="i < 2"
+              class="btn btn-primary mb-1"
+              (click)="onAddSelectionField()"
+            >
+              <mat-icon class="mb-1" svgIcon="add"></mat-icon>
+            </button>
+            <button
+              *ngIf="i > 0"
+              class="btn btn-primary mb-1"
+              (click)="onDeleteSelectionField(item)"
+            >
+              <mat-icon class="mb-1" svgIcon="remove"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-<!--  <mat-card class="example-card mat-elevation-z0">-->
-<!--    <mat-card-title>-->
-<!--      Reseña-->
-<!--    </mat-card-title>-->
-<!--    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-<!--    <mat-card-content>-->
-<!--      <p>-->
-<!--        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.-->
-<!--        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally-->
-<!--        bred for hunting.-->
-<!--      </p>-->
-<!--    </mat-card-content>-->
-<!--  </mat-card>-->
+  <div class="d-flex select-style2">
+    <button class="btn btn-primary">
+      Aplicar
+    </button>
+    <button class="btn btn-primary">
+      Limpiar
+    </button>
+  </div>
+</div>
+
+<!-- Initial Content -->
+<div class="mt-3 welcome" *ngIf="!selectClick">
+  <div class="card bg-dark text-white p-0" [@fade]>
+    <!--    <img src="https://uruguayeduca.anep.edu.uy/sites/default/files/2019-08/diccionario_0.jpg" class="card-img card-opacity" alt="Photo of a Shiba Inu">-->
+    <img class="card-img card-opacity" src="../../../../assets/bg-main.jpg" alt="">
+    <div class="card-img-overlay p-0">
+      <h2 class="card-title">Reseña del Diccionario</h2>
+      <p class="card-text fs-5 fst-italic">Las ediciones electrónicas del Diccionario Básico Escolar son producto de la colaboración entre el Centro de Lingüística Aplicada de Santiago de Cuba, perteneciente al Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA) y el grupo de investigación IXA de la Universidad del País Vasco. El contenido del diccionario en esta quinta edición ha sido aumentado y mejorado respecto a la cuarta.</p>   
+    </div>
+  </div>
+  <!--  <mat-card class="example-card mat-elevation-z0">-->
+  <!--    <mat-card-title>-->
+  <!--      Reseña-->
+  <!--    </mat-card-title>-->
+  <!--    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+  <!--    <mat-card-content>-->
+  <!--      <p>-->
+  <!--        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.-->
+  <!--        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally-->
+  <!--        bred for hunting.-->
+  <!--      </p>-->
+  <!--    </mat-card-content>-->
+  <!--  </mat-card>-->
 </div>
 
 <!-- Search Content -->
 <div class="welcome mt-3" *ngIf="selectClick">
   <p id="this"></p>
-  <mat-card class="example-card mat-elevation-z0" *ngFor="let item of wordList">
-<!--    <mat-card-title></mat-card-title>-->
-<!--    <h5>Palabra</h5>-->
-<!--    <p>Palabra : {{item.word}}</p><span>{{item.pos}}</span>-->
-<!--    <h5>Definicion</h5>-->
-<!--    <p>{{item.def}}</p>-->
-<!--    <h5>Ejemplos</h5>-->
-<!--    <p>{{item.eg}}</p>-->
+  <mat-card class="example-card mat-elevation-z0">
+    <span class="fw-bolder fs-5">{{ wordList.palabra.orth }}</span>
+  &nbsp;
+  <span class="text-decoration-underline fs-5">{{
+    wordList.catergoriaGramatical.pos
+  }}</span>
+  &nbsp;
+  <span class="fs-5">{{ wordList.usg }}</span>
+  &nbsp;
+  <!-- <button
+    class="btn btn-light"
+    (click)="onPlayAudio()"
+  >
+    Reproducir Audio
+  </button>
+  &nbsp;
+  <button
+    *ngIf="dataWord.conjtarget !== ''"
+    class="btn btn-light"
+    (click)="onConj()"
+  >
+    Conjugar
+  </button> -->
+  <!--  <span-->
+  <!--    *ngFor="let item of dataWord;-->
+  <!--    index as i"-->
+  <!--    (click)="onLemmaWord(item.idTextos)"-->
+  <!--    [ngClass]="item.idTextos === 'no have id' ? '':'lemma-css'"-->
+  <!--  >-->
+  <!--    {{item.textos}}</span>-->
+
+  <div *ngFor="let item of wordList.senses; index as is">
+    <div>
+      <span class="fw-bolder fs-5">{{ is + 1 }}.</span>
+      <span
+        class="text-decoration-underline fs-5"
+        *ngFor="let item1 of item.categoriaGramatical"
+        >{{ item1.pos }}</span
+      >
+      <span
+        class="fs-5"
+        *ngFor="let item1 of item.definiciones[0]; index as i"
+        (click)="onLemmaWord(item1.lemmaid)"
+        [ngClass]="item1.lemmaid === 'no have id' ? '' : 'lemma-css'"
+        >{{ item1.textos }}</span
+      >
+    </div>
+    <div>
+      <span *ngFor="let item1 of item.ejemplos[0]; index as i">
+        <span
+          class="fs-5"
+          (click)="onLemmaWord(item1.lemmaid)"
+          [ngClass]="
+            item1.lemmaid === 'no have id'
+              ? '.fst-italic'
+              : 'lemma-css fst-italic'
+          "
+          [ngClass]="
+            item1.lemmaid === 'orthVariant'
+              ? 'fw-bolder fst-italic'
+              : 'fst-italic'
+          "
+          >{{ item1.textos }}</span
+        >
+        <span *ngIf="item1.textos === '.'"><br /></span>
+      </span>
+    </div>
+  </div>
+  <hr />
+  <span class="fs-5">{{ wordList.palabra.syll }}</span>
+  <div *ngFor="let item of wordList.homofonas">
+    <span class="fs-5">{{ item.orth }}</span>
+    <span class="fs-5 text-decoration-underline">{{ item.gram }}</span>
+  </div>
   </mat-card>
 </div>
 

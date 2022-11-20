@@ -48,18 +48,4 @@ export class MainNavComponent {
   //     this.isHide = false;
   //   }
   // }
-
-  onActivateAdvSearch(){
-    this.isChecked ? this.isChecked = false : this.isChecked = true;
-      this._shareD.advanceSearchActivated.emit(this.isChecked);
-      if(this.isChecked){
-        this.snackbar.open('Busqueda Avanzada Activada','', {
-          duration: 2 * 1000
-        })
-      }else{
-        this.snackbar.open('Busqueda Normal Activada', '', {
-          duration: 2 * 1000
-        })
-      }
-  }
 }

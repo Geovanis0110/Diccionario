@@ -23,37 +23,46 @@
 <!--</mat-form-field>-->
 <div class="mt-2">
   <label class="fw-bold">Palabra a buscar: </label>
-  <div class="d-flex btn-group">
-    <div class="input-group">
-      <input
-        #myInput
-        class="form-control  w-100 border-1 border-dark"
-        type="text" name="filtrar"
-        placeholder="Escriba una palabra..."
-        (keyup.enter)="onCurrentSearch($event)"
-      >
-    </div>
-    <button matTooltip="Click aquí para buscar" class="btn btn-secondary border-dark">
-      <mat-icon matSuffix svgIcon="search" (click)="onCurrentSearch($event)"></mat-icon>
-    </button>
+
+  <div class="input-group rounded mat-elevation-z1">
+    <input
+      #myInput
+      class="form-control"
+      type="text"
+      name="filtrar"
+      placeholder="Escriba una palabra..."
+      (keyup.enter)="onCurrentSearch($event)"
+    />
+    <span
+      matTooltip="Click aquí para buscar"
+      class="input-group-text btn btn-primary"
+    >
+      <mat-icon
+        matSuffix
+        svgIcon="search"
+        (click)="onCurrentSearch($event)"
+      ></mat-icon>
+    </span>
+
+    <!-- <button  class="btn btn-primary mat-elevation-z2">
+      
+    </button> -->
   </div>
 </div>
 
 <div class="w-100 mt-2 spacer" (click)="onKeyboardLetter($event, myInput)">
-    <button class="fw-bold">á</button>
-    <button class="fw-bold">é</button>
-    <button class="fw-bold">í</button>
-    <button class="fw-bold">ó</button>
-    <button class="fw-bold">ú</button>
-    <button class="fw-bold">ü</button>
-    <button class="fw-bold">ñ</button>
+  <button class="fw-bold mat-elevation-z1">á</button>
+  <button class="fw-bold mat-elevation-z1">é</button>
+  <button class="fw-bold mat-elevation-z1">í</button>
+  <button class="fw-bold mat-elevation-z1">ó</button>
+  <button class="fw-bold mat-elevation-z1">ú</button>
+  <button class="fw-bold mat-elevation-z1">ü</button>
+  <button class="fw-bold mat-elevation-z1">ñ</button>
 </div>
 <!--"Select" de los modos de busqueda-->
 <div class="mt-2">
   <label class="fw-bold">Modos de búsqueda: </label>
-  <select
-    (selectionchange)="onSelectMode($event)"
-    class="form-select border-dark">
+  <select (change)="onSelectMode($event)" class="form-select mat-elevation-z1">
     <option value="reg1" selected>comienza por</option>
     <option value="reg2">contiene</option>
     <option value="reg3">termina en</option>
@@ -80,4 +89,3 @@
 <!--    Zona de busqueda-->
 
 <!--    "Select" del criterio de busqueda-->
-

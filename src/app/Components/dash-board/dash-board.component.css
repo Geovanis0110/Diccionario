@@ -7,13 +7,13 @@
 }
 #title{
   /*background-color: #2563BC;*/
-  background-color: lightgray;
+  background-color: #e4e2e2;
   /*background-color: #3F51B5;*/
   /*background-color: #F5F5F5;*/
 }
 
 .container-fluid{
-  padding: 1% 8%;
+  padding: 0 8%;
 }
 .dictionary-shadow{
   text-shadow: 1px 4px 3px gray;

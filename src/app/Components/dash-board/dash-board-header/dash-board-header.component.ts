@@ -52,7 +52,9 @@ export class DashBoardHeaderComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  onSelectMode(e: Event){
+  onSelectMode(e: Event) {
+    console.log((<HTMLSelectElement>e.target).value);
+
     this.selectMode = (<HTMLSelectElement>e.target).value;
     this.selectModeSignal.emit({selMod:this.selectMode});
   }
@@ -62,14 +64,14 @@ export class DashBoardHeaderComponent implements OnInit{
   }
 
   onCurrentSearch(event: Event): void {
-    this.tempWord = (event.target as HTMLInputElement).value.toLowerCase();
+    this.tempWord = (event.target as HTMLInputElement).value;
     this.indexWord = this.tempWord.substring(0, 1);
     if (this.indexWord == '') {
       this.indexWord = 'a';
     } else if (this.indexWord == '-') {
       this.indexWord = 'az';
     }
-    let standardWord: string = this.onNormalizeWord(this.indexWord);
+    let standardWord: string = this.onNormalizeWord(this.indexWord.toLowerCase());
     this.wordFinding.emit({indexWord: standardWord, currentEntry: this.tempWord})
   }
 

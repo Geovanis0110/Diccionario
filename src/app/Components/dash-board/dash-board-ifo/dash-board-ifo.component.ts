@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EntryWordDescriptionService} from "../../../Services/entry-word-description.service";
 import {TrasformDataJson} from "../../../Services/transform-data-json.service";
-import {AllWord} from "../../../Interfaces/word.interface";
+import {AllWord, FinalWord} from "../../../Interfaces/word.interface";
 
 
 type wordAttributes = {
@@ -27,14 +27,14 @@ export class DashBoardIfoComponent implements OnInit {
   @Input('newCurrentSearch') newSearch!: boolean;
   @Input('selectionMode') selMod: string = '';
   @Output() backClick: any = new EventEmitter<{
-    onClicked: boolean, wordArray: wordAttributes[]
+    onClicked: boolean, wordArray: FinalWord
   }>();
   wordID: string = '';
 
   clicked: boolean = false;
   table: string = '';
   dataWord: any;
-  wordDataTest: any;
+  wordDataTest!: FinalWord;
 
 
   constructor(
@@ -46,13 +46,15 @@ export class DashBoardIfoComponent implements OnInit {
   }
 
   onSelectWord(e: Event) {
+    this.clicked = true;
     this.wordID = (<HTMLSelectElement>e.target).value;
     this.entryService.setWordIndex(this.wordID.substring(0, 1));
     this.entryService.setWordId(this.wordID);
     this.entryService.getWordListDescription().subscribe((data) => {
       this.dataWord = (new DOMParser().parseFromString(data, 'application/xml'));
       this.wordDataTest = this.dataTransform.onTransformDataWord(this.dataWord);
-    })
+      this.backClick.emit({ onClicked: this.clicked, wordArray: this.wordDataTest });
+    }) 
   }
 
   onSelectWordWithEnter(e: Event){
