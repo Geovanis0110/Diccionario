@@ -18,6 +18,10 @@ import { FilterCriteria } from '../../../Interfaces/filter-criteria.interface';
 import { FinalWord } from 'src/app/Interfaces/word.interface';
 import { EntryWordDescriptionService } from 'src/app/Services/entry-word-description.service';
 import { TrasformDataJson } from 'src/app/Services/transform-data-json.service';
+import { EntryWordVerbsTableService } from "../../../Services/entry-word-verbs-table.service";
+import { MatDialog } from "@angular/material/dialog";
+import { VerbalTableModalComponent } from '../../modals/verbal-table-modal/verbal-table-modal.component';
+
 
 type wordAttributes = {
   word: string;
@@ -62,6 +66,7 @@ export class DashBoardContentComponent implements OnInit {
 
   @Input('selectionClicked') selectClick: boolean = false;
   @Input('wordsArray') wordList!: FinalWord;
+  verbalTableData: string = '';
   dataToParse: any;
   selectionsOptions: Array<string> = [''];
   table: string = '';
@@ -139,8 +144,10 @@ export class DashBoardContentComponent implements OnInit {
 
   constructor(
     private sharedService: SharedData,
+    private verbalTable: EntryWordVerbsTableService,
     private fapi: EntryWordDescriptionService,
     private _transformData: TrasformDataJson,
+    public _dialog: MatDialog,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -156,7 +163,32 @@ export class DashBoardContentComponent implements OnInit {
       'remove',
       sanitizer.bypassSecurityTrustHtml(MyIcons.REMOVE_ICON)
     );
+    iconRegistry.addSvgIconLiteral(
+      'volume_up',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.VOLUMEN_UP_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'image',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.IMAGE_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'videos',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.MOVIE_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'check',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.CHECK_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'play_circle',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.PLAY_CIRCLE_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'aod_table',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.AOD_TABLE_ICON)
+    );
   }
+
 
   ngOnInit(): void {
     this.sharedService.advancedSearchActivated.subscribe((result) => {
@@ -246,6 +278,14 @@ export class DashBoardContentComponent implements OnInit {
     this.fapi.getWordListDescription().subscribe((arg) => {
       this.dataToParse = (new DOMParser().parseFromString(arg, 'text/xml'));
       this.wordList = this._transformData.onTransformDataWord(this.dataToParse);
+    })
+  }
+
+  onConj(conjtarget: string) {
+    this.verbalTable.setContarget(conjtarget);
+    this.verbalTable.getVerbalTable().subscribe((arg: string) => {
+      this.verbalTableData = arg;
+      this._dialog.open(VerbalTableModalComponent, { data: this.verbalTableData });
     })
   }
 }

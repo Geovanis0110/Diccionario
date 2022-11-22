@@ -6,7 +6,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class EntryWordVerbsTableService {
-  urlBase: string = 'http//localhost:2021/';
+  urlBase: string = 'http://localhost:2021/';
   findVerbal: string = 'buscarVerbo.cgi?';
   itype: string = 'itype=';
   itypeValue: string = '';

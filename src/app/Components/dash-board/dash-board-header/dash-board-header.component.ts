@@ -39,7 +39,7 @@ export class DashBoardHeaderComponent implements OnInit{
   panelOpenState: boolean = false;
   hideSelect!: boolean;
   underInputLetter: string = '';
-  selectMode: string = '';
+  selectMode: string = 'reg1';
 
 
   constructor(
@@ -54,7 +54,6 @@ export class DashBoardHeaderComponent implements OnInit{
 
   onSelectMode(e: Event) {
     console.log((<HTMLSelectElement>e.target).value);
-
     this.selectMode = (<HTMLSelectElement>e.target).value;
     this.selectModeSignal.emit({selMod:this.selectMode});
   }
@@ -63,16 +62,23 @@ export class DashBoardHeaderComponent implements OnInit{
     this.disableSelect = true;
   }
 
-  onCurrentSearch(event: Event): void {
-    this.tempWord = (event.target as HTMLInputElement).value;
-    this.indexWord = this.tempWord.substring(0, 1);
+  onCurrentSearch(myInput: HTMLInputElement): void {
+    this.tempWord = myInput.value;
+    if (this.tempWord.substring(0, 1)) {
+      this.indexWord = this.tempWord.substring(0, 1);
+    } else {
+      this.indexWord = this.tempWord;
+    }
+      
+    
     if (this.indexWord == '') {
       this.indexWord = 'a';
     } else if (this.indexWord == '-') {
       this.indexWord = 'az';
     }
     let standardWord: string = this.onNormalizeWord(this.indexWord.toLowerCase());
-    this.wordFinding.emit({indexWord: standardWord, currentEntry: this.tempWord})
+    this.wordFinding.emit({ indexWord: standardWord, currentEntry: this.tempWord });
+    this.selectModeSignal.emit({ selMod: this.selectMode });
   }
 
   onKeyboardLetter(e: Event, myInput: HTMLInputElement) {

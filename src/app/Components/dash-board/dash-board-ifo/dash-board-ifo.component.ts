@@ -1,17 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EntryWordDescriptionService} from "../../../Services/entry-word-description.service";
 import {TrasformDataJson} from "../../../Services/transform-data-json.service";
-import {AllWord, FinalWord} from "../../../Interfaces/word.interface";
+import { AllWord, FinalWord } from "../../../Interfaces/word.interface";
 
-
-type wordAttributes = {
-  word: string,
-  def: string,
-  eg: string;
-  notes: string,
-  gramGrp: string,
-  pos: string,
-};
 
 @Component({
   selector: 'app-dash-board-ifo',
@@ -39,11 +30,13 @@ export class DashBoardIfoComponent implements OnInit {
 
   constructor(
     private entryService: EntryWordDescriptionService,
-    private dataTransform: TrasformDataJson) {
+    private dataTransform: TrasformDataJson
+  ) {
   }
 
   ngOnInit(): void {
   }
+
 
   onSelectWord(e: Event) {
     this.clicked = true;

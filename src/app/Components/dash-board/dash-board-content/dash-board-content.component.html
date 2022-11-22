@@ -59,9 +59,11 @@
   </div>
   <div class="d-flex select-style2">
     <button class="btn btn-primary">
+      <mat-icon svgIcon="check" matPrefix></mat-icon>
       Aplicar
     </button>
     <button class="btn btn-primary">
+      <mat-icon svgIcon="close" matPrefix></mat-icon>
       Limpiar
     </button>
   </div>
@@ -74,7 +76,7 @@
     <img class="card-img card-opacity" src="../../../../assets/bg-main.jpg" alt="">
     <div class="card-img-overlay p-0">
       <h2 class="card-title">Reseña del Diccionario</h2>
-      <p class="card-text fs-5 fst-italic">Las ediciones electrónicas del Diccionario Básico Escolar son producto de la colaboración entre el Centro de Lingüística Aplicada de Santiago de Cuba, perteneciente al Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA) y el grupo de investigación IXA de la Universidad del País Vasco. El contenido del diccionario en esta quinta edición ha sido aumentado y mejorado respecto a la cuarta.</p>   
+      <p class="card-text fs-5 fst-italic">Las ediciones electrónicas del Diccionario Básico Escolar son producto de la colaboración entre el Centro de Lingüística Aplicada de Santiago de Cuba, perteneciente al Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA) y el grupo de investigación IXA de la Universidad del País Vasco. El contenido del diccionario en esta quinta edición ha sido aumentado y mejorado respecto a la cuarta.</p>
     </div>
   </div>
   <!--  <mat-card class="example-card mat-elevation-z0">-->
@@ -96,14 +98,35 @@
 <div class="welcome mt-3" *ngIf="selectClick">
   <p id="this"></p>
   <mat-card class="example-card mat-elevation-z0">
-    <span class="fw-bolder fs-5">{{ wordList.palabra.orth }}</span>
+    <span  class="fw-bolder fs-5">{{ wordList.palabra.orth }}</span>
+
+
   &nbsp;
-  <span class="text-decoration-underline fs-5">{{
+  <span matTooltip="verbo transitivo" class="text-decoration-underline fs-5">{{
     wordList.catergoriaGramatical.pos
   }}</span>
   &nbsp;
   <span class="fs-5">{{ wordList.usg }}</span>
   &nbsp;
+
+  <button class="btn btn-primary mx-1">
+    <mat-icon matPrefix svgIcon="volume_up"></mat-icon>
+    Reproducir Audio
+  </button>
+  <button class="btn btn-primary mx-1">
+    <mat-icon matPrefix svgIcon="videos"></mat-icon>
+    Play Video
+  </button>
+  <button class="btn btn-primary mx-1">
+    <mat-icon matPrefix svgIcon="image"></mat-icon>
+    Ver Imagen
+  </button>
+  <button class="btn btn-primary mx-1" (click)="onConj(wordList.conjtarget)">
+    <mat-icon svgIcon="aod_table" matPrefix></mat-icon>
+    Conjugar
+  </button>
+
+
   <!-- <button
     class="btn btn-light"
     (click)="onPlayAudio()"

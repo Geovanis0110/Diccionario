@@ -4,7 +4,7 @@
       <option
         class="p-1"
         (click)="onSelectWord($event)"
-        *ngFor="let item of itemList | filter:selMod:currentEntry;
+        *ngFor="let item of itemList | filter;
         index as i"
         [selected]="currentEntry == item.word"
         value="{{item.id}}"

@@ -12,15 +12,6 @@ import { MANAGE_SEARCH_ICON } from "../../Icons/icons";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
-type wordAttributes = {
-  word: string,
-  def: string,
-  eg: string;
-  notes: string,
-  gramGrp: string,
-  pos: string,
-};
-
 @Component({
   selector: 'app-dash-board',
   templateUrl: './dash-board.component.html',
@@ -45,6 +36,7 @@ type wordAttributes = {
 export class DashBoardComponent implements OnInit {
 
   wordResults: AllWord[] = [];
+  results: Array<AllWord> = [];
   indexWord: string = '';
   entry: string = '';
   input_search: boolean = false;
@@ -75,7 +67,7 @@ export class DashBoardComponent implements OnInit {
 
   onAlphaWords(alphaData: { apLetter: string }) {
     this.indexWord = alphaData.apLetter;
-    if(this.selectionMode === 'reg1' || this.selectionMode === ''){
+    if(this.selectionMode === 'reg1'){
       this.queryService.setWordIndex(this.indexWord);
       this.isNewSearch = true;
       this.queryService.getWordList().subscribe((data) => {
@@ -96,12 +88,17 @@ export class DashBoardComponent implements OnInit {
     if(this.selectionMode === 'reg1' || this.selectionMode === ''){
       this.queryService.setWordIndex(this.indexWord);
       this.queryService.getWordList().subscribe((data) => {
-        this.wordResults = this.dataTransform.onTransformData(data);
+        this.wordResults = this.dataTransform.onTransformData(data).filter(x => x.word.startsWith(this.entry));
       })
-    }else if(this.selectionMode === 'reg2' || this.selectionMode === 'reg3'){
+    }else if(this.selectionMode === 'reg2'){
       this.queryService.setWordIndex('az');
       this.queryService.getWordList().subscribe((data) => {
-        this.wordResults = this.dataTransform.onTransformAllData(data);
+        this.wordResults = this.dataTransform.onTransformAllData(data).filter(x => x.word.includes(this.entry));
+      })
+    } else if (this.selectionMode === 'reg3') {
+      this.queryService.setWordIndex(this.indexWord);
+      this.queryService.getWordList().subscribe((data) => {
+        this.wordResults = this.dataTransform.onTransformAllData(data).filter(x => x.word.endsWith(this.entry));
       })
     }
   }

@@ -31,7 +31,7 @@
       type="text"
       name="filtrar"
       placeholder="Escriba una palabra..."
-      (keyup.enter)="onCurrentSearch($event)"
+      (keyup.enter)="onCurrentSearch(myInput)"
     />
     <span
       matTooltip="Click aquí para buscar"
@@ -40,7 +40,7 @@
       <mat-icon
         matSuffix
         svgIcon="search"
-        (click)="onCurrentSearch($event)"
+        (click)="onCurrentSearch(myInput)"
       ></mat-icon>
     </span>
 

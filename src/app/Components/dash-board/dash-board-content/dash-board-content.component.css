@@ -49,4 +49,7 @@
   cursor: pointer;
   color: blue;
 }
+.bttn-style button{
+  margin: 0 3px;
+}
 
