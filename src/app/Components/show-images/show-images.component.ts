@@ -5,6 +5,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {PHOTO_LIBRARY_ICON} from "../../Icons/icons";
 import {MatIconRegistry} from "@angular/material/icon";
 import { ImageModalComponent } from "../modals/image-modal/image-modal.component";
+import { Router } from '@angular/router';
 
 
 export interface imgWord{
@@ -234,6 +235,7 @@ export class ShowImagesComponent implements OnInit {
   imgArray: Array<imgWord> = [];
 
   constructor(
+    private route: Router,
     public dialog: MatDialog,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
@@ -250,6 +252,7 @@ export class ShowImagesComponent implements OnInit {
 
   onListAllImages() {
   }
-  onShowWord(){
+  onShowWord(word: string) {
+    this.route.navigate(['/diccionario', word]);
   }
 }

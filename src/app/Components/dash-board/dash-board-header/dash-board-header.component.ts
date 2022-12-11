@@ -1,15 +1,14 @@
-import {Component, OnInit, DoCheck, Output, EventEmitter} from '@angular/core';
-
-
-
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Observable} from "rxjs";
 import {map, shareReplay} from "rxjs/operators";
-import { MatSelectChange } from '@angular/material/select';
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import * as MyIcons from "../../../Icons/icons";
+import {ActivatedRoute} from '@angular/router';
+import {EntryWordSuggestService} from "../../../Services/entry-word-suggest.service";
+import {SharedData} from "../../../Services/shared-data.service";
 
 
 @Component({
@@ -18,14 +17,15 @@ import * as MyIcons from "../../../Icons/icons";
   styleUrls: ['./dash-board-header.component.css'],
 })
 
-export class DashBoardHeaderComponent implements OnInit{
+export class DashBoardHeaderComponent implements OnInit {
   @Output() wordFinding = new EventEmitter<{ indexWord: string, currentEntry: string }>();
-  @Output() selectModeSignal = new EventEmitter<{selMod: string}>();
+  @Output() selectModeSignal = new EventEmitter<{ selMod: string }>();
   isHandSet: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(results => results.matches),
       shareReplay()
     );
+  snapshotWord: string = '';
   tempWord: string = '';
   count: number = 0;
   indexWord: string = '';
@@ -40,22 +40,29 @@ export class DashBoardHeaderComponent implements OnInit{
   hideSelect!: boolean;
   underInputLetter: string = '';
   selectMode: string = 'reg1';
+  suggestions: any;
+  suggestionsArray: Array<any> = [];
 
 
   constructor(
+    private _shared: SharedData,
+    private route: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
+    private _suggest: EntryWordSuggestService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer) {
     iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(MyIcons.SEARCH_ICON));
   }
 
   ngOnInit(): void {
+    this.snapshotWord = this.route.snapshot.params['word'];
+    this.onRouteSearch(this.snapshotWord);
   }
 
   onSelectMode(e: Event) {
     console.log((<HTMLSelectElement>e.target).value);
     this.selectMode = (<HTMLSelectElement>e.target).value;
-    this.selectModeSignal.emit({selMod:this.selectMode});
+    this.selectModeSignal.emit({selMod: this.selectMode});
   }
 
   setDisabledTrue() {
@@ -64,24 +71,47 @@ export class DashBoardHeaderComponent implements OnInit{
 
   onCurrentSearch(myInput: HTMLInputElement): void {
     this.tempWord = myInput.value;
-    if (this.tempWord.substring(0, 1)) {
-      this.indexWord = this.tempWord.substring(0, 1);
-    } else {
-      this.indexWord = this.tempWord;
-    }
-      
-    
+    this._suggest.onSupplySuggestions(this.tempWord);
+    this._suggest.getSuggestionsFromServer().subscribe(arg => {
+      this.suggestions = new DOMParser().parseFromString(arg, 'application/xml');
+      this.suggestionsArray = Array.from((this.suggestions).querySelectorAll('option'));
+      this.suggestionsArray.forEach((item: any) => {
+        this._shared.suggestActivated.emit({
+          word: item.textContent,
+          id: item.value
+        })
+      })
+      this.tempWord.substring(0, 1) ? this.indexWord = this.tempWord.substring(0, 1) : this.indexWord = this.tempWord;
+      if (this.indexWord == '') {
+        this.indexWord = 'a';
+      } else if (this.indexWord == '-') {
+        this.indexWord = 'az';
+      }
+      let standardWord: string = this.onNormalizeWord(this.indexWord.toLowerCase());
+      this.wordFinding.emit({indexWord: standardWord, currentEntry: this.tempWord});
+      this.selectModeSignal.emit({selMod: this.selectMode});
+    })
+  }
+
+  onRouteSearch(word: string) {
+    this.tempWord = word;
+    this.tempWord.substring(0, 1) ? this.indexWord = this.tempWord.substring(0, 1) : this.indexWord = this.tempWord;
     if (this.indexWord == '') {
       this.indexWord = 'a';
     } else if (this.indexWord == '-') {
       this.indexWord = 'az';
     }
     let standardWord: string = this.onNormalizeWord(this.indexWord.toLowerCase());
-    this.wordFinding.emit({ indexWord: standardWord, currentEntry: this.tempWord });
-    this.selectModeSignal.emit({ selMod: this.selectMode });
+    this.wordFinding.emit({indexWord: standardWord, currentEntry: this.tempWord});
+    this.selectModeSignal.emit({selMod: this.selectMode});
   }
 
-  onKeyboardLetter(e: Event, myInput: HTMLInputElement) {
+  onKeyboardLetter(e
+                     :
+                     Event, myInput
+                     :
+                     HTMLInputElement
+  ) {
     console.log((e.target as HTMLButtonElement).textContent);
     let letterValue: any = (e.target as HTMLButtonElement).textContent;
     if (letterValue != null) {
@@ -90,7 +120,11 @@ export class DashBoardHeaderComponent implements OnInit{
     }
   }
 
-  onNormalizeWord(letter: string): string {
+  onNormalizeWord(letter
+                    :
+                    string
+  ):
+    string {
     if (letter == 'á') {
       letter = 'a';
     } else if (letter == 'é') {

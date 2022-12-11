@@ -158,11 +158,14 @@ export class TrasformDataJson {
     return this.completeAllWord;
   }
 
+  getEntrysCount(dataWord: any): Array<any> {
+    return Array.from(dataWord.querySelectorAll("entry")).map(x => x);
+  }
   onTransformDataWord(dataWord: any) {
     //Split the entry
-    const entrys: Array<any> = Array.from(dataWord.querySelectorAll("entry")).map((x: any) => {
-      return x;
-    })
+    // const entrys: Array<any> = Array.from(dataWord.querySelectorAll("entry")).map((x: any) => {
+    //   return x;
+    // })
     // const entrysChildsName: any = Array.from(dataWord.querySelectorAll("entry").children).map((x: any) => {
     //   return x.tagName;
     // })
@@ -170,43 +173,40 @@ export class TrasformDataJson {
     const senseCount = Array.from(dataWord.querySelectorAll("sense")).map(x => x);
     console.log("senseCount: ", senseCount.length);
 
-    console.log("Entradas (Comienzo)", entrys);
+    console.log("Entradas (Comienzo)", dataWord);
 
     // Objeto con la palabra, error y silaba
-    let wordTry1: Array<xmlObjPlus> = [];
-
+    let wordTry1: Array<xmlObjPlus> = []
     // Objeto con la gramatica de la palabra
     let gramTry1: Array<xmlObjPlus> = [];
-
     // Objeto que contiene el arbol de definiciones y ejemplos
     let senseTry1: Array<xmlObjPlus> = [];
+    //Notas
+    let notesTry1: Array<xmlObjPlus> = [];
     // Objeto que contiene las definiciones con su id
     let definity: Array<testWordPlus> = [];
-
-
     // Objeto de nivel superior al texto de ejmplos
     let eg: Array<xmlObjPlus> = [];
-
     // Objeto que contiene la gramatica de los ejemplos
     let defGramGrp: Array<xmlObjPlus> = [];
-
     // Objeto que contiene los ejemplos finales por id
     let finalExample: Array<testWordPlus> = [];
     // Cadena que contiene el numero de la tabla verbal
     let contarget: string = '';
     // const fnWs: Array<FinalWord> =[];
 
-    if (entrys.length > 1) {
-      console.log("Multiples Entradas", entrys);
+    // if (entrys.length > 1) {
+    //   console.log("Multiples Entradas", entrys);
 
-    } else if (entrys.length === 1) {
+    // } else
+      // if (dataWord.length === 1) {
 
-      if (entrys[0].attributes != undefined) {
-        contarget = entrys[0].attributes['conjtarget']?.value;
+      if (dataWord.attributes != undefined) {
+        contarget = dataWord.attributes['conjtarget']?.value;
       }
       console.log("Tiene Tabla Verbal con Id:", contarget);
 
-      this.apiData = Array.from(dataWord.querySelector("entry").children).map((x: any, i) => {
+      this.apiData = Array.from(dataWord.children).map((x: any, i) => {
         return x;
       })
 
@@ -227,7 +227,7 @@ export class TrasformDataJson {
       console.log("!!!!!EG => ",eg);
       console.log("!!!!!GRAMTICAL DEFINITIONS => ",defGramGrp);
       console.log("!!!!!EXAMPLES => ",finalExample);
-    }
+    // }
 
     const some: FormField = {orth: '', syll: '', posError: '', gram: ''};
     const other: FormField = {orth: '', syll: '', posError: '', gram: ''};
@@ -238,7 +238,7 @@ export class TrasformDataJson {
           some.orth = item.content
         }else if(item.name === 'syll'){
           some.syll = item.content
-        }else if(item.name === 'posError'){
+        }else if(item.name === 'posErrores'){
           some.posError = item.content
         }
       } else if(item.id !== '0'){
@@ -281,28 +281,10 @@ export class TrasformDataJson {
     })
     console.log(resultsOfGram);
 
-    const resultsOfResults: Array<Array<testWordPlus>> = [];
-    let count: number = 0;
-    while (count != senseCount.length){
-      const results: Array<testWordPlus> = definity.filter(x => x.id === (count+1).toString());
-      count++;
-      resultsOfResults.push(results);
-    }
+    const resultsOfResults: Array<Array<testWordPlus>> = this.vectorTransform(definity, senseCount.length);
+    const examplesOfResults: Array<Array<testWordPlus>> = this.vectorTransform(finalExample, senseCount.length);
     console.log("Definiciones",resultsOfResults);
-
-
-    const examplesOfResults: Array<Array<testWordPlus>> = [];
-    let countExamples: number = 0;
-    while(countExamples != senseCount.length){
-      const results: Array<testWordPlus> = finalExample.filter(x => x.id === (countExamples + 1).toString());
-      countExamples++;
-      console.log(results);
-
-      examplesOfResults.push(results);
-    }
     console.log("Ejemplos", examplesOfResults);
-
-
 
     const sensesVector: Array<senseField> = [];
     senseCount.forEach((item, index) => {
@@ -318,8 +300,6 @@ export class TrasformDataJson {
     })
     console.log("SENSESS",sensesVector);
 
-    // console.log(this.apiData);
-
     return FinalWordBuilder.newInstance()
       .withPalabra(some)
       .withContarget(contarget)
@@ -329,10 +309,16 @@ export class TrasformDataJson {
       .build();
   }
 
-  onClearCurrentData() {
-    this.completeWord = [];
+  vectorTransform(myVector: Array<testWordPlus>, senseCount: number): Array<Array<testWordPlus>>{
+    let count: number = 0;
+    const finalsResults: Array<Array<testWordPlus>> = [];
+    while(count != senseCount){
+     const results: Array<testWordPlus> = myVector.filter(x => x.id == (count + 1).toString());
+     count++;
+     finalsResults.push(results);
+    }
+    return finalsResults;
   }
-
   // dividerInTwo(value: Array<Array<any>>): Array<testWordPlus>{
   //   if(value.length === 0) throw new Error("Error Vector Vacio");
   //   if(value.length === 1) return value[0];

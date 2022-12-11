@@ -32,6 +32,8 @@
       name="filtrar"
       placeholder="Escriba una palabra..."
       (keyup.enter)="onCurrentSearch(myInput)"
+      (focus)="true"
+      [value]="snapshotWord === undefined ? '' : snapshotWord"
     />
     <span
       matTooltip="Click aquí para buscar"
@@ -45,7 +47,7 @@
     </span>
 
     <!-- <button  class="btn btn-primary mat-elevation-z2">
-      
+
     </button> -->
   </div>
 </div>

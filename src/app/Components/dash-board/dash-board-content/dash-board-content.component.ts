@@ -8,13 +8,11 @@ import {
   trigger,
 } from '@angular/animations';
 import { SharedData } from '../../../Services/shared-data.service';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as MyIcons from '../../../Icons/icons';
 import { FilterField } from '../../../Interfaces/filter.interface';
 import { FilterBuilder } from '../../../Builders/filter.builder';
-import { FilterCriteria } from '../../../Interfaces/filter-criteria.interface';
 import { FinalWord } from 'src/app/Interfaces/word.interface';
 import { EntryWordDescriptionService } from 'src/app/Services/entry-word-description.service';
 import { TrasformDataJson } from 'src/app/Services/transform-data-json.service';
@@ -22,15 +20,6 @@ import { EntryWordVerbsTableService } from "../../../Services/entry-word-verbs-t
 import { MatDialog } from "@angular/material/dialog";
 import { VerbalTableModalComponent } from '../../modals/verbal-table-modal/verbal-table-modal.component';
 
-
-type wordAttributes = {
-  word: string;
-  def: string;
-  eg: string;
-  notes: string;
-  gramGrp: string;
-  pos: string;
-};
 
 @Component({
   selector: 'app-dash-board-content',
@@ -56,6 +45,9 @@ type wordAttributes = {
     ]),
   ],
 })
+
+
+
 export class DashBoardContentComponent implements OnInit {
   searchCriteriaFilters: Array<FilterField> = [
     {
@@ -65,14 +57,15 @@ export class DashBoardContentComponent implements OnInit {
   ];
 
   @Input('selectionClicked') selectClick: boolean = false;
-  @Input('wordsArray') wordList!: FinalWord;
+  @Input('wordsArray') wordList: Array<FinalWord> = [];
+  dataWord: Array<any> = [];
+  wordListResults!: FinalWord;
   verbalTableData: string = '';
   dataToParse: any;
   selectionsOptions: Array<string> = [''];
   table: string = '';
   hideSelect: boolean = false;
   disableSelect: boolean = false;
-  hideDeleteButton: boolean = false;
   hideAllButtons: boolean = false;
   currentSelectedOption: string = '';
   addDisabled: boolean = false;
@@ -249,8 +242,6 @@ export class DashBoardContentComponent implements OnInit {
       : (this.addDisabled = false);
   }
 
-  onSelectOption(sel: MatSelect) {}
-
   onAddSelectionField() {
     if (this.searchCriteriaFilters.length < 3) {
       const criteriaFilter: FilterField = FilterBuilder.newInstance()
@@ -276,8 +267,18 @@ export class DashBoardContentComponent implements OnInit {
     this.fapi.setWordIndex(lemmaId.substring(0,1));
     this.fapi.setWordId(lemmaId);
     this.fapi.getWordListDescription().subscribe((arg) => {
-      this.dataToParse = (new DOMParser().parseFromString(arg, 'text/xml'));
-      this.wordList = this._transformData.onTransformDataWord(this.dataToParse);
+      this.dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
+      this.dataWord = this._transformData.getEntrysCount(this.dataToParse);
+
+      if(this.dataWord.length > 1){
+        for(let i = 0; i < this.dataWord.length; i++){
+          this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[i]);
+          this.wordList.push({...this.wordListResults});
+        }
+      }else {
+        this.wordListResults = this._transformData.onTransformDataWord(this.dataWord);
+        this.wordList.push(this.wordListResults);
+      }
     })
   }
 
@@ -288,4 +289,5 @@ export class DashBoardContentComponent implements OnInit {
       this._dialog.open(VerbalTableModalComponent, { data: this.verbalTableData });
     })
   }
+
 }

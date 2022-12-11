@@ -16,8 +16,11 @@
     <div class="col-lg-5 col-md-4 select-style">
       <select
         (change)="setDisabledTrue($event)"
-        class="form-select mat-elevation-z1">
-        <option [defaultSelected]="" selected value="defaultValue">[Seleccione criterio]</option>
+        class="form-select mat-elevation-z1"
+      >
+        <option [defaultSelected]="" selected value="defaultValue">
+          [Seleccione criterio]
+        </option>
         <option value="cat">Categoria gramatical</option>
         <option value="tip">Tipo de uso</option>
         <option value="geo">Informacion geografica</option>
@@ -25,13 +28,20 @@
         <option value="afjGram">Palabras con afijos</option>
       </select>
     </div>
-    <div class="col-lg-6 col-md-4 ">
+    <div class="col-lg-6 col-md-4">
       <div class="row" *ngFor="let item of searchCriteriaFilters; index as i">
         <div class="col-lg-8">
           <div class="mb-3">
-            <select [disabled]="!disableSelect" class="form-select mat-elevation-z1" name="" id="">
+            <select
+              [disabled]="!disableSelect"
+              class="form-select mat-elevation-z1"
+              name=""
+              id=""
+            >
               <option selected>Seleccione una opci&oacute;n</option>
-              <option value="" *ngFor="let value of selectionsOptions">{{value}}</option>
+              <option value="" *ngFor="let value of selectionsOptions">
+                {{ value }}
+              </option>
             </select>
           </div>
         </div>
@@ -73,10 +83,21 @@
 <div class="mt-3 welcome" *ngIf="!selectClick">
   <div class="card bg-dark text-white p-0" [@fade]>
     <!--    <img src="https://uruguayeduca.anep.edu.uy/sites/default/files/2019-08/diccionario_0.jpg" class="card-img card-opacity" alt="Photo of a Shiba Inu">-->
-    <img class="card-img card-opacity" src="../../../../assets/bg-main.jpg" alt="">
+    <img
+      class="card-img card-opacity"
+      src="../../../../assets/bg-main.jpg"
+      alt=""
+    />
     <div class="card-img-overlay p-0">
       <h2 class="card-title">Reseña del Diccionario</h2>
-      <p class="card-text fs-5 fst-italic">Las ediciones electrónicas del Diccionario Básico Escolar son producto de la colaboración entre el Centro de Lingüística Aplicada de Santiago de Cuba, perteneciente al Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA) y el grupo de investigación IXA de la Universidad del País Vasco. El contenido del diccionario en esta quinta edición ha sido aumentado y mejorado respecto a la cuarta.</p>
+      <p class="card-text fs-5 fst-italic">
+        Las ediciones electrónicas del Diccionario Básico Escolar son producto
+        de la colaboración entre el Centro de Lingüística Aplicada de Santiago
+        de Cuba, perteneciente al Ministerio de Ciencia, Tecnología y Medio
+        Ambiente (CITMA) y el grupo de investigación IXA de la Universidad del
+        País Vasco. El contenido del diccionario en esta quinta edición ha sido
+        aumentado y mejorado respecto a la cuarta.
+      </p>
     </div>
   </div>
   <!--  <mat-card class="example-card mat-elevation-z0">-->
@@ -96,38 +117,48 @@
 
 <!-- Search Content -->
 <div class="welcome mt-3" *ngIf="selectClick">
-  <p id="this"></p>
-  <mat-card class="example-card mat-elevation-z0">
-    <span  class="fw-bolder fs-5">{{ wordList.palabra.orth }}</span>
 
-
+  <mat-card class="example-card mat-elevation-z0" *ngFor="let word of wordList; index as superIndex">
+    <span>{{word.palabra.orth}}</span>
   &nbsp;
   <span matTooltip="verbo transitivo" class="text-decoration-underline fs-5">{{
-    wordList.catergoriaGramatical.pos
+    word.catergoriaGramatical.pos
   }}</span>
   &nbsp;
-  <span class="fs-5">{{ wordList.usg }}</span>
+  <span class="fs-5">{{ word.usg }}</span>
   &nbsp;
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 p-1">
+        <button class="btn btn-primary mx-1" matTooltip="Reproducir Audio">
+          <mat-icon matPrefix svgIcon="volume_up"></mat-icon>
+          <!-- Reproducir Audio -->
+        </button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 p-1">
+        <button class="btn btn-primary mx-1" matTooltip="Play Video">
+          <mat-icon matPrefix svgIcon="videos"></mat-icon>
+          <!-- Play Video -->
+        </button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 p-1">
+        <button class="btn btn-primary mx-1" matTooltip="Ver Imagen">
+          <mat-icon matPrefix svgIcon="image"></mat-icon>
+          <!-- Ver Imagen -->
+        </button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 p-1">
+        <button
+          class="btn btn-primary mx-1"
+          matTooltip="Conjugar"
+          (click)="onConj(word.conjtarget)"
+        >
+          <mat-icon svgIcon="aod_table" matPrefix></mat-icon>
+          <!-- Conjugar -->
+        </button>
+      </div>
+    </div>
 
-  <button class="btn btn-primary mx-1">
-    <mat-icon matPrefix svgIcon="volume_up"></mat-icon>
-    Reproducir Audio
-  </button>
-  <button class="btn btn-primary mx-1">
-    <mat-icon matPrefix svgIcon="videos"></mat-icon>
-    Play Video
-  </button>
-  <button class="btn btn-primary mx-1">
-    <mat-icon matPrefix svgIcon="image"></mat-icon>
-    Ver Imagen
-  </button>
-  <button class="btn btn-primary mx-1" (click)="onConj(wordList.conjtarget)">
-    <mat-icon svgIcon="aod_table" matPrefix></mat-icon>
-    Conjugar
-  </button>
-
-
-  <!-- <button
+    <!-- <button
     class="btn btn-light"
     (click)="onPlayAudio()"
   >
@@ -141,57 +172,56 @@
   >
     Conjugar
   </button> -->
-  <!--  <span-->
-  <!--    *ngFor="let item of dataWord;-->
-  <!--    index as i"-->
-  <!--    (click)="onLemmaWord(item.idTextos)"-->
-  <!--    [ngClass]="item.idTextos === 'no have id' ? '':'lemma-css'"-->
-  <!--  >-->
-  <!--    {{item.textos}}</span>-->
+    <!--  <span-->
+    <!--    *ngFor="let item of dataWord;-->
+    <!--    index as i"-->
+    <!--    (click)="onLemmaWord(item.idTextos)"-->
+    <!--    [ngClass]="item.idTextos === 'no have id' ? '':'lemma-css'"-->
+    <!--  >-->
+    <!--    {{item.textos}}</span>-->
 
-  <div *ngFor="let item of wordList.senses; index as is">
-    <div>
-      <span class="fw-bolder fs-5">{{ is + 1 }}.</span>
-      <span
-        class="text-decoration-underline fs-5"
-        *ngFor="let item1 of item.categoriaGramatical"
-        >{{ item1.pos }}</span
-      >
-      <span
-        class="fs-5"
-        *ngFor="let item1 of item.definiciones[0]; index as i"
-        (click)="onLemmaWord(item1.lemmaid)"
-        [ngClass]="item1.lemmaid === 'no have id' ? '' : 'lemma-css'"
-        >{{ item1.textos }}</span
-      >
-    </div>
-    <div>
-      <span *ngFor="let item1 of item.ejemplos[0]; index as i">
+    <div *ngFor="let item of word.senses; index as is">
+      <div>
+        <span class="fw-bolder fs-5">{{ is + 1 }}.</span>
+        <span
+          class="text-decoration-underline fs-5"
+          *ngFor="let item1 of item.categoriaGramatical"
+          >{{ item1.pos }}</span
+        >
         <span
           class="fs-5"
+          *ngFor="let item1 of item.definiciones[0]; index as i"
           (click)="onLemmaWord(item1.lemmaid)"
-          [ngClass]="
-            item1.lemmaid === 'no have id'
-              ? '.fst-italic'
-              : 'lemma-css fst-italic'
-          "
-          [ngClass]="
-            item1.lemmaid === 'orthVariant'
-              ? 'fw-bolder fst-italic'
-              : 'fst-italic'
-          "
+          [ngClass]="item1.lemmaid === 'no have id' ? '' : 'lemma-css'"
           >{{ item1.textos }}</span
         >
-        <span *ngIf="item1.textos === '.'"><br /></span>
-      </span>
+      </div>
+      <div>
+        <span *ngFor="let item1 of item.ejemplos[0]; index as i">
+          <span
+            class="fs-5"
+            (click)="onLemmaWord(item1.lemmaid)"
+            [ngClass]="
+              item1.lemmaid === 'no have id'
+                ? '.fst-italic'
+                : 'lemma-css fst-italic'
+            "
+            [ngClass]="
+              item1.lemmaid === 'orthVariant'
+                ? 'fw-bolder fst-italic'
+                : 'fst-italic'
+            "
+            >{{ item1.textos }}</span
+          >
+          <span *ngIf="item1.textos === '.'"><br /></span>
+        </span>
+      </div>
     </div>
-  </div>
-  <hr />
-  <span class="fs-5">{{ wordList.palabra.syll }}</span>
-  <div *ngFor="let item of wordList.homofonas">
-    <span class="fs-5">{{ item.orth }}</span>
-    <span class="fs-5 text-decoration-underline">{{ item.gram }}</span>
-  </div>
+    <hr />
+    <span class="fs-5">{{ word.palabra.syll }}</span>
+    <div *ngFor="let item of word.homofonas">
+      <span class="fs-5">{{ item.orth }}</span>
+      <span class="fs-5 text-decoration-underline">{{ item.gram }}</span>
+    </div>
   </mat-card>
 </div>
-

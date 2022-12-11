@@ -39,6 +39,10 @@ const routes: Routes = [
   {
     path: 'diccionario',
     component: DashBoardComponent
+  },
+  {
+    path: 'diccionario/:word',
+    component: DashBoardComponent
   }
 
 ];

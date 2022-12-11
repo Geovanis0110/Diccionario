@@ -1,5 +1,10 @@
 import {testWord, testWordPlus} from "../Services/transform-data-json.service";
 
+export interface SuggestType{
+  word: string,
+  id: string
+}
+
 export interface FinalWord{
   palabra: FormField,
   conjtarget: string,
