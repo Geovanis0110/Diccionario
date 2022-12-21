@@ -1,5 +1,10 @@
 import {testWord, testWordPlus} from "../Services/transform-data-json.service";
 
+export interface UsgType{
+  type: string,
+  value: string
+}
+
 export interface SuggestType{
   word: string,
   id: string
@@ -64,9 +69,9 @@ export interface AllWord{
     id: string,
     word: string,
     reverseWord: string,
-    afjGram: string,
+    afjGram: Array<string>,
     pos: Array<string>,
-    usg: Array<string>
+    usg: Array<UsgType>
 }
 
 export interface binaryObject{

@@ -5,7 +5,6 @@
     <span class="tecnicaly"></span>
     <button mat-icon-button class="btn btn-outline-secondary icon-button">
       <mat-icon
-        class="mb-3"
         svgIcon="close"
         (click)="onCloseAdvSearch()"
       ></mat-icon>
@@ -17,14 +16,15 @@
       <select
         (change)="setDisabledTrue($event)"
         class="form-select mat-elevation-z1"
+        #mySelect
       >
-        <option [defaultSelected]="" selected value="defaultValue">
+        <option selected value="defaultValue">
           [Seleccione criterio]
         </option>
         <option value="cat">Categoria gramatical</option>
-        <option value="tip">Tipo de uso</option>
+        <option value="style">Tipo de uso</option>
         <option value="geo">Informacion geografica</option>
-        <option value="con">Area de conocimientos</option>
+        <option value="dom">Area de conocimientos</option>
         <option value="afjGram">Palabras con afijos</option>
       </select>
     </div>
@@ -33,14 +33,14 @@
         <div class="col-lg-8">
           <div class="mb-3">
             <select
+              #mySelect2
               [disabled]="!disableSelect"
               class="form-select mat-elevation-z1"
-              name=""
-              id=""
+              [(ngModel)]="item.selectedValue"
             >
-              <option selected>Seleccione una opci&oacute;n</option>
-              <option value="" *ngFor="let value of selectionsOptions">
-                {{ value }}
+              <option selected value="defaultOption">Seleccione una opci&oacute;n</option>
+              <option [value]="value.abr" *ngFor="let value of selectionsOptions">
+                {{ value.criteria }}
               </option>
             </select>
           </div>
@@ -68,11 +68,19 @@
     </div>
   </div>
   <div class="d-flex select-style2">
-    <button class="btn btn-primary">
+    <button
+      [disabled]="isDefaultValue"
+      class="btn btn-primary"
+      (click)="onApplyFilter()"
+    >
       <mat-icon svgIcon="check" matPrefix></mat-icon>
       Aplicar
     </button>
-    <button class="btn btn-primary">
+    <button
+    class="btn btn-primary"
+    (click)="onCleanFilter()"
+    [disabled]="isDefaultValue"
+    >
       <mat-icon svgIcon="close" matPrefix></mat-icon>
       Limpiar
     </button>
@@ -117,33 +125,39 @@
 
 <!-- Search Content -->
 <div class="welcome mt-3" *ngIf="selectClick">
-
-  <mat-card class="example-card mat-elevation-z0" *ngFor="let word of wordList; index as superIndex">
-    <span>{{word.palabra.orth}}</span>
-  &nbsp;
-  <span matTooltip="verbo transitivo" class="text-decoration-underline fs-5">{{
-    word.catergoriaGramatical.pos
-  }}</span>
-  &nbsp;
-  <span class="fs-5">{{ word.usg }}</span>
-  &nbsp;
+  <mat-card
+    class="example-card mat-elevation-z0"
+    *ngFor="let word of wordList"
+  >
+    <span
+      class="fw-bold fs-5"
+    >{{ word.palabra.orth }}</span>
+    &nbsp;
+    <span
+      matTooltip="verbo transitivo"
+      class="text-decoration-underline fs-5"
+      >{{ word.catergoriaGramatical.pos }}</span
+    >
+    &nbsp;
+    <span class="fs-5">{{ word.usg }}</span>
+    &nbsp;
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3 p-1">
         <button class="btn btn-primary mx-1" matTooltip="Reproducir Audio">
           <mat-icon matPrefix svgIcon="volume_up"></mat-icon>
-          <!-- Reproducir Audio -->
+           Reproducir Audio
         </button>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 p-1">
         <button class="btn btn-primary mx-1" matTooltip="Play Video">
           <mat-icon matPrefix svgIcon="videos"></mat-icon>
-          <!-- Play Video -->
+           Play Video
         </button>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 p-1">
         <button class="btn btn-primary mx-1" matTooltip="Ver Imagen">
           <mat-icon matPrefix svgIcon="image"></mat-icon>
-          <!-- Ver Imagen -->
+           Ver Imagen
         </button>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 p-1">
@@ -153,7 +167,7 @@
           (click)="onConj(word.conjtarget)"
         >
           <mat-icon svgIcon="aod_table" matPrefix></mat-icon>
-          <!-- Conjugar -->
+           Conjugar
         </button>
       </div>
     </div>
@@ -202,17 +216,12 @@
             class="fs-5"
             (click)="onLemmaWord(item1.lemmaid)"
             [ngClass]="
-              item1.lemmaid === 'no have id'
-                ? '.fst-italic'
-                : 'lemma-css fst-italic'
-            "
-            [ngClass]="
-              item1.lemmaid === 'orthVariant'
-                ? 'fw-bolder fst-italic'
-                : 'fst-italic'
-            "
-            >{{ item1.textos }}</span
-          >
+              [item1.lemmaid === 'no have id'
+                ? 'fst-italic'
+                : 'lemma-css fst-italic',
+               item1.lemmaid === 'orthVariant'
+               ? 'fw-bolder fst-italic'
+               : 'fst-italic']">{{ item1.textos }}</span>
           <span *ngIf="item1.textos === '.'"><br /></span>
         </span>
       </div>

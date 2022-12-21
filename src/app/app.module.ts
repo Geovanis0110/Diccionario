@@ -3,7 +3,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
 
 //Angular Material Imports
@@ -50,7 +51,7 @@ import {ShowInfoComponent} from './Components/show-info/show-info.component';
 import {ShowHelpComponent} from './Components/show-help/show-help.component';
 import {ShowEstadisticsComponent} from './Components/show-estadistics/show-estadistics.component';
 import {AlphabethComponent} from './Components/alphabeth/alphabeth.component';
-import {FilterPipe} from './Pipes/filter.pipe';
+import {DuplicatePipe} from './Pipes/duplicate.pipe';
 import {MainNavComponent} from './Components/main-nav/main-nav.component';
 import {DashBoardComponent} from './Components/dash-board/dash-board.component';
 import {ReactiveFormsModule} from "@angular/forms";
@@ -60,6 +61,7 @@ import {DashBoardIfoComponent} from "./Components/dash-board/dash-board-ifo/dash
 import {ImageModalComponent} from "./Components/modals/image-modal/image-modal.component";
 import {VideoModalComponent} from "./Components/modals/video-modal/video-modal.component";
 import {VerbalTableModalComponent} from "./Components/modals/verbal-table-modal/verbal-table-modal.component";
+import {AdvFilterPipe} from "./Pipes/adv-filter.pipe";
 
 
 
@@ -72,7 +74,8 @@ import {VerbalTableModalComponent} from "./Components/modals/verbal-table-modal/
     ShowHelpComponent,
     ShowEstadisticsComponent,
     AlphabethComponent,
-    FilterPipe,
+    DuplicatePipe,
+    AdvFilterPipe,
     MainNavComponent,
     DashBoardComponent,
     DashBoardHeaderComponent,
@@ -121,7 +124,8 @@ import {VerbalTableModalComponent} from "./Components/modals/verbal-table-modal/
     MatTreeModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

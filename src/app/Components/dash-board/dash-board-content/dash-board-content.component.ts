@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
 import {
   animate,
   keyframes,
@@ -11,15 +11,19 @@ import { SharedData } from '../../../Services/shared-data.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as MyIcons from '../../../Icons/icons';
-import { FilterField } from '../../../Interfaces/filter.interface';
+import {
+  FilterAbreviations,
+  FilterField,
+  FilterForm
+} from '../../../Interfaces/filter.interface';
 import { FilterBuilder } from '../../../Builders/filter.builder';
 import { FinalWord } from 'src/app/Interfaces/word.interface';
 import { EntryWordDescriptionService } from 'src/app/Services/entry-word-description.service';
 import { TrasformDataJson } from 'src/app/Services/transform-data-json.service';
-import { EntryWordVerbsTableService } from "../../../Services/entry-word-verbs-table.service";
-import { MatDialog } from "@angular/material/dialog";
+import { EntryWordVerbsTableService } from '../../../Services/entry-word-verbs-table.service';
+import { MatDialog } from '@angular/material/dialog';
 import { VerbalTableModalComponent } from '../../modals/verbal-table-modal/verbal-table-modal.component';
-
+import * as ShareContent from '../../../Models/shared-content';
 
 @Component({
   selector: 'app-dash-board-content',
@@ -45,24 +49,23 @@ import { VerbalTableModalComponent } from '../../modals/verbal-table-modal/verba
     ]),
   ],
 })
-
-
-
 export class DashBoardContentComponent implements OnInit {
+  @ViewChild('mySelect', {static: false}) myChild!: ElementRef;
+  @ViewChild('mySelect2', {static: false}) myFilter!: ElementRef;
+  @Input('selectionClicked') selectClick: boolean = false;
+  @Input('wordsArray') wordList: Array<FinalWord> = [];
   searchCriteriaFilters: Array<FilterField> = [
     {
       id: 1,
-      selectedValue: '',
+      selectedValue: 'defaultOption',
     },
   ];
-
-  @Input('selectionClicked') selectClick: boolean = false;
-  @Input('wordsArray') wordList: Array<FinalWord> = [];
+  isDefaultValue: boolean = true;
   dataWord: Array<any> = [];
   wordListResults!: FinalWord;
   verbalTableData: string = '';
   dataToParse: any;
-  selectionsOptions: Array<string> = [''];
+  selectionsOptions: Array<FilterAbreviations> = [];
   table: string = '';
   hideSelect: boolean = false;
   disableSelect: boolean = false;
@@ -70,70 +73,6 @@ export class DashBoardContentComponent implements OnInit {
   currentSelectedOption: string = '';
   addDisabled: boolean = false;
   id: number = 1;
-  catGram: Array<string> = [
-    'adjetivo',
-    'advervio',
-    'articulo',
-    'conjuncion',
-    'interjecion',
-    'preposicion',
-    'afijo',
-    'pronombre',
-    'sustantivo s. y s. invar.',
-    'sustantivo femenino',
-    'sustantivo masculino',
-    'verbo defectivo',
-    'verbo auxiliar',
-    'verbo copulativo',
-    'verbo impersonal',
-    'verbo intransitivo',
-    'verbo pronominal',
-    'verbo transitivo',
-  ];
-  tpUso: string[] = [
-    'coloquial',
-    'despectivo',
-    'familiar',
-    'sentido figurado',
-    'popular',
-  ];
-  infoGeo: string[] = ['americanismo', 'anglicismo', 'cubanismo', 'galicismo'];
-  areaConocimiento: string[] = [
-    'Anatomia',
-    'Arquitectura',
-    'Astronomia',
-    'Biologia',
-    'Botanica',
-    'Deporte',
-    'Derecho',
-    'Electricidad',
-    'Fisica',
-    'Fonetica ',
-    'Geografia',
-    'Geologia ',
-    'Geometria',
-    'Gramatica',
-    'Informatica',
-    'Linguistica',
-    'Literatura',
-    'Marina',
-    'Matematicas',
-    'Medicina',
-    'Meteorologia ',
-    'Militar',
-    'Mitologia',
-    'Musica',
-    'Politica',
-    'Quimica',
-    'Religion',
-    'Zoologia',
-  ];
-  palAfjPfj: string[] = [
-    'con prefijo(s)',
-    'con afijo(s)',
-    'con prefijo(s) o afijo(s)',
-    'con prefijo(s) y afijo(s)',
-  ];
 
   constructor(
     private sharedService: SharedData,
@@ -182,11 +121,10 @@ export class DashBoardContentComponent implements OnInit {
     );
   }
 
-
   ngOnInit(): void {
-    this.sharedService.advancedSearchActivated.subscribe((result) => {
-      this.hideSelect = result;
-    });
+    this.sharedService.advancedSearchActivated.subscribe(
+      (result) => (this.hideSelect = result)
+    );
   }
 
   setDisabledTrue(sel: Event) {
@@ -195,47 +133,59 @@ export class DashBoardContentComponent implements OnInit {
     if (this.currentSelectedOption === 'defaultValue') {
       this.hideAllButtons = true;
       this.disableSelect = false;
+      this.isDefaultValue = true;
       this.searchCriteriaFilters = [
         {
           id: 1,
-          selectedValue: '',
+          selectedValue: 'defaultOption',
         },
       ];
     } else if (this.currentSelectedOption === 'cat') {
+      this.isDefaultValue = false;
       this.hideAllButtons = true;
-      this.selectionsOptions = this.catGram;
-    } else if (this.currentSelectedOption === 'tip') {
       this.searchCriteriaFilters = [
         {
           id: 1,
-          selectedValue: '',
+          selectedValue: 'defaultOption'
+        }
+      ]
+      this.selectionsOptions = ShareContent.catGram;
+    } else if (this.currentSelectedOption === 'style') {
+      this.isDefaultValue = false;
+      this.searchCriteriaFilters = [
+        {
+          id: 1,
+          selectedValue: 'defaultOption',
         },
       ];
-      this.selectionsOptions = this.tpUso;
+      this.selectionsOptions = ShareContent.usgType;
     } else if (this.currentSelectedOption === 'geo') {
+      this.isDefaultValue = false;
       this.searchCriteriaFilters = [
         {
           id: 1,
-          selectedValue: '',
+          selectedValue: 'defaultOption',
         },
       ];
-      this.selectionsOptions = this.infoGeo;
-    } else if (this.currentSelectedOption === 'con') {
+      this.selectionsOptions = ShareContent.geoInfo;
+    } else if (this.currentSelectedOption === 'dom') {
+      this.isDefaultValue = false;
       this.searchCriteriaFilters = [
         {
           id: 1,
-          selectedValue: '',
+          selectedValue: 'defaultOption',
         },
       ];
-      this.selectionsOptions = this.areaConocimiento;
+      this.selectionsOptions = ShareContent.knowledgeArea;
     } else if (this.currentSelectedOption === 'afjGram') {
+      this.isDefaultValue = false;
       this.searchCriteriaFilters = [
         {
           id: 1,
-          selectedValue: '',
+          selectedValue: 'defaultOption',
         },
       ];
-      this.selectionsOptions = this.palAfjPfj;
+      this.selectionsOptions = ShareContent.afjGram;
     }
     (<HTMLSelectElement>sel.target).value != 'cat'
       ? (this.addDisabled = true)
@@ -246,6 +196,7 @@ export class DashBoardContentComponent implements OnInit {
     if (this.searchCriteriaFilters.length < 3) {
       const criteriaFilter: FilterField = FilterBuilder.newInstance()
         .withId(++this.id)
+        .withSelectedValue('defaultOption')
         .build();
       this.searchCriteriaFilters.push(criteriaFilter);
     }
@@ -259,35 +210,58 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onCloseAdvSearch() {
-    this.hideSelect ? (this.hideSelect = false) : (this.hideSelect = true);
+    this.hideSelect ? (this.hideSelect = true) : (this.hideSelect = false);
     this.sharedService.advancedSearchClose.emit(this.hideSelect);
   }
 
-  onLemmaWord(lemmaId: string){
-    this.fapi.setWordIndex(lemmaId.substring(0,1));
+  onLemmaWord(lemmaId: string) {
+    this.fapi.setWordIndex(lemmaId.substring(0, 1));
     this.fapi.setWordId(lemmaId);
     this.fapi.getWordListDescription().subscribe((arg) => {
       this.dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
       this.dataWord = this._transformData.getEntrysCount(this.dataToParse);
 
-      if(this.dataWord.length > 1){
-        for(let i = 0; i < this.dataWord.length; i++){
-          this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[i]);
-          this.wordList.push({...this.wordListResults});
+      if (this.dataWord.length > 1) {
+        for (let i = 0; i < this.dataWord.length; i++) {
+          this.wordListResults = this._transformData.onTransformDataWord(
+            this.dataWord[i]
+          );
+          this.wordList.push({ ...this.wordListResults });
         }
-      }else {
-        this.wordListResults = this._transformData.onTransformDataWord(this.dataWord);
+      } else {
+        this.wordListResults = this._transformData.onTransformDataWord(
+          this.dataWord
+        );
         this.wordList.push(this.wordListResults);
       }
-    })
+    });
   }
 
   onConj(conjtarget: string) {
     this.verbalTable.setContarget(conjtarget);
     this.verbalTable.getVerbalTable().subscribe((arg: string) => {
       this.verbalTableData = arg;
-      this._dialog.open(VerbalTableModalComponent, { data: this.verbalTableData });
-    })
+      this._dialog.open(VerbalTableModalComponent, {
+        data: this.verbalTableData,
+      });
+    });
   }
 
+  onApplyFilter() {
+    const result: FilterForm = {
+      category: this.currentSelectedOption,
+      options: this.searchCriteriaFilters
+    }
+    console.log(result);
+    this.sharedService.advSearchObj.emit(result);
+  }
+
+  onCleanFilter() {
+    this.myChild.nativeElement.value = 'defaultValue';
+    this.myFilter.nativeElement.value = 'defaultOption';
+    this.myFilter.nativeElement.disabled = true;
+    this.addDisabled = true;
+    this.isDefaultValue = true;
+
+  }
 }

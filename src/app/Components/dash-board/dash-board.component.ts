@@ -71,13 +71,13 @@ export class DashBoardComponent implements OnInit {
 	  this.queryService.setWordIndex(this.indexWord);
 	  this.isNewSearch = true;
 	  this.queryService.getWordList().subscribe((data) => {
-		this.wordResults = this.dataTransform.onTransformData(data);
+		this.wordResults = this.dataTransform.onTransformData(data, this.selectionMode);
 	  })
 	}else if(this.selectionMode === 'reg2' || this.selectionMode === 'reg3'){
 	  this.queryService.setWordIndex('az');
 	  this.isNewSearch = true;
 	  this.queryService.getWordList().subscribe((data) => {
-		this.wordResults = this.dataTransform.onTransformAllData(data);
+		  this.wordResults = this.dataTransform.onTransformData(data, this.selectionMode);
 	  })
 	}
   }
@@ -87,18 +87,22 @@ export class DashBoardComponent implements OnInit {
 	this.entry = headerData.currentEntry;
 	if(this.selectionMode === 'reg1' || this.selectionMode === ''){
 	  this.queryService.setWordIndex(this.indexWord);
-	  this.queryService.getWordList().subscribe((data) => {
-		this.wordResults = this.dataTransform.onTransformData(data).filter(x => x.word.startsWith(this.entry));
+		this.queryService.getWordList().subscribe((data) => {
+			const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
+			this.wordResults = this.dataTransform.onTransformData(dataToParse, this.selectionMode).filter(x => x.word.startsWith(this.entry));
+    //   console.log(this.wordResults);
 	  })
 	}else if(this.selectionMode === 'reg2'){
 	  this.queryService.setWordIndex('az');
-	  this.queryService.getWordList().subscribe((data) => {
-		this.wordResults = this.dataTransform.onTransformAllData(data).filter(x => x.word.includes(this.entry));
+		this.queryService.getWordList().subscribe((data) => {
+			const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
+		this.wordResults = this.dataTransform.onTransformData(dataToParse, this.selectionMode).filter(x => x.word.includes(this.entry));
 	  })
 	} else if (this.selectionMode === 'reg3') {
 	  this.queryService.setWordIndex(this.indexWord);
-	  this.queryService.getWordList().subscribe((data) => {
-		this.wordResults = this.dataTransform.onTransformAllData(data).filter(x => x.word.endsWith(this.entry));
+		this.queryService.getWordList().subscribe((data) => {
+			const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
+		this.wordResults = this.dataTransform.onTransformData(dataToParse, this.selectionMode).filter(x => x.word.endsWith(this.entry));
 	  })
 	}
   }

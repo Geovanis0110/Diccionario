@@ -2,14 +2,13 @@
    <label class="fw-bold">Lista de palabras: </label>
     <select #Select size="8" class="form-select mat-elevation-z1 bg-light">
       <option
-        class="p-1"
         (click)="onSelectWord($event)"
-        *ngFor="let item of itemList | filter;
+        *ngFor="let item of itemList | advfilter:advSearchObj;
         index as i"
         [selected]="item.word == currentEntry"
-        value="{{item.id}}"
+        [value]="item.id"
       >
-        {{item.word}}
+        {{item.word}} | {{item.usg | json}}
       </option>
     </select>
   </div>
@@ -18,7 +17,7 @@
       ¿No querrás decir?
     </label>
     <select size="2" class="form-select mat-elevation-z1 bg-light w-100">
-      <option [value]="suggestedWord.id" class="fw-bolder">{{suggestedWord.word}}</option>
+      <option [value]="suggestedWord?.id" class="fw-bolder">{{suggestedWord?.word}}</option>
     </select>
 </div>
 

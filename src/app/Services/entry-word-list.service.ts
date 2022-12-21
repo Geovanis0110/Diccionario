@@ -20,6 +20,6 @@ export class EntryWordListService {
     }
   }
   getWordList(){
-    return this._http.get(this.urlBase + this.docIndice+this.letterPref+this.letter+this.posSelection)
+    return this._http.get(this.urlBase + this.docIndice+this.letterPref+this.letter+this.posSelection, {responseType: 'text'})
   }
 }

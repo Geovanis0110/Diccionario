@@ -56,7 +56,9 @@ export class DashBoardHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.snapshotWord = this.route.snapshot.params['word'];
-    this.onRouteSearch(this.snapshotWord);
+    if(this.snapshotWord != undefined)
+      this.onRouteSearch(this.snapshotWord);
+    
   }
 
   onSelectMode(e: Event) {
@@ -95,13 +97,13 @@ export class DashBoardHeaderComponent implements OnInit {
 
   onRouteSearch(word: string) {
     this.tempWord = word;
-    this.tempWord.substring(0, 1) ? this.indexWord = this.tempWord.substring(0, 1) : this.indexWord = this.tempWord;
+    this.tempWord?.substring(0, 1) ? this.indexWord = this.tempWord?.substring(0, 1) : this.indexWord = this.tempWord;
     if (this.indexWord == '') {
       this.indexWord = 'a';
     } else if (this.indexWord == '-') {
       this.indexWord = 'az';
     }
-    let standardWord: string = this.onNormalizeWord(this.indexWord.toLowerCase());
+    let standardWord: string = this.onNormalizeWord(this.indexWord?.toLowerCase());
     this.wordFinding.emit({indexWord: standardWord, currentEntry: this.tempWord});
     this.selectModeSignal.emit({selMod: this.selectMode});
   }

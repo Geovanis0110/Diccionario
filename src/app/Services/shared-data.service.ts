@@ -1,6 +1,7 @@
 import {EventEmitter} from "@angular/core";
 import {Injectable} from '@angular/core';
 import {SuggestType} from "../Interfaces/word.interface";
+import {FilterForm} from "../Interfaces/filter.interface";
 
 
 @Injectable({
@@ -12,6 +13,7 @@ export class SharedData{
   advancedSearchActivated = new EventEmitter<boolean>();
   advancedSearchClose = new EventEmitter<boolean>();
   suggestActivated = new EventEmitter<SuggestType>();
+  advSearchObj = new EventEmitter<FilterForm>();
   constructor() { }
 
   onSplitWord(word: string): Array<string> {

@@ -40,6 +40,7 @@ export class DataParserService{
     }
     return results;
   }
+
   onDefSenseChildrenSplitter(
     data: Array<xmlObjPlus>,
     tag: string
@@ -66,6 +67,7 @@ export class DataParserService{
     })
     return results;
   }
+
   onGramGrpSenseChildrenSplitter(
     data: Array<xmlObjPlus>,
     tag: string): Array<xmlObjPlus> {
@@ -106,7 +108,6 @@ export class DataParserService{
     })
     return results;
   }
-
 
   onExampleSenseChildrenSplitter(
     data: Array<xmlObjPlus>,

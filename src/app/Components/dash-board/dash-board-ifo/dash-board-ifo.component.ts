@@ -4,6 +4,7 @@ import { TrasformDataJson } from '../../../Services/transform-data-json.service'
 import {SharedData} from "../../../Services/shared-data.service";
 
 import {AllWord, FinalWord, SuggestType} from '../../../Interfaces/word.interface';
+import {FilterForm} from "../../../Interfaces/filter.interface";
 
 @Component({
   selector: 'app-dash-board-ifo',
@@ -24,7 +25,7 @@ export class DashBoardIfoComponent implements OnInit {
     wordArray: Array<FinalWord>;
   }>();
   wordID: string = '';
-
+  advSearchObj!: FilterForm;
   clicked: boolean = false;
   table: string = '';
   dataWord: any;
@@ -40,11 +41,10 @@ export class DashBoardIfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("IFO",this.currentEntry);
-    this._shared.suggestActivated.subscribe(arg => {
-      this.suggestedWord = arg;
-    })
+    this._shared.suggestActivated.subscribe(arg => this.suggestedWord = arg);
+    this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
   }
+
 
   onSelectWord(e: Event) {
     console.log(e);

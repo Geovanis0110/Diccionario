@@ -7,6 +7,7 @@ import {
   FinalWord,
   FormField,
   senseField,
+  UsgType,
   Word,
   WordData
 } from '../Interfaces/word.interface';
@@ -60,9 +61,9 @@ export class TrasformDataJson {
     id: '',
     word: '',
     reverseWord: '',
-    afjGram: '',
+    afjGram: [''],
     pos: [''],
-    usg: [''],
+    usg: [],
   }
 
   wordData: WordData = {
@@ -103,64 +104,78 @@ export class TrasformDataJson {
   constructor(private _dataParser: DataParserService) {
   }
 
-  onTransformData(data: any) {
-    // console.log(data);
-    data.forEach((element: any) => {
-      // Guardando los Id de las palabras
-      this.wordAll.id = element[this.idForm]['id'];
-      // Guardando las palabras
-      this.wordAll.word = element[this.ortographyForm][0];
-      // Guardando los afijos Gramaticales
-      this.wordAll.afjGram = element[this.afjGramForm];
-      // Guardando los pos
-      this.wordAll.pos = element[this.posForm];
-      // Guardando los usg
-      this.wordAll.usg = element[this.usgForm];
-      //   Guardando el objeto en un array
-      this.wordAll.reverseWord = 'no have reversed word';
-      this.completeAllWord.push({
-        id: this.wordAll.id,
-        word: this.wordAll.word,
-        reverseWord: this.wordAll.reverseWord,
-        afjGram: this.wordAll.afjGram,
-        pos: this.wordAll.pos,
-        usg: this.wordAll.usg,
-      });
-    });
-    return this.completeAllWord;
+  onTransformData(data: any, searchType: string) {
+    if (searchType === 'reg1') {
+      const result: Array<AllWord> = [];
+    const entrys = Array.from(data.querySelectorAll('entry'));
+    entrys.forEach((item: any) => {
+      const Usg: UsgType = { type: '', value: ''};
+      const Usgs: Array<UsgType> = [];
+      const Poss: Array<string> = [];
+      const AfjGrams: Array<string> = [];
+      this.wordAll.id = item.attributes['id']?.value;
+      const entrysChildrens = Array.from(item.children);
+      // console.log(entrysChildrens);
+      entrysChildrens.forEach((obj: any) => {
+        if (obj.tagName === 'orth') {
+          this.wordAll.word = obj.textContent;
+        } else if (obj.tagName === 'pos') {
+          Poss.push(obj.textContent);
+        } else if (obj.tagName === 'usg') {
+          Usg.type = obj.attributes['type']?.value;
+          Usg.value = obj.textContent;
+          Usgs.push({ ...Usg });
+        } else if (obj.tagName === 'afjGram') {
+          AfjGrams.push(obj.textContent);
+        } 
+      })  
+      this.wordAll.usg = Usgs;
+      this.wordAll.pos = Poss;
+      this.wordAll.afjGram = AfjGrams;
+      this.wordAll.reverseWord = '';
+      result.push({...this.wordAll});
+    })
+    return result;
+    } else {
+      const result: Array<AllWord> = [];
+      const entrys = Array.from(data.querySelectorAll('entry'));
+    entrys.forEach((item: any) => {
+      const Usg: UsgType = { type: '', value: ''};
+      const Usgs: Array<UsgType> = [];
+      const Poss: Array<string> = [];
+      const AfjGrams: Array<string> = [];
+      this.wordAll.id = item.attributes['id']?.value;
+      const entrysChildrens = Array.from(item.children);
+      // console.log(entrysChildrens);
+      entrysChildrens.forEach((obj: any) => {
+        if (obj.tagName === 'orth') {
+          this.wordAll.word = obj.textContent;
+          this.wordAll.reverseWord = obj.attributes['htro']?.value;
+        } else if (obj.tagName === 'pos') {
+          Poss.push(obj.textContent);
+        } else if (obj.tagName === 'usg') {
+          Usg.type = obj.attributes['type']?.value;
+          Usg.value = obj.textContent;
+          Usgs.push({ ...Usg });
+        } else if (obj.tagName === 'afjGram') {
+          AfjGrams.push(obj.textContent);
+        } 
+      })  
+      this.wordAll.usg = Usgs;
+      this.wordAll.pos = Poss;
+      this.wordAll.afjGram = AfjGrams;
+      result.push({...this.wordAll});
+    })
+    return result;
+    }
+    
   }
 
-  onTransformAllData(data: any) {
-    // console.log(data);
-    data.forEach((element: any) => {
-      // Guardando los Id de las palabras
-      this.wordAll.id = element[this.idForm]['id'];
-      // Guardando las palabras
-      this.wordAll.word = element[this.ortographyForm][0]['_'];
-      // Guardando el reverso de las palabras
-      this.wordAll.reverseWord = element[this.ortographyForm][0][this.idForm]['htro'];
-      // Guardando los afijos Gramaticales
-      this.wordAll.afjGram = element[this.afjGramForm];
-      // Guardando los pos
-      this.wordAll.pos = element[this.posForm];
-      // Guardando los usg
-      this.wordAll.usg = element[this.usgForm];
-      //   Guardando el objeto en un array
-      this.completeAllWord.push({
-        id: this.wordAll.id,
-        word: this.wordAll.word,
-        reverseWord: this.wordAll.reverseWord,
-        afjGram: this.wordAll.afjGram,
-        pos: this.wordAll.pos,
-        usg: this.wordAll.usg,
-      });
-    });
-    return this.completeAllWord;
-  }
 
   getEntrysCount(dataWord: any): Array<any> {
-    return Array.from(dataWord.querySelectorAll("entry")).map(x => x);
+     return Array.from(dataWord.querySelectorAll("entry")).map(x => x);
   }
+
   onTransformDataWord(dataWord: any) {
     //Split the entry
     // const entrys: Array<any> = Array.from(dataWord.querySelectorAll("entry")).map((x: any) => {
@@ -206,7 +221,7 @@ export class TrasformDataJson {
       }
       console.log("Tiene Tabla Verbal con Id:", contarget);
 
-      this.apiData = Array.from(dataWord.children).map((x: any, i) => {
+      this.apiData = Array.from(dataWord.children).map((x: any) => {
         return x;
       })
 
