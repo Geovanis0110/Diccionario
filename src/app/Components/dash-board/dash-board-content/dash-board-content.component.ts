@@ -257,11 +257,15 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onCleanFilter() {
-    this.myChild.nativeElement.value = 'defaultValue';
-    this.myFilter.nativeElement.value = 'defaultOption';
-    this.myFilter.nativeElement.disabled = true;
+    if (this.searchCriteriaFilters.length === 3) {
+      this.searchCriteriaFilters = this.searchCriteriaFilters.slice(1, 2);
+    } else if (this.searchCriteriaFilters.length === 2) {
+      this.searchCriteriaFilters = this.searchCriteriaFilters.slice(1);
+    }
+    this.disableSelect = false;
     this.addDisabled = true;
     this.isDefaultValue = true;
-
+    this.myChild.nativeElement.value = 'defaultValue';
+    this.myFilter.nativeElement.value = 'defaultOption';
   }
 }

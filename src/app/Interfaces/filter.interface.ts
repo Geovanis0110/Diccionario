@@ -16,7 +16,6 @@ export interface FilterForm{
 }
 
 export interface FilterUsg{
-  index: number,
   item: AllWord,
   type: string,
   value: string
