@@ -125,6 +125,7 @@ export class DashBoardContentComponent implements OnInit {
     this.sharedService.advancedSearchActivated.subscribe(
       (result) => (this.hideSelect = result)
     );
+    this.sharedService.advancedSearchClose.subscribe((result) => this.hideSelect = result);
   }
 
   setDisabledTrue(sel: Event) {
@@ -210,7 +211,8 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onCloseAdvSearch() {
-    this.hideSelect ? (this.hideSelect = true) : (this.hideSelect = false);
+    console.log("Closing!!!")
+    this.hideSelect ? this.hideSelect = true : this.hideSelect = false;
     this.sharedService.advancedSearchClose.emit(this.hideSelect);
   }
 
@@ -220,7 +222,6 @@ export class DashBoardContentComponent implements OnInit {
     this.fapi.getWordListDescription().subscribe((arg) => {
       this.dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
       this.dataWord = this._transformData.getEntrysCount(this.dataToParse);
-
       if (this.dataWord.length > 1) {
         for (let i = 0; i < this.dataWord.length; i++) {
           this.wordListResults = this._transformData.onTransformDataWord(

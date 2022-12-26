@@ -30,7 +30,7 @@ export const catGram: Array<FilterAbreviations> = [
       abr: 'pf.|suf.'
     },
     {
-      criteria: 'prononbre',
+      criteria: 'pronombre',
       abr: 'pron.|pron. demos.|pron. excl.|pron. indef.|pron. indef. pl.|pron. interrog.|pron. numeral|pron. pers.|pron. pers. de tercera persona m., f. sing. y pl.|pron. pers. de tercera persona|pron. relat.'
     },
     {

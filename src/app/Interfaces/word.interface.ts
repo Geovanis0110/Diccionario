@@ -1,4 +1,4 @@
-import {testWord, testWordPlus} from "../Services/transform-data-json.service";
+import {testWord, testWordPlus, xmlObj} from "../Services/transform-data-json.service";
 
 export interface UsgType{
   type: string,
@@ -16,7 +16,7 @@ export interface FinalWord{
   catergoriaGramatical: catGram,
   senses: Array<senseField>,
   usg: string,
-  homofonas: Array<FormField>
+  homofonas: Array<xmlObj>
 }
 
 export interface FormField{
@@ -24,6 +24,13 @@ export interface FormField{
   posError: string,
   syll: string,
   gram: string,
+}
+
+export interface AnotherForms{
+  orth: string,
+  number: string,
+  gram: string,
+  type: string
 }
 
 export interface senseField{

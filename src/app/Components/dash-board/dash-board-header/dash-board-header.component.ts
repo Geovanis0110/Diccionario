@@ -9,6 +9,7 @@ import * as MyIcons from "../../../Icons/icons";
 import {ActivatedRoute} from '@angular/router';
 import {EntryWordSuggestService} from "../../../Services/entry-word-suggest.service";
 import {SharedData} from "../../../Services/shared-data.service";
+import { SuggestType } from 'src/app/Interfaces/word.interface';
 
 
 @Component({
@@ -34,12 +35,11 @@ export class DashBoardHeaderComponent implements OnInit {
   input_search: boolean = false;
   hiddenSelect = new FormControl(false);
   disableSelect: boolean = false;
-  queryServer: XMLHttpRequest = new XMLHttpRequest();
   description: string | null = '';
   panelOpenState: boolean = false;
   hideSelect!: boolean;
   underInputLetter: string = '';
-  selectMode: string = 'reg1';
+  selectMode: string = 'reg0';
   suggestions: any;
   suggestionsArray: Array<any> = [];
 
@@ -77,12 +77,15 @@ export class DashBoardHeaderComponent implements OnInit {
     this._suggest.getSuggestionsFromServer().subscribe(arg => {
       this.suggestions = new DOMParser().parseFromString(arg, 'application/xml');
       this.suggestionsArray = Array.from((this.suggestions).querySelectorAll('option'));
+      console.log(this.suggestionsArray);
+      const result: Array<SuggestType> = [];
       this.suggestionsArray.forEach((item: any) => {
-        this._shared.suggestActivated.emit({
+        result.push({
           word: item.textContent,
           id: item.value
         })
       })
+      this._shared.suggestActivated.emit(result);
       this.tempWord.substring(0, 1) ? this.indexWord = this.tempWord.substring(0, 1) : this.indexWord = this.tempWord;
       if (this.indexWord == '') {
         this.indexWord = 'a';

@@ -1,4 +1,5 @@
-import {catGram, FinalWord, FormField, senseField} from "../Interfaces/word.interface";
+import {AnotherForms, catGram, FinalWord, FormField, senseField} from "../Interfaces/word.interface";
+import { xmlObj } from "../Services/transform-data-json.service";
 
 export class FinalWordBuilder{
   private readonly _finalWord: FinalWord = {
@@ -41,7 +42,7 @@ export class FinalWordBuilder{
     this._finalWord.senses = senses;
     return this;
   }
-  withHomofonas(homofonas: Array<FormField>): FinalWordBuilder{
+  withHomofonas(homofonas: Array<xmlObj>): FinalWordBuilder{
     this._finalWord.homofonas = homofonas;
     return this;
   }

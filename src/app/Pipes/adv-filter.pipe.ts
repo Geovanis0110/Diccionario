@@ -3,7 +3,6 @@ import {AllWord, UsgType} from "../Interfaces/word.interface";
 import {FilterField, FilterForm, FilterUsg} from "../Interfaces/filter.interface";
 
 
-
 @Pipe({
   name: 'advfilter'
 })
@@ -58,8 +57,38 @@ export class AdvFilterPipe implements PipeTransform{
 
   handleFilterWithPos(a: Array<AllWord>, atype: string, avalue: Array<FilterField>) {
     const response: Array<AllWord> = [];
-    const result: Array<any> = [];
+    if (avalue.length === 1) {
+      const result: Array<string> = avalue[0].selectedValue.split('|');
+      console.log(result);
+      a.forEach((item) => {
+        item.pos.forEach((pos) => {
+          result.forEach((obj) => { if (pos === obj) { response.push(item) } });
+        })
+      })
+    } else if (avalue.length === 2) {
+      const result1: Array<string> = avalue[0].selectedValue.split('|');
+      const result2: Array<string> = avalue[1].selectedValue.split('|');
+      a.forEach((item) => {
+        item.pos.forEach((pos) => {
+          result1.forEach((obj) => { if (pos === obj) { response.push(item) } });
+          result2.forEach((obj) => { if (pos === obj) { response.push(item) } });
+        })
+      })
+    } else {
+      const result1: Array<string> = avalue[0].selectedValue.split('|');
+      const result2: Array<string> = avalue[1].selectedValue.split('|');
+      const result3: Array<string> = avalue[2].selectedValue.split('|');
+      a.forEach((item) => {
+        item.pos.forEach((pos) => {
+          result1.forEach((obj) => { if (pos === obj) { response.push(item) } });
+          result2.forEach((obj) => { if (pos === obj) { response.push(item) } });
+          result3.forEach((obj) => { if (pos === obj) { response.push(item) } });
+        })
+      })
+    }
+    console.log(response);
     return response;
+
   }
   handleFilterWithAfj(a: Array<AllWord>, avalue: Array<FilterField>) {
     const selVal: string = avalue[0].selectedValue;

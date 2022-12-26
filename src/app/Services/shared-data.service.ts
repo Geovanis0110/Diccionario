@@ -12,8 +12,9 @@ export class SharedData{
   results: Array<string> = [];
   advancedSearchActivated = new EventEmitter<boolean>();
   advancedSearchClose = new EventEmitter<boolean>();
-  suggestActivated = new EventEmitter<SuggestType>();
+  suggestActivated = new EventEmitter<Array<SuggestType>>();
   advSearchObj = new EventEmitter<FilterForm>();
+  strDontMatch = new EventEmitter<boolean>();
   constructor() { }
 
   onSplitWord(word: string): Array<string> {

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {testWordPlus, xmlObjPlus} from "./transform-data-json.service";
+import {testWordPlus, xmlObjPlus, xmlObjPlusUltra} from "./transform-data-json.service";
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +11,17 @@ export class DataParserService{
   onEntryChildrenSplitter(
     data: Array<any>,
     tag: string
-  ): Array<xmlObjPlus>{
-    const results: Array<xmlObjPlus> = [];
+  ): Array<xmlObjPlusUltra>{
+    const results: Array<xmlObjPlusUltra> = [];
     if(tag === 'sense'){
       data.forEach((item, index) => {
         if(item.tagName === tag){
           Array.from(item.children).forEach((obj: any) => {
             results.push({
               id: item.attributes['n']?.value,
+              itarget: item.attributes['itarget']?.value,
+              vtarget: item.attributes['vtarget']?.value,
+              atarget: item.attributes['atarget']?.value,
               name: obj.tagName,
               content: obj.childNodes
             })
@@ -31,6 +34,9 @@ export class DataParserService{
           Array.from(item.children).forEach((obj: any) => {
             results.push({
               id: index.toString(),
+              itarget: 'no have',
+              vtarget: 'no have',
+              atarget: 'no have',
               name: obj.tagName,
               content: obj.textContent
             })

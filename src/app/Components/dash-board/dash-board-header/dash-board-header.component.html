@@ -1,38 +1,16 @@
-<!--"Input" de la entrada-->
-<!--<mat-form-field-->
-<!--  appearance="legacy"-->
-<!--  [floatLabel]="'never'"-->
-<!--  color="primary"-->
-<!--  class="mat-elevation-z0 formField d-block mt-3"-->
-<!--&gt;-->
-<!--  <mat-label>Buscar Palabras</mat-label>-->
-<!--  <input-->
-<!--    matInput-->
-<!--    type="text"-->
-<!--    name="filtrar"-->
-<!--    placeholder="Escriba..."-->
-<!--    #myInput-->
-<!--    (keyup.enter)="onCurrentSearch($event)"-->
-<!--  >-->
-<!--    <mat-icon-->
-<!--      color="primary"-->
-<!--      svgIcon="search"-->
-<!--      matSuffix-->
-<!--      (click)="onCurrentSearch($event)"-->
-<!--    ></mat-icon>-->
-<!--</mat-form-field>-->
 <div class="mt-2">
   <label class="fw-bold">Palabra a buscar: </label>
 
   <div class="input-group rounded mat-elevation-z1">
     <input
+      autocomplete="off"
       #myInput
       class="form-control"
       type="text"
       name="filtrar"
       placeholder="Escriba una palabra..."
       (keyup.enter)="onCurrentSearch(myInput)"
-      (focus)="true"
+      (focus)="(true)"
       [value]="snapshotWord === undefined ? '' : snapshotWord"
     />
     <span
@@ -45,10 +23,6 @@
         (click)="onCurrentSearch(myInput)"
       ></mat-icon>
     </span>
-
-    <!-- <button  class="btn btn-primary mat-elevation-z2">
-
-    </button> -->
   </div>
 </div>
 
@@ -65,29 +39,9 @@
 <div class="mt-2">
   <label class="fw-bold">Modos de búsqueda: </label>
   <select (change)="onSelectMode($event)" class="form-select mat-elevation-z1">
-    <option value="reg1" selected>comienza por</option>
+    <option value="reg0" selected>------------------------------------</option>
+    <option value="reg1">comienza por</option>
     <option value="reg2">contiene</option>
     <option value="reg3">termina en</option>
   </select>
 </div>
-
-<!--<div class="row">-->
-<!--    <mat-form-field-->
-<!--      appearance="legacy"-->
-<!--      [floatLabel]="'never'"-->
-<!--      class="mt-2 mat-elevation-z0"-->
-<!--      [hidden]="hiddenSelect.value"-->
-<!--    >-->
-<!--      <mat-label>Modos de b&uacute;squeda</mat-label>-->
-<!--      <mat-select-->
-<!--        (selectionChange)="onSelectMode($event)"-->
-<!--      >-->
-<!--        <mat-option value="reg1">Comienzo por</mat-option>-->
-<!--        <mat-option value="reg2">Contiene</mat-option>-->
-<!--        <mat-option value="reg3">Termina en</mat-option>-->
-<!--      </mat-select>-->
-<!--    </mat-form-field>-->
-<!--</div>-->
-<!--    Zona de busqueda-->
-
-<!--    "Select" del criterio de busqueda-->

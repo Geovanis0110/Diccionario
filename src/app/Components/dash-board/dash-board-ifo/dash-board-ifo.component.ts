@@ -32,7 +32,8 @@ export class DashBoardIfoComponent implements OnInit {
   wordDataTest!: FinalWord;
   wordDataTestResults: Array<FinalWord> = [];
   wordData: Array<any> = [];
-  suggestedWord!: SuggestType;
+  suggestedWord!: Array<SuggestType>;
+  isMatch: boolean = false;
 
   constructor(
     private entryService: EntryWordDescriptionService,
@@ -43,6 +44,7 @@ export class DashBoardIfoComponent implements OnInit {
   ngOnInit(): void {
     this._shared.suggestActivated.subscribe(arg => this.suggestedWord = arg);
     this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
+    this._shared.strDontMatch.subscribe(arg => this.isMatch = arg);
   }
 
 
