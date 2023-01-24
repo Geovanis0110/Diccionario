@@ -10,8 +10,8 @@ import {FilterField, FilterForm, FilterUsg} from "../Interfaces/filter.interface
 export class AdvFilterPipe implements PipeTransform{
   test: Array<AllWord> = [];
   testResult: Array<FilterUsg> = []; 
+
   transform(value: Array<AllWord>, args: FilterForm) {
-    
     if (args != undefined) {
       const { options } = args;
       switch (args.category) {
@@ -35,13 +35,18 @@ export class AdvFilterPipe implements PipeTransform{
           break;
       }
     }
-
     return value;
   }
 
   handleFilterWithUsg(a: Array<AllWord>, atype: string, avalue: Array<FilterField>) {
     const response: Array<AllWord> = [];
     const result: Array<FilterUsg> = [];
+    let despectivo: Array<string> = [];
+    let isDespectivo: boolean = false;
+    if (avalue[0].selectedValue === 'despect.|en ocasiones despect.') {
+      despectivo = avalue[0].selectedValue.split("|");
+      isDespectivo = true;
+    }
     a.forEach((item: AllWord) => {
       item.usg.forEach((obj: UsgType) => {
         const { type, value } = obj;
@@ -50,8 +55,15 @@ export class AdvFilterPipe implements PipeTransform{
       })
     })
     
-    result.filter((item: FilterUsg) => item.type === atype && item.value === avalue[0].selectedValue)
+    if (isDespectivo) {
+      result.forEach((item: FilterUsg) => {
+        despectivo.forEach((obj) => {if(item.value === obj) {response.push({...item.item})}})
+      })
+    } else {
+      result.filter((item: FilterUsg) => item.type === atype && item.value === avalue[0].selectedValue)
       .forEach((item) => response.push({ ...item.item }));
+    }
+    
     return response;
   }
 
@@ -62,7 +74,7 @@ export class AdvFilterPipe implements PipeTransform{
       console.log(result);
       a.forEach((item) => {
         item.pos.forEach((pos) => {
-          result.forEach((obj) => { if (pos === obj) { response.push(item) } });
+          result.forEach((obj) => { if (pos === obj) { console.log(obj); response.push(item) } });
         })
       })
     } else if (avalue.length === 2) {

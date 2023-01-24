@@ -15,7 +15,7 @@ import {imgWord} from "../../show-images/show-images.component";
 
 export class ImageModalComponent implements OnInit{
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: imgWord,
+    @Inject(MAT_DIALOG_DATA) public data: string,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -23,6 +23,7 @@ export class ImageModalComponent implements OnInit{
   }
 
   ngOnInit() {
-
+    console.log(this.data);
+    
   }
 }

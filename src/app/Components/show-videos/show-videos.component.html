@@ -5,20 +5,23 @@
       <mat-divider></mat-divider>
       <div class="">
         <p class="fw-bolder fw-5">
-          Para ver el video, hay que hacer click sobre el icono. Si se hace click sobre la palabra
-          resaltada como hipervínculo, se accede directamente a la entrada.
+          Para ver el video, hay que hacer click sobre el icono. Si se hace
+          click sobre la palabra resaltada como hipervínculo, se accede
+          directamente a la entrada.
         </p>
       </div>
       <div class="col-lg-2 col-md-3 col-sm-4" *ngFor="let item of videosGalery">
-        <button class="me-2" matTooltip="Click aquí para ver el video" (click)="onOpenVideo(item.src)" mat-icon-button>
+        <button
+          class="me-2"
+          matTooltip="Click aquí para ver el video"
+          (click)="onOpenVideo(item.src)"
+          mat-icon-button
+        >
           <mat-icon class="svgcss" svgIcon="video_library"></mat-icon>
         </button>
-        <span class="fw-bold">{{item.word}}</span>
+        <span class="fw-bold">{{ item.word }}</span>
       </div>
+      <video class="container-fluid" [width]="'640'" [height]="'480'" [autoplay]="true" src="assets/videos/a_1.swf"  controls="controls"></video>
     </div>
   </div>
 </section>
-
-
-
-

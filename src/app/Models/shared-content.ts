@@ -15,15 +15,15 @@ export const catGram: Array<FilterAbreviations> = [
     },
     {
       criteria: 'conjunción',
-      abr: 'conj.|conj. adversativa|conj. causal|conj. concesiva|conj. consecutiva|conj. copulativa|conj. disyuntiva'
+      abr: 'conj.|conj. adversativa.|conj. causal.|conj. concesiva.|conj. consecutiva.|conj. copulativa.|conj. disyuntiva.'
     },
     {
       criteria: 'interjección',
-      abr: 'intej.'
+      abr: 'interj.'
     },
     {
       criteria: 'preposición',
-      abr: 'loc. prepos. |prep. '
+      abr: 'loc. prepos.|prep.'
     },
     {
       criteria: 'afijo',
@@ -81,7 +81,7 @@ export const catGram: Array<FilterAbreviations> = [
     },
     {
       criteria: 'despectivo',
-      abr: 'despect. | en ocasiones despect.'
+      abr: 'despect.|en ocasiones despect.'
     },
     {
       criteria: 'familiar',

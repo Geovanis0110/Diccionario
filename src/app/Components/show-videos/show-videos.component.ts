@@ -54,8 +54,8 @@ export class ShowVideosComponent implements OnInit {
     for (let i = 0; i < 9; i++){
       this.videosGalery.push({
         word: 'palabra#' + i,
-        src: `../../../assets/videos/a_${i+1}.webm`
-      }); 
+        src: `../../../assets/videos/a_${i+1}.swf`
+      });
     }
   }
 

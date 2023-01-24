@@ -1,13 +1,16 @@
-import {catGram, localReference, senseField} from "../Interfaces/word.interface";
+import {catGram, SenseField, SenseSrcType, SrcType} from "../Interfaces/word.interface";
 import {testWord, testWordPlus} from "../Services/transform-data-json.service";
 
 
 export class SenseFieldBuilder{
-  private readonly _senseField: senseField = {
+  private readonly _senseField: SenseField = {
     categoriaGramatical: [],
     definiciones: [],
     ejemplos: [],
-    referenciaLocal: []
+    entradasRelacionadas: [],
+    senseSrc: [],
+    notas: [],
+    referenciasCruzadas: []
   }
 
   static newInstance(): SenseFieldBuilder{
@@ -28,12 +31,27 @@ export class SenseFieldBuilder{
     this._senseField.ejemplos = ejemplos;
     return this;
   }
-  withReferenciaLocal(referenciaLocal: Array<localReference>): SenseFieldBuilder{
-    this._senseField.referenciaLocal = referenciaLocal;
+  withEntradasRelacionadas(entradasRelacionadas: Array<any>): SenseFieldBuilder{
+    this._senseField.entradasRelacionadas = entradasRelacionadas;
     return this;
   }
 
-  build(): senseField{
+  withSenseSrc(senseSrc: Array<SenseSrcType>): SenseFieldBuilder {
+    this._senseField.senseSrc = senseSrc;
+    return this;
+  }
+
+  withNotas(notas: Array<any>): SenseFieldBuilder{
+    this._senseField.notas = notas;
+    return this;
+  }
+
+  withReferenciaCruzada(referenciaCruzada: Array<any>): SenseFieldBuilder{
+    this._senseField.referenciasCruzadas = referenciaCruzada;
+    return this;
+  }
+
+  build(): SenseField{
     return this._senseField;
   }
 

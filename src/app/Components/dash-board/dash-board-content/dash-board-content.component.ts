@@ -24,6 +24,8 @@ import { EntryWordVerbsTableService } from '../../../Services/entry-word-verbs-t
 import { MatDialog } from '@angular/material/dialog';
 import { VerbalTableModalComponent } from '../../modals/verbal-table-modal/verbal-table-modal.component';
 import * as ShareContent from '../../../Models/shared-content';
+import { ImageModalComponent } from '../../modals/image-modal/image-modal.component';
+import {VideoModalComponent} from "../../modals/video-modal/video-modal.component";
 
 @Component({
   selector: 'app-dash-board-content',
@@ -122,9 +124,7 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sharedService.advancedSearchActivated.subscribe(
-      (result) => (this.hideSelect = result)
-    );
+    this.sharedService.advancedSearchActivated.subscribe((result) => this.hideSelect = result);
     this.sharedService.advancedSearchClose.subscribe((result) => this.hideSelect = result);
   }
 
@@ -220,21 +220,29 @@ export class DashBoardContentComponent implements OnInit {
     this.fapi.setWordIndex(lemmaId.substring(0, 1));
     this.fapi.setWordId(lemmaId);
     this.fapi.getWordListDescription().subscribe((arg) => {
-      this.dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
-      this.dataWord = this._transformData.getEntrysCount(this.dataToParse);
+      const dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
+      this.dataWord = this._transformData.getEntrysCount(dataToParse);
+      this.wordList = [];
       if (this.dataWord.length > 1) {
-        for (let i = 0; i < this.dataWord.length; i++) {
-          this.wordListResults = this._transformData.onTransformDataWord(
-            this.dataWord[i]
-          );
-          this.wordList.push({ ...this.wordListResults });
-        }
+        this.dataWord.forEach((item) => {
+          this.wordListResults = this._transformData.onTransformDataWord(item);
+          this.wordList.push({ ...this.wordListResults});
+        })
       } else {
-        this.wordListResults = this._transformData.onTransformDataWord(
-          this.dataWord
-        );
-        this.wordList.push(this.wordListResults);
+        this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[0]);
+        this.wordList.push({ ...this.wordListResults });
       }
+
+      // if (this.dataWord.length > 1) {
+      //   for (let i = 0; i < this.dataWord.length; i++) {
+      //     this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[i]);
+      //     this.wordList.push({ ...this.wordListResults });
+      //   }
+      // } else {
+      //   this.wordListResults = this._transformData.onTransformDataWord(this.dataWord);
+      //   this.wordList.push(this.wordListResults);
+      // }
+      console.log(this.dataWord);
     });
   }
 
@@ -260,13 +268,24 @@ export class DashBoardContentComponent implements OnInit {
   onCleanFilter() {
     if (this.searchCriteriaFilters.length === 3) {
       this.searchCriteriaFilters = this.searchCriteriaFilters.slice(1, 2);
+      this.searchCriteriaFilters[0].selectedValue = 'defaultOption';
     } else if (this.searchCriteriaFilters.length === 2) {
       this.searchCriteriaFilters = this.searchCriteriaFilters.slice(1);
+      this.searchCriteriaFilters[0].selectedValue = 'defaultOption';
     }
     this.disableSelect = false;
     this.addDisabled = true;
     this.isDefaultValue = true;
     this.myChild.nativeElement.value = 'defaultValue';
     this.myFilter.nativeElement.value = 'defaultOption';
+    this.sharedService.advCleanOptions.emit(true);
+  }
+
+  onOpenWordImage(url: string) {
+    this._dialog.open(ImageModalComponent, {data: url})
+  }
+
+  onOpenWordVideo(url: string){
+    this._dialog.open(VideoModalComponent, {data: url});
   }
 }

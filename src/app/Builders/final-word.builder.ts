@@ -1,49 +1,47 @@
-import {AnotherForms, catGram, FinalWord, FormField, senseField} from "../Interfaces/word.interface";
+import {SrcType,AnotherForms, catGram, FinalWord, FormField, SenseField, FinalForm, UsgType} from "../Interfaces/word.interface";
 import { xmlObj } from "../Services/transform-data-json.service";
 
 export class FinalWordBuilder{
   private readonly _finalWord: FinalWord = {
-    palabra: {
+    palabra: { form: {
       orth: '',
-      posError: '',
+      posErrores: '',
       syll: '',
-      gram: ''
-    },
-    conjtarget: '',
-    catergoriaGramatical: {
+      gram: '',
+      gen: '',
+      lbl: '',
+      number: ''
+    }, forms: [], anothers: []},
+    palabraSrc: [],
+    grupoGramatical: {
        pos: '',
       itype: ''
     },
-    usg: '',
+    usg: {type: '', value: ''},
     senses: [],
-    homofonas: []
   }
 
   static newInstance(): FinalWordBuilder{
     return new FinalWordBuilder();
   }
-  withPalabra(palabra: FormField): FinalWordBuilder{
+  withPalabra(palabra: FinalForm): FinalWordBuilder{
     this._finalWord.palabra = palabra;
     return this;
   }
-  withContarget(conjtarget: string): FinalWordBuilder{
-    this._finalWord.conjtarget = conjtarget;
+  withPalabraSrc(palabraSrc: Array<SrcType>): FinalWordBuilder{
+    this._finalWord.palabraSrc = palabraSrc;
     return this;
   }
-  withCategoriaGramatical(categoriaGramatical: catGram): FinalWordBuilder{
-    this._finalWord.catergoriaGramatical = categoriaGramatical;
+  withGrupoGramatical(grupoGramatical: catGram): FinalWordBuilder{
+    this._finalWord.grupoGramatical = grupoGramatical;
     return this;
   }
-  withUsg(usg: string): FinalWordBuilder{
+  withUsg(usg: UsgType): FinalWordBuilder{
     this._finalWord.usg = usg;
     return this;
   }
-  withSense(senses: Array<senseField>): FinalWordBuilder{
+  withSense(senses: Array<SenseField>): FinalWordBuilder{
     this._finalWord.senses = senses;
-    return this;
-  }
-  withHomofonas(homofonas: Array<xmlObj>): FinalWordBuilder{
-    this._finalWord.homofonas = homofonas;
     return this;
   }
 

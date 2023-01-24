@@ -9,7 +9,7 @@ import * as MyIcons from "../../../Icons/icons";
 import {ActivatedRoute} from '@angular/router';
 import {EntryWordSuggestService} from "../../../Services/entry-word-suggest.service";
 import {SharedData} from "../../../Services/shared-data.service";
-import { SuggestType } from 'src/app/Interfaces/word.interface';
+import {SuggestType} from 'src/app/Interfaces/word.interface';
 
 
 @Component({
@@ -56,9 +56,9 @@ export class DashBoardHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.snapshotWord = this.route.snapshot.params['word'];
-    if(this.snapshotWord != undefined)
+    if (this.snapshotWord != undefined)
       this.onRouteSearch(this.snapshotWord);
-    
+
   }
 
   onSelectMode(e: Event) {
@@ -111,12 +111,7 @@ export class DashBoardHeaderComponent implements OnInit {
     this.selectModeSignal.emit({selMod: this.selectMode});
   }
 
-  onKeyboardLetter(e
-                     :
-                     Event, myInput
-                     :
-                     HTMLInputElement
-  ) {
+  onKeyboardLetter(e: Event, myInput: HTMLInputElement) {
     console.log((e.target as HTMLButtonElement).textContent);
     let letterValue: any = (e.target as HTMLButtonElement).textContent;
     if (letterValue != null) {

@@ -247,7 +247,7 @@ export class ShowImagesComponent implements OnInit {
   }
 
   onOpenImage(imgSrc: imgWord){
-    this.dialog.open(ImageModalComponent, {data: imgSrc});
+    this.dialog.open(ImageModalComponent, {data: imgSrc.img});
   }
 
   onListAllImages() {

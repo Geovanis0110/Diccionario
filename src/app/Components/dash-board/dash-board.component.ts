@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { EntryWordListService } from '../../Services/entry-word-list.service';
-import { TrasformDataJson } from '../../Services/transform-data-json.service';
-import { SharedData } from '../../Services/shared-data.service';
+import {Component, OnInit} from '@angular/core';
+import {EntryWordListService} from '../../Services/entry-word-list.service';
+import {TrasformDataJson} from '../../Services/transform-data-json.service';
+import {SharedData} from '../../Services/shared-data.service';
 
 import {
   animate,
@@ -12,12 +12,12 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { AllWord, FinalWord } from '../../Interfaces/word.interface';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MANAGE_SEARCH_ICON } from '../../Icons/icons';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {AllWord, FinalWord} from '../../Interfaces/word.interface';
+import {MatCheckboxChange} from '@angular/material/checkbox';
+import {MatIconRegistry} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MANAGE_SEARCH_ICON} from '../../Icons/icons';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dash-board',
@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   animations: [
     trigger('slow-entry', [
       transition('* => *', [
-        query(':enter', style({ opacity: 0, transform: 'translateY(0)' })),
+        query(':enter', style({opacity: 0, transform: 'translateY(0)'})),
         query(
           ':enter',
           stagger(300, [
@@ -44,7 +44,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                   transform: 'translateY(35px)',
                   offset: 0.3,
                 }),
-                style({ opacity: 1, transform: 'translateY(0)', offset: 1 }),
+                style({opacity: 1, transform: 'translateY(0)', offset: 1}),
               ])
             ),
           ])
@@ -80,10 +80,12 @@ export class DashBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._sharedData.advancedSearchClose.subscribe((result) => {
-      this.activateMode = result;
-    });
+    this._sharedData.advancedSearchClose
+      .subscribe((result) => {
+        this.activateMode = result;
+      });
   }
+
   onSelectionMode(selectMode: { selMod: string }) {
     this.selectionMode = selectMode.selMod;
   }
@@ -93,23 +95,27 @@ export class DashBoardComponent implements OnInit {
     if (this.selectionMode === 'reg1' || this.selectionMode === 'reg0') {
       this.queryService.setWordIndex(this.indexWord);
       this.isNewSearch = true;
-      this.queryService.getWordList().subscribe((data) => {
-        const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
-        this.wordResults = this.dataTransform.onTransformData(
-          dataToParse,
-          this.selectionMode
-        );
-      });
+      this.queryService.getWordList()
+        .subscribe((data) => {
+          const dataToParse = new DOMParser()
+            .parseFromString(data, 'text/xml');
+          this.wordResults = this.dataTransform.onTransformData(
+            dataToParse,
+            this.selectionMode
+          );
+        });
     } else if (this.selectionMode === 'reg2' || this.selectionMode === 'reg3') {
       this.queryService.setWordIndex('az');
       this.isNewSearch = true;
-      this.queryService.getWordList().subscribe((data) => {
-        const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
-        this.wordResults = this.dataTransform.onTransformData(
-          dataToParse,
-          this.selectionMode
-        );
-      });
+      this.queryService.getWordList()
+        .subscribe((data) => {
+          const dataToParse = new DOMParser()
+            .parseFromString(data, 'text/xml');
+          this.wordResults = this.dataTransform.onTransformData(
+            dataToParse,
+            this.selectionMode
+          );
+        });
     }
   }
 
@@ -118,38 +124,45 @@ export class DashBoardComponent implements OnInit {
     this.entry = headerData.currentEntry;
     if (this.selectionMode === 'reg0') {
       this.queryService.setWordIndex(this.indexWord);
-      this.queryService.getWordList().subscribe((data) => {
-        const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
-        this.wordResults = this.dataTransform
-          .onTransformData(dataToParse, this.selectionMode)
-          .filter((x) => x.word.match(this.entry));
-        this.wordResults.length === 0 ? this.dontMatch = true : this.dontMatch = false;
-        this._sharedData.strDontMatch.emit(this.dontMatch);
-      });
+      this.queryService.getWordList()
+        .subscribe((data) => {
+          const dataToParse = new DOMParser()
+            .parseFromString(data, 'text/xml');
+          this.wordResults = this.dataTransform
+            .onTransformData(dataToParse, this.selectionMode)
+            .filter((x) => x.word === this.entry);
+          this.wordResults.length === 0 ? this.dontMatch = true : this.dontMatch = false;
+          this._sharedData.strDontMatch.emit(this.dontMatch);
+        });
     } else if (this.selectionMode === 'reg1') {
       this.queryService.setWordIndex(this.indexWord);
-      this.queryService.getWordList().subscribe((data) => {
-        const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
-        this.wordResults = this.dataTransform
-          .onTransformData(dataToParse, this.selectionMode)
-          .filter((x) => x.word.startsWith(this.entry));
-      });
+      this.queryService.getWordList()
+        .subscribe((data) => {
+          const dataToParse = new DOMParser()
+            .parseFromString(data, 'text/xml');
+          this.wordResults = this.dataTransform
+            .onTransformData(dataToParse, this.selectionMode)
+            .filter((x) => x.word.startsWith(this.entry));
+        });
     } else if (this.selectionMode === 'reg2') {
       this.queryService.setWordIndex('az');
-      this.queryService.getWordList().subscribe((data) => {
-        const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
-        this.wordResults = this.dataTransform
-          .onTransformData(dataToParse, this.selectionMode)
-          .filter((x) => x.word.includes(this.entry));
-      });
+      this.queryService.getWordList()
+        .subscribe((data) => {
+          const dataToParse = new DOMParser()
+            .parseFromString(data, 'text/xml');
+          this.wordResults = this.dataTransform
+            .onTransformData(dataToParse, this.selectionMode)
+            .filter((x) => x.word.includes(this.entry));
+        });
     } else if (this.selectionMode === 'reg3') {
       this.queryService.setWordIndex(this.indexWord);
-      this.queryService.getWordList().subscribe((data) => {
-        const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
-        this.wordResults = this.dataTransform
-          .onTransformData(dataToParse, this.selectionMode)
-          .filter((x) => x.word.endsWith(this.entry));
-      });
+      this.queryService.getWordList()
+        .subscribe((data) => {
+          const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
+          this.wordResults = this.dataTransform
+            .onTransformData(dataToParse, this.selectionMode)
+            .filter((x) => x.word.endsWith(this.entry));
+        });
     }
   }
 
@@ -163,13 +176,15 @@ export class DashBoardComponent implements OnInit {
     e.checked ? this.activateMode = true : this.activateMode = false;
     this._sharedData.advancedSearchActivated.emit(this.activateMode);
     if (this.activateMode) {
-      this._snackbar.open('Búsqueda Avanzada ha sido activada', '', {
-        duration: 2 * 1000,
-      });
+      this._snackbar
+        .open('Búsqueda Avanzada ha sido activada', '', {
+          duration: 2 * 1000,
+        });
     } else {
-      this._snackbar.open('Búsqueda Avazanda ha sido desactivada', '', {
-        duration: 2 * 1000,
-      });
+      this._snackbar
+        .open('Búsqueda Avazanda ha sido desactivada', '', {
+          duration: 2 * 1000,
+        });
     }
   }
 }

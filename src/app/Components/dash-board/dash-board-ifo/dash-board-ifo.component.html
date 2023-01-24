@@ -1,10 +1,27 @@
 <div class="mt-2">
   <label class="fw-bold">Lista de palabras: </label>
-  <select #Select size="8" class="form-select mat-elevation-z1 bg-light">
+  <select
+   *ngIf="isAdvSearch"
+   #Select size="8" 
+   class="form-select mat-elevation-z1 bg-light">
     <option
       class="fw-bold"
       (click)="onSelectWord($event)"
-      *ngFor="let item of itemList | advfilter: advSearchObj; index as i"
+      *ngFor="let item of itemList | advfilter: advSearchObj | duplicate; index as i"
+      [selected]="item.word == currentEntry"
+      [value]="item.id"
+    >
+      {{ item.word }}
+    </option>
+  </select>
+  <select 
+  *ngIf="!isAdvSearch"
+  #Select size="8" 
+  class="form-select mat-elevation-z1 bg-light">
+    <option
+      class="fw-bold"
+      (click)="onSelectWord($event)"
+      *ngFor="let item of itemList | duplicate; index as i"
       [selected]="item.word == currentEntry"
       [value]="item.id"
     >
@@ -14,7 +31,7 @@
 </div>
 <div class="mt-2">
   <label class="fw-bold"> ¿No querrás decir? </label>
-  <select size="2" class="form-select mat-elevation-z1 bg-light w-100">
+  <select size="3" class="form-select mat-elevation-z1 bg-light w-100">
     <option
     *ngFor="let suggest of suggestedWord"
       [value]="suggest?.id"

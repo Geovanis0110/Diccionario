@@ -1,4 +1,5 @@
-import {testWord, testWordPlus, xmlObj} from "../Services/transform-data-json.service";
+import { StringMapWithRename } from "@angular/compiler/src/compiler_facade_interface";
+import {testWord, testWordPlus, xmlObj, xmlObjPlus} from "../Services/transform-data-json.service";
 
 export interface UsgType{
   type: string,
@@ -11,33 +12,44 @@ export interface SuggestType{
 }
 
 export interface FinalWord{
-  palabra: FormField,
-  conjtarget: string,
-  catergoriaGramatical: catGram,
-  senses: Array<senseField>,
-  usg: string,
-  homofonas: Array<xmlObj>
+  palabra: FinalForm,
+  palabraSrc: Array<SrcType>
+  grupoGramatical: catGram,
+  senses: Array<SenseField>,
+  usg: UsgType,
 }
 
 export interface FormField{
   orth: string,
-  posError: string,
+  posErrores: string,
   syll: string,
   gram: string,
+  gen: string,
+  number: string,
+  lbl: string,
 }
 
 export interface AnotherForms{
   orth: string,
   number: string,
-  gram: string,
-  type: string
+  syll: string,
+  gen: string
 }
 
-export interface senseField{
+export interface FinalForm{
+  form: FormField,
+  forms: Array<FormField>
+  anothers: Array<AnotherForms>
+}
+
+export interface SenseField{
+  senseSrc: Array<SenseSrcType>,
   categoriaGramatical: Array<catGram>,
   definiciones: Array<Array<testWordPlus>>,
   ejemplos: Array<Array<testWordPlus>>,
-  referenciaLocal: Array<localReference> | string;
+  entradasRelacionadas: Array<any>,
+  referenciasCruzadas: Array<any>,
+  notas: Array<any>
 }
 
 export interface catGram{
@@ -51,10 +63,15 @@ export interface catGramWithId{
   itype: string
 }
 
-export interface localReference{
-  tipoReferencia: string,
-  referencia: string,
-  idReferencia: string
+export interface Reference{
+  referencia: any,
+  idReferencia: number
+}
+
+export interface reForm{
+  id: number,
+  form: FinalForm,
+  sense: Array<SenseField>
 }
 
 export interface Word{
@@ -85,3 +102,15 @@ export interface binaryObject{
   leftOperand: Array<testWordPlus>,
   rightOperand: Array<testWordPlus>
 }
+
+export interface SrcType{
+  url: string,
+  type: string
+}
+
+export interface SenseSrcType{
+  url: string,
+  type: string,
+  id: number;
+}
+

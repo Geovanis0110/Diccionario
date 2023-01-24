@@ -4,16 +4,27 @@
     <mat-divider></mat-divider>
     <div class="">
       <p class="fw-bolder fw-5">
-        Para ver la ilustración, hay que hacer click sobre el icono. Si se hace click sobre la palabra
-        resaltada como hipervínculo, se accede directamente a la entrada.
+        Para ver la ilustración, hay que hacer click sobre el icono. Si se hace
+        click sobre la palabra resaltada como hipervínculo, se accede
+        directamente a la entrada.
       </p>
     </div>
     <div class="row">
-      <div class="col-lg-2 col-md-3 col-sm-4 mt-3" *ngFor="let item of imagesGalery; index as i">
-        <button class="me-2" mat-icon-button matTooltip="Click aquí para ver imagen" (click)="onOpenImage(item)">
+      <div
+        class="col-lg-2 col-md-3 col-sm-4 mt-3"
+        *ngFor="let item of imagesGalery; index as i"
+      >
+        <button
+          class="me-2"
+          mat-icon-button
+          matTooltip="Click aquí para ver imagen"
+          (click)="onOpenImage(item)"
+        >
           <mat-icon class="svgcss" svgIcon="photo_library"></mat-icon>
         </button>
-        <span class="fw-bold"  (click)="onShowWord(item.word)">{{item.word}}</span>
+        <span class="fw-bold" (click)="onShowWord(item.word)">{{
+          item.word
+        }}</span>
       </div>
     </div>
   </div>

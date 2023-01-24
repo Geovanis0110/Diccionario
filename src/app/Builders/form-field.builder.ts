@@ -4,8 +4,11 @@ export class FormFieldBuilder{
   private readonly _formField: FormField = {
     gram: '',
     orth: '',
-    posError: '',
+    posErrores: '',
     syll: '',
+    gen: '',
+    lbl: '',
+    number: ''
   }
 
   static newInstance(): FormFieldBuilder {
@@ -16,8 +19,8 @@ export class FormFieldBuilder{
     this._formField.orth = orth;
     return this;
   }
-  withPosError(posError: string): FormFieldBuilder{
-    this._formField.posError = posError;
+  withPosErrores(posErrores: string): FormFieldBuilder{
+    this._formField.posErrores = posErrores;
     return this;
   }
   withSyll(syll: string): FormFieldBuilder{

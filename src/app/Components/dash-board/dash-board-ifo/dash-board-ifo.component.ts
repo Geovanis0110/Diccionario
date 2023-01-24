@@ -6,6 +6,7 @@ import {SharedData} from "../../../Services/shared-data.service";
 import {AllWord, FinalWord, SuggestType} from '../../../Interfaces/word.interface';
 import {FilterForm} from "../../../Interfaces/filter.interface";
 
+
 @Component({
   selector: 'app-dash-board-ifo',
   templateUrl: './dash-board-ifo.component.html',
@@ -34,6 +35,7 @@ export class DashBoardIfoComponent implements OnInit {
   wordData: Array<any> = [];
   suggestedWord!: Array<SuggestType>;
   isMatch: boolean = false;
+  isAdvSearch: boolean = false;
 
   constructor(
     private entryService: EntryWordDescriptionService,
@@ -43,6 +45,8 @@ export class DashBoardIfoComponent implements OnInit {
 
   ngOnInit(): void {
     this._shared.suggestActivated.subscribe(arg => this.suggestedWord = arg);
+    this._shared.advancedSearchActivated.subscribe(arg => this.isAdvSearch = arg);
+    this._shared.advCleanOptions.subscribe(arg => { if(arg) this.itemList = [] });
     this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
     this._shared.strDontMatch.subscribe(arg => this.isMatch = arg);
   }
@@ -66,15 +70,17 @@ export class DashBoardIfoComponent implements OnInit {
           this.wordDataTest = this.dataTransform.onTransformDataWord(this.wordData[i]);
           this.wordDataTestResults.push({ ...this.wordDataTest });
         }
+        this.backClick.emit({
+          onClicked: this.clicked,
+          wordArray: this.wordDataTestResults
+        })
         console.log("ITEMSON", this.wordDataTestResults);
       } else {
-        this.wordDataTest = this.dataTransform.onTransformDataWord(
-          this.wordData[0]
-        );
+        this.wordDataTest = this.dataTransform.onTransformDataWord(this.wordData[0]);
         this.wordDataTestResults.push(this.wordDataTest);
         this.backClick.emit({
           onClicked: this.clicked,
-          wordArray: this.wordDataTestResults,
+          wordArray: this.wordDataTestResults
         });
       }
     });
