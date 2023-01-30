@@ -124,7 +124,6 @@ export class TrasformDataJson {
         const AfjGrams: Array<string> = [];
         this.wordAll.id = item.attributes['id']?.value;
         const entrysChildrens = Array.from(item.children);
-        // console.log(entrysChildrens);
         entrysChildrens.forEach((obj: any) => {
           if (obj.tagName === 'orth') {
             this.wordAll.word = obj.textContent;
@@ -184,40 +183,26 @@ export class TrasformDataJson {
   }
 
   onTransformDataWord(dataWord: any) {
-    console.log(this.xmlToJSONManualParser(dataWord));
 
-    //Split the entry
-    // const entrys: Array<any> = Array.from(dataWord.querySelectorAll("entry")).map((x: any) => {
-    //   return x;
-    // })
-    // const entrysChildsName: any = Array.from(dataWord.querySelectorAll("entry").children).map((x: any) => {
-    //   return x.tagName;
-    // })
-    //   let haveImages: boolean = false;
-    let attributesArray: Array<any> = [];
-    let videosSrc: string = '';
-    let audioSrc: string = '';
-    let imgSrc: string = '';
-    let contarget: string = '';
     const palabrasSrc: Array<SrcType> = [];
     if (dataWord.attributes.length > 1) {
       console.log('Tiene dos atributos');
       Array.from(dataWord.attributes).forEach((item: any) => {
         if (item.name === 'itarget') {
           console.log(item.value);
-          const itarget: SrcType = {url: "../../../../assets/img/" + item.value, type: 'img'}
-          palabrasSrc.push({...itarget});
+          const imgTarget: SrcType = {url: "../../../../assets/img/" + item.value, type: 'img'}
+          palabrasSrc.push({...imgTarget});
         } else if (item.name === 'vtarget') {
           console.log(item.value);
-          const vtarget: SrcType = {url: "../../../../assets/videos" + item.value, type: 'video'}
-          palabrasSrc.push({...vtarget});
+          const videoTarget: SrcType = {url: "../../../../assets/videos" + item.value, type: 'video'}
+          palabrasSrc.push({...videoTarget});
         } else if (item.name === 'atarget') {
           console.log("../../../../assets/audios/" + item.value);
-          const atarget: SrcType = {url: "../../../../assets/audios" + item.value, type: 'audio'}
-          palabrasSrc.push({...atarget});
+          const audioTarget: SrcType = {url: "../../../../assets/audios" + item.value, type: 'audio'}
+          palabrasSrc.push({...audioTarget});
         } else if (item.name === 'conjtarget') {
-          const conjtarget: SrcType = {url: item.value, type: 'conjugativo'}
-          palabrasSrc.push({...conjtarget});
+          const conjugateTarget: SrcType = {url: item.value, type: 'conjugativo'}
+          palabrasSrc.push({...conjugateTarget});
         }
       });
     } else {
@@ -238,30 +223,14 @@ export class TrasformDataJson {
 
     const formResult = this._dataParser.formConstructor(formCount);
 
-    // Objeto con la palabra, error y silaba
     let wordTry1: Array<xmlObjPlus> = [];
-    // Objeto con la gramatica de la palabra
     let gramTry1: Array<xmlObjPlus> = [];
-    // Objeto que contiene el arbol de definiciones y ejemplos
     let senseTry1: Array<xmlObjPlus> = [];
-    //Notas
     let notesTry1: Array<xmlObjPlus> = [];
-    // Objeto que contiene las definiciones con su id
     let definity: Array<testWordPlus> = [];
-    // Objeto de nivel superior al texto de ejmplos
     let eg: Array<xmlObjPlus> = [];
-    // Objeto que contiene la gramatica de los ejemplos
     let defGramGrp: Array<xmlObjPlus> = [];
-    // Objeto que contiene los ejemplos finales por id
     let finalExample: Array<testWordPlus> = [];
-    // if (entrys.length > 1) {
-    //   console.log("Multiples Entradas", entrys);
-
-    // } else
-    // if (dataWord.length === 1) {
-
-    //   Esto falta
-    console.log('Tiene Tabla Verbal con Id:', contarget);
 
     wordTry1 = this._dataParser.onEntryChildrenSplitter(childrens, 'form');
     gramTry1 = this._dataParser.onEntryChildrenSplitter(childrens, 'gramGrp');
@@ -282,8 +251,9 @@ export class TrasformDataJson {
             }
           });
       })
-    console.log("Hijos de la Referencias: ", reChildrens)
-    const re = this._dataParser.onEntryReferenceChildrenSplitter(reChildrens);
+    console.log("Referencias - childrens => ", reChildrens)
+    const re = this._dataParser.onEntryReferenceChildrenSplitter(reChildrens, formResult.form.orthography);
+    console.log("Referencias Parseadas => ", re);
 
     console.log('!!!!!WORD', wordTry1);
     console.log('!!!!!GRAM', gramTry1);
@@ -305,42 +275,7 @@ export class TrasformDataJson {
     console.log('!!!!!EG => ', eg);
     console.log('!!!!!GRAMTICAL DEFINITIONS => ', defGramGrp);
     console.log('!!!!!EXAMPLES => ', finalExample);
-    // }
 
-    // const some: FormField = {
-    //   orth: '',
-    //   syll: '',
-    //   posErrores: '',
-    //   gram: '',
-    //   gen: '',
-    //   lbl: '',
-    //   number: '',
-    // };
-    // const other: xmlObj = { name: '', content: '' };
-    // const anothersForms: Array<xmlObj> = [];
-    // wordTry1.forEach((item) => {
-    //   if (item.id === '0') {
-    //     if (item.name === 'orth') {
-    //       some.orth = item.content;
-    //     } else if (item.name === 'syll') {
-    //       some.syll = item.content;
-    //     } else if (item.name === 'posErrores') {
-    //       some.posErrores = item.content;
-    //     }
-    //   }
-    // });
-    // for (let i = 0; i < wordTry1.length; i++) {
-    //   if (+wordTry1[i].id != 0) {
-    //     if (wordTry1[i].id === wordTry1[i + 1]?.id) {
-    //       other.name = wordTry1[i].content;
-    //       other.content = wordTry1[i + 1].content;
-    //       anothersForms.push({ ...other });
-    //     }
-    //   }
-    // }
-    // console.log('Palabras', some);
-    // console.log('Otras Formas', anothersForms);
-    //
     const some2: catGram = {pos: '', itype: ''};
     gramTry1.forEach((item) => {
       if (item.name === 'pos') {
@@ -420,51 +355,4 @@ export class TrasformDataJson {
     }
     return finalsResults;
   }
-
-  // dividerInTwo(value: Array<Array<any>>): Array<testWordPlus>{
-  //   if(value.length === 0) throw new Error("Error Vector Vacio");
-  //   if(value.length === 1) return value[0];
-  //   const result: binaryObject = BinaryObjectBuilder.newInstance()
-  //     .withLeftOperand(value[0])
-  //     .withRightOperand((this.dividerInTwo(value.slice(1))))
-  //     .build();
-  //   return result.leftOperand
-  // }
-
-  xmlToJSONManualParser(xml: any) {
-    let objeto: any = {};
-
-    if (xml.nodeType == 1) {
-      if (xml.attributes.length > 0) {
-        objeto["@attributes"] = {};
-        for (let j = 0; j < xml.attributes.length; j++) {
-          let attribute = xml.attributes.item(j);
-          objeto["@attributes"][attribute.nodeName] = attribute.nodeValue;
-        }
-      }
-    } else if (xml.nodeType == 3) {
-      objeto = xml.nodeValue;
-    }
-
-    if (xml.hasChildNodes()) {
-      for (let i = 0; i < xml.childNodes.length; i++) {
-        let item = xml.childNodes.item(i);
-        let nodeName = item.nodeName;
-
-        if (typeof (objeto[nodeName]) == "undefined") {
-          objeto[nodeName] = this.xmlToJSONManualParser(item);
-        } else {
-          if (typeof (objeto[nodeName].push) == "undefined") {
-            let attributeValue = objeto[nodeName];
-            objeto[nodeName] = [];
-            objeto[nodeName].push(attributeValue);
-          }
-          objeto[nodeName].push(this.xmlToJSONManualParser(item));
-        }
-      }
-    }
-
-    return objeto;
-  }
-
 }

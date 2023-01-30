@@ -1,4 +1,3 @@
-import { StringMapWithRename } from "@angular/compiler/src/compiler_facade_interface";
 import {testWord, testWordPlus, xmlObj, xmlObjPlus} from "../Services/transform-data-json.service";
 
 export interface UsgType{
@@ -20,9 +19,9 @@ export interface FinalWord{
 }
 
 export interface FormField{
-  orth: string,
-  posErrores: string,
-  syll: string,
+  orthography: string,
+  positionError: string,
+  syllable: string,
   gram: string,
   gen: string,
   number: string,
@@ -30,16 +29,16 @@ export interface FormField{
 }
 
 export interface AnotherForms{
-  orth: string,
+  orthography: string,
   number: string,
-  syll: string,
+  syllable: string,
   gen: string
 }
 
 export interface FinalForm{
   form: FormField,
   forms: Array<FormField>
-  anothers: Array<AnotherForms>
+  another: Array<AnotherForms>
 }
 
 export interface SenseField{

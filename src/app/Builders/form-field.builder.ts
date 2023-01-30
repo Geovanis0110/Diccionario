@@ -3,9 +3,9 @@ import {FormField} from "../Interfaces/word.interface";
 export class FormFieldBuilder{
   private readonly _formField: FormField = {
     gram: '',
-    orth: '',
-    posErrores: '',
-    syll: '',
+    orthography: '',
+    positionError: '',
+    syllable: '',
     gen: '',
     lbl: '',
     number: ''
@@ -15,16 +15,16 @@ export class FormFieldBuilder{
     return new FormFieldBuilder();
   }
 
-  withOrtography(orth: string): FormFieldBuilder{
-    this._formField.orth = orth;
+  withOrthography(orthography: string): FormFieldBuilder{
+    this._formField.orthography = orthography;
     return this;
   }
-  withPosErrores(posErrores: string): FormFieldBuilder{
-    this._formField.posErrores = posErrores;
+  withPositionError(positionError: string): FormFieldBuilder{
+    this._formField.positionError = positionError;
     return this;
   }
-  withSyll(syll: string): FormFieldBuilder{
-    this._formField.syll = syll;
+  withSyllable(syllable: string): FormFieldBuilder{
+    this._formField.syllable = syllable;
     return this;
   }
 

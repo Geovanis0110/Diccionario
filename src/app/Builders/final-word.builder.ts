@@ -1,17 +1,10 @@
 import {SrcType,AnotherForms, catGram, FinalWord, FormField, SenseField, FinalForm, UsgType} from "../Interfaces/word.interface";
 import { xmlObj } from "../Services/transform-data-json.service";
+import {FormFieldBuilder} from "./form-field.builder";
 
 export class FinalWordBuilder{
   private readonly _finalWord: FinalWord = {
-    palabra: { form: {
-      orth: '',
-      posErrores: '',
-      syll: '',
-      gram: '',
-      gen: '',
-      lbl: '',
-      number: ''
-    }, forms: [], anothers: []},
+    palabra: { form: FormFieldBuilder.newInstance().build(), forms: [], another: []},
     palabraSrc: [],
     grupoGramatical: {
        pos: '',

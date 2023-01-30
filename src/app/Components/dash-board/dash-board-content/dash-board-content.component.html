@@ -120,7 +120,7 @@
       class="example-card mat-elevation-z0"
       *ngFor="let word of wordList"
     >
-      <span class="fw-bold fs-5">{{ word.palabra.form.orth }}</span>
+      <span class="fw-bold fs-5">{{ word.palabra.form.orthography }}</span>
       &nbsp;
       <span
         matTooltip="verbo transitivo"
@@ -252,9 +252,9 @@
         <hr>
       </div>
       <hr/>
-      <span class="fs-5">{{ word.palabra.form.syll }}</span>
-      <div *ngFor="let item of word.palabra.anothers">
-        <span class="fs-5">{{ item.orth }}</span>
+      <span class="fs-5">{{ word.palabra.form.syllable }}</span>
+      <div *ngFor="let item of word.palabra.another">
+        <span class="fs-5">{{ item.orthography }}</span>
         <span class="p-1"></span>
         <span class="fs-5">{{ item.number }}</span>
       </div>

@@ -8,6 +8,7 @@ import {AnotherForms, FormField, Reference, reForm, SenseSrcType, SrcType} from 
 import {FinalFormBuilder} from '../Builders/final-form.builder';
 import {FormFieldBuilder} from "../Builders/form-field.builder";
 import {SenseFieldBuilder} from "../Builders/sense-field.builder";
+import {coerceNumberProperty} from "@angular/cdk/coercion";
 
 
 @Injectable({
@@ -15,10 +16,14 @@ import {SenseFieldBuilder} from "../Builders/sense-field.builder";
 })
 export class DataParserService {
   firstForm: FormField = FormFieldBuilder.newInstance().build();
-  allfirstsForms: Array<FormField> = [];
+  allFirstsForms: Array<FormField> = [];
   othersForms: Array<AnotherForms> = [];
   resultObj: reForm = { id: 0,form: FinalFormBuilder.newInstance().build(), sense: [] } ;
   wordRefG: string = '';
+  resultDef: Array<Array<testWordPlus>> = [];
+  rstDef: Array<testWordPlus> = [];
+  resultExample: Array<Array<testWordPlus>> = [];
+  rstExample: Array<testWordPlus> = [];
 
   constructor() {}
 
@@ -152,19 +157,46 @@ export class DataParserService {
     return results;
   }
 
-  onEntryReferenceChildrenSplitter(data: Array<Reference>) {
-    data.forEach((dataItem) => {
+  onEntryReferenceChildrenSplitter(data: Array<Reference>, word: string) {
+    this.rstDef = [];
+    this.rstExample = [];
+    let tempForm: Array<FormField> = [];
+    let def: Array<testWordPlus> = [];
+    let eg: Array<xmlObjPlus> = [];
+    let example: Array<testWordPlus> = [];
+    const result: Array<any> = [];
+    let count: number = 0;
+    let initial: number = 1;
+
+    data.forEach((dataItem, index) => {
       const temp: Array<any> = Array.from(dataItem.referencia.children);
-      const tempForm: FormField = FormFieldBuilder.newInstance().build();
       temp.forEach((obj) => {
         if(obj.tagName === 'form'){
-
+          tempForm = this.homogeniesForms(obj);
         } else if(obj.tagName === 'sense'){
-
+          const objItem = this.onEntryChildrenSplitterAlternative(temp, 'sense', index+1);
+          def = this.onDefSenseChildrenSplitter(objItem, 'def');
+          this.rstDef = this.rstDef.concat(def);
+          eg = this.onEgSenseChildrenSplitter(objItem, 'eg');
+          example = this.onExampleSenseChildrenSplitter(eg, word);
+          this.rstExample = this.rstExample.concat(example);
+          count++;
+          if(initial != dataItem.idReferencia){
+            count = 1;
+            initial = dataItem.idReferencia;
+          }
+          const rareType = { "senseNumber":dataItem.idReferencia, "reNumber":count, "definition":def , "ejemplos":example  };
+          result.push({...rareType});
         }
       })
-      console.log(tempForm);
     })
+
+    const finalResult = {"forms":tempForm, "senses":result};
+    console.log("Resultado => ", result);
+    console.log(this.rstDef);
+    console.log(this.rstExample);
+    console.log(tempForm);
+    return finalResult;
   }
 
   onCrossReferenceChildrenSplitter(data: any, tag: string) {
@@ -246,13 +278,13 @@ export class DataParserService {
       Array.from(data.children).forEach((obj: any) => {
         switch (obj.tagName) {
           case 'orth':
-            this.firstForm.orth = obj.textContent;
+            this.firstForm.orthography = obj.textContent;
             break;
           case 'syll':
-            this.firstForm.syll = obj.textContent;
+            this.firstForm.syllable = obj.textContent;
             break;
           case 'posErrores':
-            this.firstForm.posErrores = obj.textContent;
+            this.firstForm.positionError = obj.textContent;
             break;
           case 'gen':
             this.firstForm.gen = obj.textContent;
@@ -270,16 +302,16 @@ export class DataParserService {
             break;
         }
       });
-      this.allfirstsForms.push({...this.firstForm});
-      return this.allfirstsForms; // returnando el caso base de la funcion recursiva
+      this.allFirstsForms.push({...this.firstForm});
+      return this.allFirstsForms; // returnando el caso base de la funcion recursiva
     } else {
       Array.from(data.children)
         .filter((x: any) => x.tagName === 'form')
         .forEach((x) => {
-          this.allfirstsForms.concat(this.homogeniesForms(x));
+          this.allFirstsForms.concat(this.homogeniesForms(x));
         }); // filtra y luego concatena el resultado de los distintos casos base
     }
-    return this.allfirstsForms;
+    return this.allFirstsForms;
   }
 
   /**
@@ -287,20 +319,20 @@ export class DataParserService {
    * @param data
    */
   formConstructor(data: Array<any>) {
-    this.allfirstsForms = [];
+    this.allFirstsForms = [];
     this.othersForms = [];
     data.forEach((item: any, i: number) => {
       if (i === 0) {
         Array.from(item.children).forEach((obj: any) => {
           switch (obj.tagName) {
             case 'orth':
-              this.firstForm.orth = obj.textContent;
+              this.firstForm.orthography = obj.textContent;
               break;
             case 'syll':
-              this.firstForm.syll = obj.textContent;
+              this.firstForm.syllable = obj.textContent;
               break;
             case 'posErrores':
-              this.firstForm.posErrores = obj.textContent;
+              this.firstForm.positionError = obj.textContent;
               break;
             case 'gen':
               this.firstForm.gen = obj.textContent;
@@ -318,13 +350,13 @@ export class DataParserService {
               break;
           }
         });
-        this.allfirstsForms.push({...this.firstForm});
+        this.allFirstsForms.push({...this.firstForm});
         this.homogeniesForms(item);
       } else {
         Array.from(item.children).forEach((obj: any) => {
           switch (obj.tagName) {
             case 'orth':
-              this.firstForm.orth = obj.textContent;
+              this.firstForm.orthography = obj.textContent;
               break;
             case 'number':
               this.firstForm.number = obj.textContent;
@@ -343,9 +375,9 @@ export class DataParserService {
     console.log('First Form: ', this.firstForm);
     console.log('Others Forms: ', this.othersForms);
     return FinalFormBuilder.newInstance()
-      .withForm(this.allfirstsForms[0])
-      .withForms(this.allfirstsForms.splice(1))
-      .withAnothers(this.othersForms)
+      .withForm(this.allFirstsForms[0])
+      .withForms(this.allFirstsForms.splice(1))
+      .withAnother(this.othersForms)
       .build();
   }
 

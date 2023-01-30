@@ -1,10 +1,11 @@
 import { AnotherForms, FinalForm, FormField } from "../Interfaces/word.interface";
+import {FormFieldBuilder} from "./form-field.builder";
 
 export class FinalFormBuilder {
     private readonly _finalForm: FinalForm = {
-        form: { orth: '', gen: '', gram: '', lbl: '', number: '', posErrores: '', syll: '' },
+        form: FormFieldBuilder.newInstance().build(),
         forms: [],
-        anothers: []
+        another: []
     }
 
     static newInstance(): FinalFormBuilder {
@@ -21,8 +22,8 @@ export class FinalFormBuilder {
         return this;
     }
 
-    withAnothers(anothers: Array<AnotherForms>): FinalFormBuilder{
-        this._finalForm.anothers = anothers;
+    withAnother(another: Array<AnotherForms>): FinalFormBuilder{
+        this._finalForm.another = another;
         return this;
     }
 
