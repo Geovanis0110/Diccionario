@@ -113,3 +113,21 @@ export interface SenseSrcType{
   id: number;
 }
 
+export interface ReType {
+  senseNumber: number,
+  reNumber: number,
+  definition: Array<testWordPlus>,
+  examples: Array<testWordPlus>
+}
+
+export interface StandardReType{
+  forms: Array<FormField>,
+  senses: Array<ReType>
+}
+
+export interface ReTypeFormField{
+  senseNumber: number,
+  reNumber: number,
+  myForms: FormField,
+  mySense: ReType
+}

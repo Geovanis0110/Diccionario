@@ -1,21 +1,15 @@
 import {Injectable} from '@angular/core';
 import {
   AllWord,
-  AnotherForms,
-  binaryObject,
   catGram,
   catGramWithId,
-  FinalWord,
-  FormField, Reference,
+  Reference, ReTypeFormField,
   SenseField,
-  SrcType,
+  SrcType, StandardReType,
   UsgType,
   Word,
   WordData,
 } from '../Interfaces/word.interface';
-import {FormFieldBuilder} from '../Builders/form-field.builder';
-import {BinaryObjectBuilder} from '../Builders/binary-object.builder';
-import {TestWordPlusBuilder} from '../Builders/test-word-plus.builder';
 import {SenseFieldBuilder} from '../Builders/sense-field.builder';
 import {FinalWordBuilder} from '../Builders/final-word.builder';
 import {DataParserService} from './data-parser.service';
@@ -251,9 +245,21 @@ export class TrasformDataJson {
             }
           });
       })
-    console.log("Referencias - childrens => ", reChildrens)
-    const re = this._dataParser.onEntryReferenceChildrenSplitter(reChildrens, formResult.form.orthography);
+    const reCount = reChildrens.length;
+    console.log("Referencias - childrens => ", reChildrens);
+    const re: StandardReType = this._dataParser.onEntryReferenceChildrenSplitter(reChildrens, formResult.form.orthography);
     console.log("Referencias Parseadas => ", re);
+
+
+    const reTry: Array<ReTypeFormField> = [];
+    for (let i = 0; i < reCount; i++) {
+      const myForms = re.forms[i];
+      const mySense = re.senses[i];
+      const {senseNumber, reNumber} = mySense;
+      const myObject = {senseNumber, reNumber, myForms, mySense};
+      reTry.push({...myObject});
+    }
+    console.log("RETRY => ",reTry)
 
     console.log('!!!!!WORD', wordTry1);
     console.log('!!!!!GRAM', gramTry1);
@@ -322,11 +328,13 @@ export class TrasformDataJson {
       const ex: Array<Array<testWordPlus>> = examplesOfResults.filter(
         (x, i) => i === index
       );
+      const re: Array<ReTypeFormField> = reTry.filter((x, i) => x.senseNumber.toString() === index.toString());
       const sense: SenseField = SenseFieldBuilder.newInstance()
         .withCategoriaGramatical(gramGrp)
         .withSenseSrc(senseMedia)
         .withDefiniciones(def)
         .withEjemplos(ex)
+        .withEntradasRelacionadas(re)
         .build();
       sensesVector.push(sense);
     });

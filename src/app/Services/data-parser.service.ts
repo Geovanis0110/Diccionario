@@ -4,7 +4,16 @@ import {
   xmlObjPlus,
   xmlObjPlusUltra,
 } from './transform-data-json.service';
-import {AnotherForms, FormField, Reference, reForm, SenseSrcType, SrcType} from '../Interfaces/word.interface';
+import {
+  AnotherForms,
+  FormField,
+  Reference,
+  reForm,
+  ReType,
+  SenseSrcType,
+  SrcType,
+  StandardReType
+} from '../Interfaces/word.interface';
 import {FinalFormBuilder} from '../Builders/final-form.builder';
 import {FormFieldBuilder} from "../Builders/form-field.builder";
 import {SenseFieldBuilder} from "../Builders/sense-field.builder";
@@ -157,14 +166,14 @@ export class DataParserService {
     return results;
   }
 
-  onEntryReferenceChildrenSplitter(data: Array<Reference>, word: string) {
+  onEntryReferenceChildrenSplitter(data: Array<Reference>, word: string):StandardReType {
     this.rstDef = [];
     this.rstExample = [];
     let tempForm: Array<FormField> = [];
     let def: Array<testWordPlus> = [];
     let eg: Array<xmlObjPlus> = [];
     let example: Array<testWordPlus> = [];
-    const result: Array<any> = [];
+    const result: Array<ReType> = [];
     let count: number = 0;
     let initial: number = 1;
 
@@ -185,18 +194,12 @@ export class DataParserService {
             count = 1;
             initial = dataItem.idReferencia;
           }
-          const rareType = { "senseNumber":dataItem.idReferencia, "reNumber":count, "definition":def , "ejemplos":example  };
+          const rareType: ReType = { "senseNumber":dataItem.idReferencia, "reNumber":count, "definition":def , "examples":example  };
           result.push({...rareType});
         }
       })
     })
-
-    const finalResult = {"forms":tempForm, "senses":result};
-    console.log("Resultado => ", result);
-    console.log(this.rstDef);
-    console.log(this.rstExample);
-    console.log(tempForm);
-    return finalResult;
+    return {"forms":tempForm.slice(1), "senses":result};
   }
 
   onCrossReferenceChildrenSplitter(data: any, tag: string) {
@@ -379,22 +382,6 @@ export class DataParserService {
       .withForms(this.allFirstsForms.splice(1))
       .withAnother(this.othersForms)
       .build();
-  }
-
-  vectorTransform(
-    myVector: Array<testWordPlus>,
-    senseCount: number
-  ): Array<Array<testWordPlus>> {
-    let count: number = 0;
-    const finalsResults: Array<Array<testWordPlus>> = [];
-    while (count != senseCount) {
-      const results: Array<testWordPlus> = myVector.filter(
-        (x) => x.id == (count + 1).toString()
-      );
-      count++;
-      finalsResults.push(results);
-    }
-    return finalsResults;
   }
 }
 

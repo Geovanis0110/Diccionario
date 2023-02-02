@@ -1,4 +1,4 @@
-import {catGram, SenseField, SenseSrcType, SrcType} from "../Interfaces/word.interface";
+import {catGram, ReTypeFormField, SenseField, SenseSrcType, SrcType} from "../Interfaces/word.interface";
 import {testWord, testWordPlus} from "../Services/transform-data-json.service";
 
 
@@ -31,7 +31,7 @@ export class SenseFieldBuilder{
     this._senseField.ejemplos = ejemplos;
     return this;
   }
-  withEntradasRelacionadas(entradasRelacionadas: Array<any>): SenseFieldBuilder{
+  withEntradasRelacionadas(entradasRelacionadas: Array<ReTypeFormField>): SenseFieldBuilder{
     this._senseField.entradasRelacionadas = entradasRelacionadas;
     return this;
   }
