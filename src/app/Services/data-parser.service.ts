@@ -5,19 +5,15 @@ import {
   xmlObjPlusUltra,
 } from './transform-data-json.service';
 import {
-  AnotherForms,
+  AnotherForms, CrossReference,
   FormField,
   Reference,
-  reForm,
   ReType,
   SenseSrcType,
-  SrcType,
-  StandardReType
+  StandardReType, XrFieldType
 } from '../Interfaces/word.interface';
 import {FinalFormBuilder} from '../Builders/final-form.builder';
 import {FormFieldBuilder} from "../Builders/form-field.builder";
-import {SenseFieldBuilder} from "../Builders/sense-field.builder";
-import {coerceNumberProperty} from "@angular/cdk/coercion";
 
 
 @Injectable({
@@ -27,11 +23,8 @@ export class DataParserService {
   firstForm: FormField = FormFieldBuilder.newInstance().build();
   allFirstsForms: Array<FormField> = [];
   othersForms: Array<AnotherForms> = [];
-  resultObj: reForm = { id: 0,form: FinalFormBuilder.newInstance().build(), sense: [] } ;
   wordRefG: string = '';
-  resultDef: Array<Array<testWordPlus>> = [];
   rstDef: Array<testWordPlus> = [];
-  resultExample: Array<Array<testWordPlus>> = [];
   rstExample: Array<testWordPlus> = [];
 
   constructor() {}
@@ -202,7 +195,35 @@ export class DataParserService {
     return {"forms":tempForm.slice(1), "senses":result};
   }
 
-  onCrossReferenceChildrenSplitter(data: any, tag: string) {
+  onCrossReferenceChildrenSplitter(data: Array<CrossReference>, tag: string) {
+    let references: Array<{id: number,ref:string}> = [];
+    let count = 0;
+    let initial = 1;
+    let result: any;
+    let results: Array<XrFieldType> = [];
+    data.forEach((item, index) => {
+      const tempItem : Array<any> = Array.from(item.crossReference.children);
+      count++;
+      if(initial != item.crossRefId){
+        count = 1;
+        initial = item.crossRefId;
+      }
+      if(tempItem.length === 2){
+
+        result = {"senseFather":item.crossRefId,"xrNumber":count, "lbl":tempItem[0].textContent,"ref":{"id":tempItem[1].getAttributeNode("target").value, "word":tempItem[1].textContent}}
+      }else {
+        for(let i = 1; i < tempItem.length; i++){
+          references.push({
+            id: tempItem[i].getAttributeNode("target").value,
+            ref: tempItem[i].textContent
+          })
+        }
+        result = {"senseFather":item.crossRefId, "xrNumber": count, "lbl":tempItem[0].textContent, "ref": references};
+      }
+      results.push({...result});
+    })
+    console.log(results);
+    return results;
   }
 
   onNotesChildrenSplitter(data: any, tag: string) {

@@ -131,3 +131,16 @@ export interface ReTypeFormField{
   myForms: FormField,
   mySense: ReType
 }
+
+export interface CrossReference{
+  crossRefId: number,
+  crossReference: any
+}
+
+
+export interface XrFieldType{
+  senseFather: number,
+  xrNumber: number,
+  lbl: string,
+  ref: Array<SuggestType> | SuggestType
+}

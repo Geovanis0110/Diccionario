@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 import {
   AllWord,
   catGram,
-  catGramWithId,
+  catGramWithId, CrossReference,
   Reference, ReTypeFormField,
   SenseField,
   SrcType, StandardReType,
   UsgType,
   Word,
-  WordData,
+  WordData, XrFieldType,
 } from '../Interfaces/word.interface';
 import {SenseFieldBuilder} from '../Builders/sense-field.builder';
 import {FinalWordBuilder} from '../Builders/final-word.builder';
@@ -251,6 +251,7 @@ export class TrasformDataJson {
     console.log("Referencias Parseadas => ", re);
 
 
+
     const reTry: Array<ReTypeFormField> = [];
     for (let i = 0; i < reCount; i++) {
       const myForms = re.forms[i];
@@ -260,6 +261,26 @@ export class TrasformDataJson {
       reTry.push({...myObject});
     }
     console.log("RETRY => ",reTry)
+
+
+    const xrChildren: Array<CrossReference> = [];
+    senseCount.forEach((item,index) => {
+      const xrTemp: Array<any> = Array.from(item.children);
+      xrTemp.forEach((insideObject) => {
+        if(insideObject.tagName === 'xr'){
+          const xrObj: CrossReference = {crossRefId: 0, crossReference: ""};
+          xrObj.crossRefId = item.getAttributeNode("n").value;
+          xrObj.crossReference = insideObject;
+          xrChildren.push({...xrObj});
+        }
+      });
+    })
+    const xrCount = xrChildren.length;
+    console.log("Referencias Cruzadas => ", xrChildren);
+    const xr: Array<XrFieldType> = this._dataParser.onCrossReferenceChildrenSplitter(xrChildren, "xr");
+    console.log("Referencias Cruzadas Parseadas => ", xr);
+
+
 
     console.log('!!!!!WORD', wordTry1);
     console.log('!!!!!GRAM', gramTry1);
@@ -328,13 +349,15 @@ export class TrasformDataJson {
       const ex: Array<Array<testWordPlus>> = examplesOfResults.filter(
         (x, i) => i === index
       );
-      const re: Array<ReTypeFormField> = reTry.filter((x, i) => x.senseNumber.toString() === index.toString());
+      const re: Array<ReTypeFormField> = reTry.filter((x, i) => x.senseNumber.toString() === (index+1).toString());
+      const xrFinal: Array<XrFieldType> = xr.filter((x) => x.senseFather.toString() === index.toString())
       const sense: SenseField = SenseFieldBuilder.newInstance()
         .withCategoriaGramatical(gramGrp)
         .withSenseSrc(senseMedia)
         .withDefiniciones(def)
         .withEjemplos(ex)
         .withEntradasRelacionadas(re)
+        .withReferenciaCruzada(xrFinal)
         .build();
       sensesVector.push(sense);
     });
