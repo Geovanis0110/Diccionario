@@ -46,8 +46,8 @@ export interface SenseField{
   categoriaGramatical: Array<catGram>,
   definiciones: Array<Array<testWordPlus>>,
   ejemplos: Array<Array<testWordPlus>>,
-  entradasRelacionadas: Array<any>,
-  referenciasCruzadas: Array<any>,
+  entradasRelacionadas: Array<ReTypeFormField>,
+  referenciasCruzadas: Array<XrFieldType>,
   notas: Array<any>
 }
 

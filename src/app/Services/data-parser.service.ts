@@ -29,6 +29,12 @@ export class DataParserService {
 
   constructor() {}
 
+  /**
+   * Determina los nodos hijos de una entrada y los procesa incialmente
+   * @param data Vector con la informacion de los nodos hijos de la entrada
+   * @param tag Nombre del nodo hijo que va a ser procesado
+   * @return Informacion correspondiente a un nodo hijo de la entrada de forma legible
+   */
   onEntryChildrenSplitter(
     data: Array<any>,
     tag: string
@@ -68,6 +74,13 @@ export class DataParserService {
     return results;
   }
 
+  /**
+   * Realiza la mismo operacion que la funcion {@link onEntryChildrenSplitter} pero esta vez cuenta con un identifador
+   * @param data Misma documentacion que en {@link onEntryChildrenSplitter}
+   * @param tag Misma documentacion que en {@link onEntryChildrenSplitter}
+   * @param id Identificador del nodo padre
+   * @return {@link Misma documentacion que en}
+   */
   onEntryChildrenSplitterAlternative(
     data: Array<any>,
     tag: string,
@@ -90,6 +103,12 @@ export class DataParserService {
     return results;
   }
 
+  /**
+   * Determina todas las definiciones que contiene la palabra correspondiente a la entrada.
+   * @param data Vector con la informacion de la definicion de la entrada actual.
+   * @param tag Nombre del nodo que contiene la informacion.
+   * @return Un Vector con todas las definiciones correspondientes a la entrada actual.
+   */
   onDefSenseChildrenSplitter(
     data: Array<xmlObjPlus>,
     tag: string
@@ -117,6 +136,12 @@ export class DataParserService {
     return results;
   }
 
+  /**
+   * Determina todos los grupos gramaticales a los que pertenece la entrada.
+   * @param data Vector que contiene la informacion de los grupos gramticales.
+   * @param tag Nombre del nodo que se va procesar.
+   * @return Vector con todas los grupos gramaticales.
+   */
   onGramGrpSenseChildrenSplitter(
     data: Array<xmlObjPlus>,
     tag: string
@@ -159,6 +184,12 @@ export class DataParserService {
     return results;
   }
 
+  /**
+   * Determina las definiciones y las formas ortagraficas de una referencia que se encuentra en una entrada dada.
+   * @param data Vector de elementos que contiene informacion de las referencias.
+   * @param word Nombre del nodo que se va a procesar.
+   * @return Objeto que contine la forma ortografica y las definiciones de una referencia dada en una entrada.
+   */
   onEntryReferenceChildrenSplitter(data: Array<Reference>, word: string):StandardReType {
     this.rstDef = [];
     this.rstExample = [];
@@ -195,13 +226,19 @@ export class DataParserService {
     return {"forms":tempForm.slice(1), "senses":result};
   }
 
+  /**
+   * Determina cuales son los referencias de Antonimo y Sinonimo de la entrada actual.
+   * @param data Vector que contiene las referencias a parsear.
+   * @param tag Nombre del nodo.
+   * @return Vector de todos las referencias cruzadas en formato JSON.
+   */
   onCrossReferenceChildrenSplitter(data: Array<CrossReference>, tag: string) {
     let references: Array<{id: number,ref:string}> = [];
     let count = 0;
     let initial = 1;
     let result: any;
     let results: Array<XrFieldType> = [];
-    data.forEach((item, index) => {
+    data.forEach((item) => {
       const tempItem : Array<any> = Array.from(item.crossReference.children);
       count++;
       if(initial != item.crossRefId){
@@ -210,11 +247,11 @@ export class DataParserService {
       }
       if(tempItem.length === 2){
 
-        result = {"senseFather":item.crossRefId,"xrNumber":count, "lbl":tempItem[0].textContent,"ref":{"id":tempItem[1].getAttributeNode("target").value, "word":tempItem[1].textContent}}
+        result = {"senseFather":item.crossRefId,"xrNumber":count, "lbl":tempItem[0].textContent,"ref":{"id":tempItem[1].getAttributeNode("target")?.value, "word":tempItem[1].textContent}}
       }else {
         for(let i = 1; i < tempItem.length; i++){
           references.push({
-            id: tempItem[i].getAttributeNode("target").value,
+            id: tempItem[i].getAttributeNode("target")?.value,
             ref: tempItem[i].textContent
           })
         }
@@ -226,9 +263,20 @@ export class DataParserService {
     return results;
   }
 
+  /**
+   * Determina cuales son las notas correspondientes a la entrada actual.
+   * @param data
+   * @param tag
+   * @return */
   onNotesChildrenSplitter(data: any, tag: string) {
   }
 
+  /**
+   * Determina cuales son los ejemplos de la entrada actual.
+   * @param  data Vector de xmlObjPlus.
+   * @param  wordRef Referencia a la palabra principal de la entrada.
+   * @return Un vector que contiene los ejemplos correspondiente a la entrada.
+   */
   onExampleSenseChildrenSplitter(
     data: Array<xmlObjPlus>,
     wordRef: string
@@ -267,6 +315,12 @@ export class DataParserService {
     return results;
   }
 
+  /**
+   * Encuentra todas los videos, audios e imagenes que contenga la entrada correspondiente.
+   * @param data Vector que contiene toda la informacion de la multimedia de la entrada.
+   * @param tag Nombre del nodo que contiene informacion en la entrada.
+   * @return Un Vector que contiene las direcciones de la multimedia de la entrada.
+   */
   onMediaDataSplitter(data: Array<any>, tag: string) {
     const result: Array<SenseSrcType> = [];
     const obj: SenseSrcType = {id: 0, url: '', type: ''};
@@ -278,7 +332,7 @@ export class DataParserService {
           obj.url = '../../../../assets/img/' + item.getAttributeNode('itarget').value;
           result.push({...obj});
         } else if (item.getAttributeNode('vtarget')) {
-          obj.id = item.getAttributeNode('n').value;
+          obj.id = item.getAttributeNode('n')?.value;
           obj.type = 'video';
           obj.url = '../../../../assets/videos/' + item.getAttributeNode('vtarget').value;
           result.push({...obj});
@@ -290,9 +344,9 @@ export class DataParserService {
   }
 
   /**
-   *
-   * @param data recive el primer elemento de tipo "form" que se encuentra en el documento procesado
-   * @returns un array con todas las formas alternativas de la palabra procesada
+   * Determina todas las formas que contiene la entrada especificada.
+   * @param data recive el primer elemento de tipo "form" que se encuentra en el documento procesado.
+   * @returns un array con todas las formas alternativas de la palabra procesada.
    */
   homogeniesForms(data: any): Array<FormField> {
     if (
@@ -339,8 +393,9 @@ export class DataParserService {
   }
 
   /**
-   *
-   * @param data
+   * Explora todas las formas ortgraficas de la entrada y devuelve un objeto que contiene las mismas.
+   * @param data Vector que contiene todas las formas de la entrada.
+   * @return un objecto que contiene todas las formas ortograficas de la entrada.
    */
   formConstructor(data: Array<any>) {
     this.allFirstsForms = [];

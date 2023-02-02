@@ -287,7 +287,6 @@ export class TrasformDataJson {
     console.log('!!!!!SENSE', senseTry1);
 
     // const notes = this._dataParser.onNotesChildrenSplitter(senseTry1, 'notes');
-    // const xr = this._dataParser.onCrossReferenceChildrenSplitter(senseTry1, 'xr');
     definity = this._dataParser.onDefSenseChildrenSplitter(senseTry1, 'def');
     eg = this._dataParser.onEgSenseChildrenSplitter(senseTry1, 'eg');
     defGramGrp = this._dataParser.onGramGrpSenseChildrenSplitter(
@@ -350,8 +349,9 @@ export class TrasformDataJson {
         (x, i) => i === index
       );
       const re: Array<ReTypeFormField> = reTry.filter((x, i) => x.senseNumber.toString() === (index+1).toString());
-      const xrFinal: Array<XrFieldType> = xr.filter((x) => x.senseFather.toString() === index.toString())
-      const sense: SenseField = SenseFieldBuilder.newInstance()
+      const xrFinal: Array<XrFieldType> = xr.filter((x) => x.senseFather.toString() === (index+1).toString())
+      const sense: SenseField = SenseFieldBuilder
+        .newInstance()
         .withCategoriaGramatical(gramGrp)
         .withSenseSrc(senseMedia)
         .withDefiniciones(def)
@@ -363,7 +363,8 @@ export class TrasformDataJson {
     });
     console.log('SENSESS', sensesVector);
 
-    return FinalWordBuilder.newInstance()
+    return FinalWordBuilder
+      .newInstance()
       .withPalabra(formResult)
       .withPalabraSrc(palabrasSrc)
       .withGrupoGramatical(some2)
