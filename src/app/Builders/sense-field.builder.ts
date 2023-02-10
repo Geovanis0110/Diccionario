@@ -5,6 +5,7 @@ import {testWord, testWordPlus} from "../Services/transform-data-json.service";
 export class SenseFieldBuilder{
   private readonly _senseField: SenseField = {
     categoriaGramatical: [],
+    senseUsg: {type: '', value: ''},
     definiciones: [],
     ejemplos: [],
     entradasRelacionadas: [],

@@ -8,7 +8,7 @@
   background-color: #2B4865;
   color: white;
   cursor: pointer;
-  box-shadow: 1px 0px 12px #8FE3CF;
+  box-shadow: 1px 0 12px #8FE3CF;
 }
 .card-opacity{
   opacity: 0.6;
@@ -57,4 +57,8 @@
 }
 .container{
   padding: 3% 25%;
+}
+
+.btn{
+  height: 50px;
 }

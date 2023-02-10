@@ -122,10 +122,11 @@
     >
       <span class="fw-bold fs-5">{{ word.palabra.form.orthography }}</span>
       &nbsp;
+      <div class=""></div>
       <span
-        matTooltip="verbo transitivo"
+        *ngIf="word.grupoGramatical.pos.length > 1"
         class="text-decoration-underline fs-5"
-      >{{ word.grupoGramatical.pos }}</span
+        >{{ word.grupoGramatical.pos }}</span
       >
       &nbsp;
       <span class="fs-5">{{ word.usg }}</span>
@@ -147,7 +148,8 @@
           <button
             class="btn btn-primary mx-1"
             matTooltip="Ver Imagen"
-            (click)="onOpenWordImage(word.palabraSrc[0].url)">
+            (click)="onOpenWordImage(word.palabraSrc[0].url)"
+          >
             <mat-icon matPrefix svgIcon="image"></mat-icon>
             Ver Imagen
           </button>
@@ -187,76 +189,79 @@
       <!--    {{item.textos}}</span>-->
 
       <div *ngFor="let item of word.senses; index as is">
-
-        <div class="container-fluid">
-
-          <div class="d-flex justify-content-between">
-            <div class="" *ngFor="let itemSrc of item.senseSrc">
-              <button
-                *ngIf="is+1 == itemSrc.id && itemSrc.type === 'img'"
-                class="btn btn-primary"
-                (click)="onOpenWordImage(itemSrc.url)"
-              >
-                <mat-icon svgIcon="image" matPrefix></mat-icon>
-              </button>
-
-              <button
-                *ngIf="is+1 == itemSrc.id && itemSrc.type === 'video'"
-                class="btn btn-primary"
-                (click)="onOpenWordVideo(itemSrc.url)"
-              >
-                <mat-icon svgIcon="videos" matPrefix></mat-icon>
-              </button>
-            </div>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="d-block">
-              <div>
-                <span class="fw-bolder fs-5">{{ is + 1 }}.</span>
-                <span
-                  class="text-decoration-underline fs-5"
-                  *ngFor="let item1 of item.categoriaGramatical"
+        <div class="d-flex">
+          <div class="d-flex" *ngFor="let itemSrc of item.senseSrc">
+            <button
+              *ngIf="is + 1 == itemSrc.id && itemSrc.type === 'img'"
+              class="btn btn-primary"
+              (click)="onOpenWordImage(itemSrc.url)"
+            >
+              <mat-icon svgIcon="image" matPrefix></mat-icon>
+            </button>
+            <button
+              *ngIf="is + 1 == itemSrc.id && itemSrc.type === 'video'"
+              class="btn btn-primary"
+              (click)="onOpenWordVideo(itemSrc.url)"
+            >
+              <mat-icon svgIcon="videos" matPrefix></mat-icon>
+            </button>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="fw-bolder fs-5 px-1">{{ is + 1 }}.</span>
+          <div class="d-flex flex-column">
+            <div id="definitions-container">
+              <span
+                class="text-decoration-underline fs-5"
+                *ngFor="let item1 of item.categoriaGramatical"
                 >{{ item1.pos }}</span
-                >
+              >
+              <span
+                class="fs-5"
+                *ngFor="let item1 of item.definiciones[0]; index as i"
+                (click)="onLemmaWord(item1.lemmaid)"
+                [ngClass]="{
+                  'lemma-css': item1.lemmaid !== 'no have id',
+                  'fw-bolder':
+                    item1.lemmaid === 'oRef' || item1.lemmaid === 'orthVariant'
+                }"
+                >{{ item1.textos }}</span
+              >
+            </div>
+            <br/>
+            <div id="examples-container">
+              <span *ngFor="let item1 of item.ejemplos[0]; index as i">
                 <span
                   class="fs-5"
-                  *ngFor="let item1 of item.definiciones[0]; index as i"
                   (click)="onLemmaWord(item1.lemmaid)"
-                  [ngClass]="item1.lemmaid === 'no have id' ? '' : 'lemma-css'"
-                >{{ item1.textos }}</span
+                  [ngClass]="[
+                    item1.lemmaid === 'no have id'
+                      ? 'fst-italic'
+                      : 'lemma-css fst-italic',
+                    item1.lemmaid === 'orthVariant'
+                      ? 'fw-bolder fst-italic'
+                      : 'fst-italic'
+                  ]"
+                  >{{ item1.textos }}</span
                 >
-              </div>
-              <br>
-              <div>
-          <span *ngFor="let item1 of item.ejemplos[0]; index as i">
-            <span
-              class="fs-5"
-              (click)="onLemmaWord(item1.lemmaid)"
-              [ngClass]="[
-                item1.lemmaid === 'no have id'
-                  ? 'fst-italic'
-                  : 'lemma-css fst-italic',
-                item1.lemmaid === 'orthVariant'
-                  ? 'fw-bolder fst-italic'
-                  : 'fst-italic'
-              ]"
-            >{{ item1.textos }}</span
-            >
-            <span *ngIf="item1.textos === '.'"><br/></span>
-          </span>
-              </div>
+                <span *ngIf="item1.textos === '.'"><br /></span>
+              </span>
             </div>
+          </div>
+          <div class="" *ngFor="let itemRe of item.entradasRelacionadas">
+            <span>// {{itemRe.myForms.lbl}} <span class="fw-bolder">{{itemRe.myForms.orthography}}</span></span>
 
           </div>
-
         </div>
-        <hr>
+        <hr />
       </div>
-      <hr/>
-      <span class="fs-5">{{ word.palabra.form.syllable }}</span>
-      <div *ngFor="let item of word.palabra.another">
-        <span class="fs-5">{{ item.orthography }}</span>
+      <hr />
+      <div class="d-flex">
+        <span class="fs-5">{{ word.palabra.form.syllable }}</span>
         <span class="p-1"></span>
-        <span class="fs-5">{{ item.number }}</span>
+        <div *ngFor="let item of word.palabra.another">
+          <span class="fs-5">{{ item.orthography }} {{ item.number }}</span>
+          <span class="p-1"></span>
+        </div>
       </div>
     </mat-card>
   </div>

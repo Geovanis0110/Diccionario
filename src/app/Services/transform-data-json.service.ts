@@ -2,13 +2,17 @@ import {Injectable} from '@angular/core';
 import {
   AllWord,
   catGram,
-  catGramWithId, CrossReference,
-  Reference, ReTypeFormField,
+  catGramWithId,
+  CrossReference,
+  Reference,
+  ReTypeFormField,
   SenseField,
-  SrcType, StandardReType,
+  SrcType,
+  StandardReType,
   UsgType,
   Word,
-  WordData, XrFieldType,
+  WordData,
+  XrFieldType,
 } from '../Interfaces/word.interface';
 import {SenseFieldBuilder} from '../Builders/sense-field.builder';
 import {FinalWordBuilder} from '../Builders/final-word.builder';
@@ -177,25 +181,36 @@ export class TrasformDataJson {
   }
 
   onTransformDataWord(dataWord: any) {
-
     const palabrasSrc: Array<SrcType> = [];
     if (dataWord.attributes.length > 1) {
       console.log('Tiene dos atributos');
       Array.from(dataWord.attributes).forEach((item: any) => {
         if (item.name === 'itarget') {
           console.log(item.value);
-          const imgTarget: SrcType = {url: "../../../../assets/img/" + item.value, type: 'img'}
+          const imgTarget: SrcType = {
+            url: '../../../../assets/img/' + item.value,
+            type: 'img',
+          };
           palabrasSrc.push({...imgTarget});
         } else if (item.name === 'vtarget') {
           console.log(item.value);
-          const videoTarget: SrcType = {url: "../../../../assets/videos" + item.value, type: 'video'}
+          const videoTarget: SrcType = {
+            url: '../../../../assets/videos' + item.value,
+            type: 'video',
+          };
           palabrasSrc.push({...videoTarget});
         } else if (item.name === 'atarget') {
-          console.log("../../../../assets/audios/" + item.value);
-          const audioTarget: SrcType = {url: "../../../../assets/audios" + item.value, type: 'audio'}
+          console.log('../../../../assets/audios/' + item.value);
+          const audioTarget: SrcType = {
+            url: '../../../../assets/audios' + item.value,
+            type: 'audio',
+          };
           palabrasSrc.push({...audioTarget});
         } else if (item.name === 'conjtarget') {
-          const conjugateTarget: SrcType = {url: item.value, type: 'conjugativo'}
+          const conjugateTarget: SrcType = {
+            url: item.value,
+            type: 'conjugativo',
+          };
           palabrasSrc.push({...conjugateTarget});
         }
       });
@@ -232,25 +247,25 @@ export class TrasformDataJson {
     const senseMedia = this._dataParser.onMediaDataSplitter(childrens, 'sense');
 
     const reChildrens: Array<Reference> = [];
-    senseCount
-      .forEach((item, index) => {
-        const temp: Array<any> = Array.from(item.children);
-        temp
-          .forEach((obj) => {
-            if (obj.tagName === 're') {
-              const reObj: Reference = {idReferencia: 0, referencia: ""};
-              reObj.idReferencia = item.getAttributeNode('n').value;
-              reObj.referencia = obj;
-              reChildrens.push({...reObj});
-            }
-          });
-      })
+    senseCount.forEach((item, index) => {
+      const temp: Array<any> = Array.from(item.children);
+      temp.forEach((obj) => {
+        if (obj.tagName === 're') {
+          const reObj: Reference = {idReferencia: 0, referencia: ''};
+          reObj.idReferencia = item.getAttributeNode('n').value;
+          reObj.referencia = obj;
+          reChildrens.push({...reObj});
+        }
+      });
+    });
     const reCount = reChildrens.length;
-    console.log("Referencias - childrens => ", reChildrens);
-    const re: StandardReType = this._dataParser.onEntryReferenceChildrenSplitter(reChildrens, formResult.form.orthography);
-    console.log("Referencias Parseadas => ", re);
-
-
+    console.log('Referencias - childrens => ', reChildrens);
+    const re: StandardReType =
+      this._dataParser.onEntryReferenceChildrenSplitter(
+        reChildrens,
+        formResult.form.orthography
+      );
+    console.log('Referencias Parseadas => ', re);
 
     const reTry: Array<ReTypeFormField> = [];
     for (let i = 0; i < reCount; i++) {
@@ -260,27 +275,25 @@ export class TrasformDataJson {
       const myObject = {senseNumber, reNumber, myForms, mySense};
       reTry.push({...myObject});
     }
-    console.log("RETRY => ",reTry)
-
+    console.log('RETRY => ', reTry);
 
     const xrChildren: Array<CrossReference> = [];
-    senseCount.forEach((item,index) => {
+    senseCount.forEach((item, index) => {
       const xrTemp: Array<any> = Array.from(item.children);
       xrTemp.forEach((insideObject) => {
-        if(insideObject.tagName === 'xr'){
-          const xrObj: CrossReference = {crossRefId: 0, crossReference: ""};
-          xrObj.crossRefId = item.getAttributeNode("n").value;
+        if (insideObject.tagName === 'xr') {
+          const xrObj: CrossReference = {crossRefId: 0, crossReference: ''};
+          xrObj.crossRefId = item.getAttributeNode('n').value;
           xrObj.crossReference = insideObject;
           xrChildren.push({...xrObj});
         }
       });
-    })
+    });
     const xrCount = xrChildren.length;
-    console.log("Referencias Cruzadas => ", xrChildren);
-    const xr: Array<XrFieldType> = this._dataParser.onCrossReferenceChildrenSplitter(xrChildren, "xr");
-    console.log("Referencias Cruzadas Parseadas => ", xr);
-
-
+    console.log('Referencias Cruzadas => ', xrChildren);
+    const xr: Array<XrFieldType> =
+      this._dataParser.onCrossReferenceChildrenSplitter(xrChildren, 'xr');
+    console.log('Referencias Cruzadas Parseadas => ', xr);
 
     console.log('!!!!!WORD', wordTry1);
     console.log('!!!!!GRAM', gramTry1);
@@ -348,10 +361,13 @@ export class TrasformDataJson {
       const ex: Array<Array<testWordPlus>> = examplesOfResults.filter(
         (x, i) => i === index
       );
-      const re: Array<ReTypeFormField> = reTry.filter((x, i) => x.senseNumber.toString() === (index+1).toString());
-      const xrFinal: Array<XrFieldType> = xr.filter((x) => x.senseFather.toString() === (index+1).toString())
-      const sense: SenseField = SenseFieldBuilder
-        .newInstance()
+      const re: Array<ReTypeFormField> = reTry.filter(
+        (x, i) => x.senseNumber.toString() === (index + 1).toString()
+      );
+      const xrFinal: Array<XrFieldType> = xr.filter(
+        (x) => x.senseFather.toString() === (index + 1).toString()
+      );
+      const sense: SenseField = SenseFieldBuilder.newInstance()
         .withCategoriaGramatical(gramGrp)
         .withSenseSrc(senseMedia)
         .withDefiniciones(def)
@@ -363,8 +379,7 @@ export class TrasformDataJson {
     });
     console.log('SENSESS', sensesVector);
 
-    return FinalWordBuilder
-      .newInstance()
+    return FinalWordBuilder.newInstance()
       .withPalabra(formResult)
       .withPalabraSrc(palabrasSrc)
       .withGrupoGramatical(some2)

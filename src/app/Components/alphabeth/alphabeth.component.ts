@@ -1,7 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-
-
-
 @Component({
   selector: 'app-alphabeth',
   templateUrl: './alphabeth.component.html',

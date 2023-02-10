@@ -1,20 +1,21 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   testWordPlus,
   xmlObjPlus,
   xmlObjPlusUltra,
 } from './transform-data-json.service';
 import {
-  AnotherForms, CrossReference,
+  AnotherForms,
+  CrossReference,
   FormField,
   Reference,
   ReType,
   SenseSrcType,
-  StandardReType, XrFieldType
+  StandardReType,
+  XrFieldType,
 } from '../Interfaces/word.interface';
-import {FinalFormBuilder} from '../Builders/final-form.builder';
-import {FormFieldBuilder} from "../Builders/form-field.builder";
-
+import { FinalFormBuilder } from '../Builders/final-form.builder';
+import { FormFieldBuilder } from '../Builders/form-field.builder';
 
 @Injectable({
   providedIn: 'root',
@@ -190,7 +191,10 @@ export class DataParserService {
    * @param word Nombre del nodo que se va a procesar.
    * @return Objeto que contine la forma ortografica y las definiciones de una referencia dada en una entrada.
    */
-  onEntryReferenceChildrenSplitter(data: Array<Reference>, word: string):StandardReType {
+  onEntryReferenceChildrenSplitter(
+    data: Array<Reference>,
+    word: string
+  ): StandardReType {
     this.rstDef = [];
     this.rstExample = [];
     let tempForm: Array<FormField> = [];
@@ -204,26 +208,35 @@ export class DataParserService {
     data.forEach((dataItem, index) => {
       const temp: Array<any> = Array.from(dataItem.referencia.children);
       temp.forEach((obj) => {
-        if(obj.tagName === 'form'){
+        if (obj.tagName === 'form') {
           tempForm = this.homogeniesForms(obj);
-        } else if(obj.tagName === 'sense'){
-          const objItem = this.onEntryChildrenSplitterAlternative(temp, 'sense', index+1);
+        } else if (obj.tagName === 'sense') {
+          const objItem = this.onEntryChildrenSplitterAlternative(
+            temp,
+            'sense',
+            index + 1
+          );
           def = this.onDefSenseChildrenSplitter(objItem, 'def');
           this.rstDef = this.rstDef.concat(def);
           eg = this.onEgSenseChildrenSplitter(objItem, 'eg');
           example = this.onExampleSenseChildrenSplitter(eg, word);
           this.rstExample = this.rstExample.concat(example);
           count++;
-          if(initial != dataItem.idReferencia){
+          if (initial != dataItem.idReferencia) {
             count = 1;
             initial = dataItem.idReferencia;
           }
-          const rareType: ReType = { "senseNumber":dataItem.idReferencia, "reNumber":count, "definition":def , "examples":example  };
-          result.push({...rareType});
+          const rareType: ReType = {
+            senseNumber: dataItem.idReferencia,
+            reNumber: count,
+            definition: def,
+            examples: example,
+          };
+          result.push({ ...rareType });
         }
-      })
-    })
-    return {"forms":tempForm.slice(1), "senses":result};
+      });
+    });
+    return { forms: tempForm.slice(1), senses: result };
   }
 
   /**
@@ -233,32 +246,44 @@ export class DataParserService {
    * @return Vector de todos las referencias cruzadas en formato JSON.
    */
   onCrossReferenceChildrenSplitter(data: Array<CrossReference>, tag: string) {
-    let references: Array<{id: number,ref:string}> = [];
+    let references: Array<{ id: number; ref: string }> = [];
     let count = 0;
     let initial = 1;
     let result: any;
     let results: Array<XrFieldType> = [];
     data.forEach((item) => {
-      const tempItem : Array<any> = Array.from(item.crossReference.children);
+      const tempItem: Array<any> = Array.from(item.crossReference.children);
       count++;
-      if(initial != item.crossRefId){
+      if (initial != item.crossRefId) {
         count = 1;
         initial = item.crossRefId;
       }
-      if(tempItem.length === 2){
-
-        result = {"senseFather":item.crossRefId,"xrNumber":count, "lbl":tempItem[0].textContent,"ref":{"id":tempItem[1].getAttributeNode("target")?.value, "word":tempItem[1].textContent}}
-      }else {
-        for(let i = 1; i < tempItem.length; i++){
+      if (tempItem.length === 2) {
+        result = {
+          senseFather: item.crossRefId,
+          xrNumber: count,
+          lbl: tempItem[0].textContent,
+          ref: {
+            id: tempItem[1].getAttributeNode('target')?.value,
+            word: tempItem[1].textContent,
+          },
+        };
+      } else {
+        for (let i = 1; i < tempItem.length; i++) {
           references.push({
-            id: tempItem[i].getAttributeNode("target")?.value,
-            ref: tempItem[i].textContent
-          })
+            id: tempItem[i].getAttributeNode('target')?.value,
+            ref: tempItem[i].textContent,
+          });
         }
-        result = {"senseFather":item.crossRefId, "xrNumber": count, "lbl":tempItem[0].textContent, "ref": references};
+        result = {
+          senseFather: item.crossRefId,
+          xrNumber: count,
+          lbl: tempItem[0].textContent,
+          ref: references,
+        };
       }
-      results.push({...result});
-    })
+      results.push({ ...result });
+    });
     console.log(results);
     return results;
   }
@@ -268,8 +293,7 @@ export class DataParserService {
    * @param data
    * @param tag
    * @return */
-  onNotesChildrenSplitter(data: any, tag: string) {
-  }
+  onNotesChildrenSplitter(data: any, tag: string) {}
 
   /**
    * Determina cuales son los ejemplos de la entrada actual.
@@ -294,7 +318,7 @@ export class DataParserService {
         } else if (item1.tagName === 'oRef') {
           results.push({
             id: item.id,
-            lemmaid: 'no have id',
+            lemmaid: 'oRef',
             textos: wordRef,
           });
         } else if (item1.tagName === 'oVar') {
@@ -323,23 +347,26 @@ export class DataParserService {
    */
   onMediaDataSplitter(data: Array<any>, tag: string) {
     const result: Array<SenseSrcType> = [];
-    const obj: SenseSrcType = {id: 0, url: '', type: ''};
+    const obj: SenseSrcType = { id: 0, url: '', type: '' };
     data.forEach((item: any) => {
       if (item.tagName === tag) {
         if (item.getAttributeNode('itarget')) {
           obj.id = item.getAttributeNode('n').value;
           obj.type = 'img';
-          obj.url = '../../../../assets/img/' + item.getAttributeNode('itarget').value;
-          result.push({...obj});
+          obj.url =
+            '../../../../assets/img/' + item.getAttributeNode('itarget').value;
+          result.push({ ...obj });
         } else if (item.getAttributeNode('vtarget')) {
           obj.id = item.getAttributeNode('n')?.value;
           obj.type = 'video';
-          obj.url = '../../../../assets/videos/' + item.getAttributeNode('vtarget').value;
-          result.push({...obj});
+          obj.url =
+            '../../../../assets/videos/' +
+            item.getAttributeNode('vtarget').value;
+          result.push({ ...obj });
         }
       }
-    })
-    console.log("Media", result);
+    });
+    console.log('Media', result);
     return result;
   }
 
@@ -380,7 +407,7 @@ export class DataParserService {
             break;
         }
       });
-      this.allFirstsForms.push({...this.firstForm});
+      this.allFirstsForms.push({ ...this.firstForm });
       return this.allFirstsForms; // returnando el caso base de la funcion recursiva
     } else {
       Array.from(data.children)
@@ -429,7 +456,7 @@ export class DataParserService {
               break;
           }
         });
-        this.allFirstsForms.push({...this.firstForm});
+        this.allFirstsForms.push({ ...this.firstForm });
         this.homogeniesForms(item);
       } else {
         Array.from(item.children).forEach((obj: any) => {
@@ -448,7 +475,7 @@ export class DataParserService {
               break;
           }
         });
-        this.othersForms.push({...this.firstForm});
+        this.othersForms.push({ ...this.firstForm });
       }
     });
     console.log('First Form: ', this.firstForm);
@@ -460,4 +487,3 @@ export class DataParserService {
       .build();
   }
 }
-
