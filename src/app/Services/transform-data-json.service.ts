@@ -8,7 +8,7 @@ import {
   ReTypeFormField,
   SenseField,
   SrcType,
-  StandardReType,
+  StandardReType, UsgSuperType,
   UsgType,
   Word,
   WordData,
@@ -247,19 +247,38 @@ export class TrasformDataJson {
     const senseMedia = this._dataParser.onMediaDataSplitter(childrens, 'sense');
 
     const reChildrens: Array<Reference> = [];
+    const usg: Array<UsgType> = [];
+    const usgObj: Array<any> = [];
+    let idSense: number = 0;
     senseCount.forEach((item, index) => {
       const temp: Array<any> = Array.from(item.children);
       temp.forEach((obj) => {
         if (obj.tagName === 're') {
-          const reObj: Reference = {idReferencia: 0, referencia: ''};
-          reObj.idReferencia = item.getAttributeNode('n').value;
-          reObj.referencia = obj;
-          reChildrens.push({...reObj});
+          // const reObj: Reference = {idReferencia: 0, referencia: ''};
+          // reObj.idReferencia = item.getAttributeNode('n').value;
+          // reObj.referencia = obj;
+          reChildrens.push({
+            idReferencia: item.getAttributeNode('n').value,
+            referencia: obj
+          });
+        } else if(obj.tagName === 'usg'){
+          idSense = item.getAttributeNode('n').value;
+          usg.push({
+            type: obj.getAttributeNode('type').value,
+            value: obj.textContent
+          })
+          usgObj.push({
+            id: idSense,
+            usg: usg
+          })
         }
       });
     });
+
     const reCount = reChildrens.length;
     console.log('Referencias - childrens => ', reChildrens);
+    console.log("Vamos Usg => ", usgObj);
+
     const re: StandardReType =
       this._dataParser.onEntryReferenceChildrenSplitter(
         reChildrens,
@@ -291,8 +310,8 @@ export class TrasformDataJson {
     });
     const xrCount = xrChildren.length;
     console.log('Referencias Cruzadas => ', xrChildren);
-    const xr: Array<XrFieldType> =
-      this._dataParser.onCrossReferenceChildrenSplitter(xrChildren, 'xr');
+    const xr: Array<XrFieldType> = this._dataParser
+      .onCrossReferenceChildrenSplitter(xrChildren, 'xr');
     console.log('Referencias Cruzadas Parseadas => ', xr);
 
     console.log('!!!!!WORD', wordTry1);
@@ -351,6 +370,7 @@ export class TrasformDataJson {
     console.log('Ejemplos', examplesOfResults);
 
     const sensesVector: Array<SenseField> = [];
+    let usgToSense: UsgType;
     senseCount.forEach((item, index) => {
       const gramGrp: Array<catGram> = resultsOfGram.filter(
         (x) => x.id === (index + 1).toString()
@@ -367,8 +387,12 @@ export class TrasformDataJson {
       const xrFinal: Array<XrFieldType> = xr.filter(
         (x) => x.senseFather.toString() === (index + 1).toString()
       );
+
+      const usgObjToSense: Array<UsgSuperType> = <Array<UsgSuperType>> usgObj.filter((x) => x.id === (index+1));
+
       const sense: SenseField = SenseFieldBuilder.newInstance()
         .withCategoriaGramatical(gramGrp)
+        .withUsg(usgObjToSense)
         .withSenseSrc(senseMedia)
         .withDefiniciones(def)
         .withEjemplos(ex)

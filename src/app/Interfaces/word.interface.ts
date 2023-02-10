@@ -1,8 +1,5 @@
 import {
-  testWord,
-  testWordPlus,
-  xmlObj,
-  xmlObjPlus,
+  testWordPlus
 } from '../Services/transform-data-json.service';
 
 export interface UsgType {
@@ -21,6 +18,7 @@ export interface FinalWord {
   grupoGramatical: catGram;
   senses: Array<SenseField>;
   usg: UsgType;
+  notes: Array<NoteType>
 }
 
 export interface FormField {
@@ -46,9 +44,14 @@ export interface FinalForm {
   another: Array<AnotherForms>;
 }
 
+export interface UsgSuperType{
+  id: number,
+  usg: Array<UsgType>
+}
+
 export interface SenseField {
   senseSrc: Array<SenseSrcType>;
-  senseUsg: UsgType;
+  senseUsg: Array<UsgSuperType>;
   categoriaGramatical: Array<catGram>;
   definiciones: Array<Array<testWordPlus>>;
   ejemplos: Array<Array<testWordPlus>>;
@@ -148,4 +151,9 @@ export interface XrFieldType {
   xrNumber: number;
   lbl: string;
   ref: Array<SuggestType> | SuggestType;
+}
+
+export interface NoteType{
+  type: string,
+  noteDefinition: Array<testWordPlus>
 }

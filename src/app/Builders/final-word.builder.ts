@@ -1,4 +1,14 @@
-import {SrcType,AnotherForms, catGram, FinalWord, FormField, SenseField, FinalForm, UsgType} from "../Interfaces/word.interface";
+import {
+  SrcType,
+  AnotherForms,
+  catGram,
+  FinalWord,
+  FormField,
+  SenseField,
+  FinalForm,
+  UsgType,
+  NoteType
+} from "../Interfaces/word.interface";
 import { xmlObj } from "../Services/transform-data-json.service";
 import {FormFieldBuilder} from "./form-field.builder";
 
@@ -12,6 +22,7 @@ export class FinalWordBuilder{
     },
     usg: {type: '', value: ''},
     senses: [],
+    notes: []
   }
 
   static newInstance(): FinalWordBuilder{
@@ -35,6 +46,11 @@ export class FinalWordBuilder{
   }
   withSense(senses: Array<SenseField>): FinalWordBuilder{
     this._finalWord.senses = senses;
+    return this;
+  }
+
+  withNotes(notes: Array<NoteType>): FinalWordBuilder{
+    this._finalWord.notes = notes;
     return this;
   }
 

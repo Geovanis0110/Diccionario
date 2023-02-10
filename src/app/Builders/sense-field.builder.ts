@@ -1,11 +1,19 @@
-import {catGram, ReTypeFormField, SenseField, SenseSrcType, SrcType} from "../Interfaces/word.interface";
+import {
+  catGram,
+  ReTypeFormField,
+  SenseField,
+  SenseSrcType,
+  SrcType,
+  UsgSuperType,
+  UsgType
+} from "../Interfaces/word.interface";
 import {testWord, testWordPlus} from "../Services/transform-data-json.service";
 
 
-export class SenseFieldBuilder{
+export class SenseFieldBuilder {
   private readonly _senseField: SenseField = {
     categoriaGramatical: [],
-    senseUsg: {type: '', value: ''},
+    senseUsg: [],
     definiciones: [],
     ejemplos: [],
     entradasRelacionadas: [],
@@ -14,25 +22,31 @@ export class SenseFieldBuilder{
     referenciasCruzadas: []
   }
 
-  static newInstance(): SenseFieldBuilder{
+  static newInstance(): SenseFieldBuilder {
     return new SenseFieldBuilder();
   }
 
-  withCategoriaGramatical(categoriaGramatical: Array<catGram>): SenseFieldBuilder{
+  withCategoriaGramatical(categoriaGramatical: Array<catGram>): SenseFieldBuilder {
     this._senseField.categoriaGramatical = categoriaGramatical;
     return this;
   }
 
-  withDefiniciones(definiciones: Array<Array<testWordPlus>>): SenseFieldBuilder{
+  withDefiniciones(definiciones: Array<Array<testWordPlus>>): SenseFieldBuilder {
     this._senseField.definiciones = definiciones;
     return this;
   }
 
-  withEjemplos(ejemplos: Array<Array<testWordPlus>>): SenseFieldBuilder{
+  withUsg(senseUsg: Array<UsgSuperType>): SenseFieldBuilder {
+    this._senseField.senseUsg = senseUsg;
+    return this;
+  }
+
+  withEjemplos(ejemplos: Array<Array<testWordPlus>>): SenseFieldBuilder {
     this._senseField.ejemplos = ejemplos;
     return this;
   }
-  withEntradasRelacionadas(entradasRelacionadas: Array<ReTypeFormField>): SenseFieldBuilder{
+
+  withEntradasRelacionadas(entradasRelacionadas: Array<ReTypeFormField>): SenseFieldBuilder {
     this._senseField.entradasRelacionadas = entradasRelacionadas;
     return this;
   }
@@ -42,17 +56,17 @@ export class SenseFieldBuilder{
     return this;
   }
 
-  withNotas(notas: Array<any>): SenseFieldBuilder{
+  withNotas(notas: Array<any>): SenseFieldBuilder {
     this._senseField.notas = notas;
     return this;
   }
 
-  withReferenciaCruzada(referenciaCruzada: Array<any>): SenseFieldBuilder{
+  withReferenciaCruzada(referenciaCruzada: Array<any>): SenseFieldBuilder {
     this._senseField.referenciasCruzadas = referenciaCruzada;
     return this;
   }
 
-  build(): SenseField{
+  build(): SenseField {
     return this._senseField;
   }
 
