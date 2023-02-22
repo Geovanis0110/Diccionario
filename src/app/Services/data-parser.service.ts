@@ -293,7 +293,41 @@ export class DataParserService {
    * @param data
    * @param tag
    * @return */
-  onNotesChildrenSplitter(data: any, tag: string) {}
+  onNotesChildrenSplitter(data: Array<any>, tag: string) {
+    let noteId: number = 0;
+    const results: Array<testWordPlus> = [];
+    data.forEach((item, index) => {
+      if(item.tagName === tag){
+        noteId++;
+        Array.from(item.childNodes).forEach((n: any, nIndex) => {
+          if(n.tagName === 'w'){
+            results.push({
+              id: (nIndex).toString(),
+              lemmaid: n.getAttributeNode('lemmaidtarget').value,
+              textos: n.textContent
+            })
+          } else if(n.tagName === 'emph'){
+            if(n.children.length === 1){
+               results.push({
+                 id: (nIndex).toString() + " " + n.getAttributeNode('rend').value,
+                 lemmaid: n.children[0].getAttributeNode('lemmaidtarget').value,
+                 textos: n.children[0].textContent
+               })
+            }
+          } else {
+            results.push({
+              id: (nIndex).toString(),
+              lemmaid: 'no have id',
+              textos: n.textContent
+            })
+          }
+        })
+      }
+    })
+
+    console.log("Notes Test", {noteId, results});
+    return {noteId, results};
+  }
 
   /**
    * Determina cuales son los ejemplos de la entrada actual.

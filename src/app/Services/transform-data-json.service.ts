@@ -235,7 +235,7 @@ export class TrasformDataJson {
     let wordTry1: Array<xmlObjPlus> = [];
     let gramTry1: Array<xmlObjPlus> = [];
     let senseTry1: Array<xmlObjPlus> = [];
-    let notesTry1: Array<xmlObjPlus> = [];
+    let notesTry1: Array<any> = [];
     let definity: Array<testWordPlus> = [];
     let eg: Array<xmlObjPlus> = [];
     let defGramGrp: Array<xmlObjPlus> = [];
@@ -244,13 +244,16 @@ export class TrasformDataJson {
     wordTry1 = this._dataParser.onEntryChildrenSplitter(childrens, 'form');
     gramTry1 = this._dataParser.onEntryChildrenSplitter(childrens, 'gramGrp');
     senseTry1 = this._dataParser.onEntryChildrenSplitter(childrens, 'sense');
+    notesTry1.push(this._dataParser.onNotesChildrenSplitter(childrens, 'note'));
     const senseMedia = this._dataParser.onMediaDataSplitter(childrens, 'sense');
+
+
 
     const reChildrens: Array<Reference> = [];
     const usg: Array<UsgType> = [];
     const usgObj: Array<any> = [];
     let idSense: number = 0;
-    senseCount.forEach((item, index) => {
+    senseCount.forEach((item) => {
       const temp: Array<any> = Array.from(item.children);
       temp.forEach((obj) => {
         if (obj.tagName === 're') {
@@ -270,7 +273,7 @@ export class TrasformDataJson {
           usgObj.push({
             id: idSense,
             usg: usg
-          })
+          });
         }
       });
     });
@@ -408,6 +411,7 @@ export class TrasformDataJson {
       .withPalabraSrc(palabrasSrc)
       .withGrupoGramatical(some2)
       .withSense(sensesVector)
+      .withNotes(notesTry1)
       .build();
   }
 

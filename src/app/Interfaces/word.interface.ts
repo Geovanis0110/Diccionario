@@ -154,6 +154,7 @@ export interface XrFieldType {
 }
 
 export interface NoteType{
+  id: number,
   type: string,
   noteDefinition: Array<testWordPlus>
 }

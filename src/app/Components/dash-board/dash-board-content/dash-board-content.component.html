@@ -120,51 +120,52 @@
       class="example-card mat-elevation-z0"
       *ngFor="let word of wordList"
     >
-      <span class="fw-bold fs-5">{{ word.palabra.form.orthography }}</span>
-      &nbsp;
-      <div class=""></div>
-      <span
-        *ngIf="word.grupoGramatical.pos.length > 1"
-        class="text-decoration-underline fs-5"
+      <div class="">
+        <span class="fw-bold fs-5 p-2">{{ word.palabra.form.orthography }}</span>
+        <span
+          *ngIf="word.grupoGramatical.pos.length > 1"
+          class="text-decoration-underline fs-5"
         >{{ word.grupoGramatical.pos }}</span
-      >
-      &nbsp;
-      <span class="fs-5">{{ word.usg }}</span>
-      &nbsp;
+        >
+      </div>
+
       <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 p-1">
-          <button class="btn btn-primary mx-1" matTooltip="Reproducir Audio">
+
+        <div class="col-lg-3 col-md-3 col-sm-3 p-1 d-flex justify-content-center">
+          <button class="btn-primary rounded mx-1" matTooltip="Reproducir Audio">
             <mat-icon matPrefix svgIcon="volume_up"></mat-icon>
-            Reproducir Audio
           </button>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 p-1">
-          <button class="btn btn-primary mx-1" matTooltip="Play Video">
-            <mat-icon matPrefix svgIcon="videos"></mat-icon>
-            Play Video
+        <div class="col-lg-3 col-md-3 col-sm-3 p-1 d-flex justify-content-center">
+          <button class="btn-primary rounded mx-1" matTooltip="Play Video">
+            <mat-icon matPrefix svgIcon="play_circle"></mat-icon>
           </button>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 p-1">
+        <div class="col-lg-3 col-md-3 col-sm-3 p-1 d-flex justify-content-center">
           <button
-            class="btn btn-primary mx-1"
+            class="btn-primary rounded mx-1"
             matTooltip="Ver Imagen"
             (click)="onOpenWordImage(word.palabraSrc[0].url)"
           >
             <mat-icon matPrefix svgIcon="image"></mat-icon>
-            Ver Imagen
           </button>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 p-1">
+        <div class="col-lg-3 col-md-3 col-sm-3 p-1 d-flex justify-content-center">
           <button
-            class="btn btn-primary mx-1"
+            class="btn-primary rounded mx-1"
             matTooltip="Conjugar"
             (click)="onConj(word.palabraSrc[0].url)"
           >
-            <mat-icon svgIcon="aod_table" matPrefix></mat-icon>
             Conjugar
           </button>
         </div>
       </div>
+      &nbsp;
+
+      &nbsp;
+      <span class="fs-5">{{ word.usg.value }}</span>
+      &nbsp;
+
 
       <!-- <button
       class="btn btn-light"
@@ -207,16 +208,15 @@
             </button>
           </div>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <span class="fw-bolder fs-5 px-1">{{ is + 1 }}.</span>
+          <span class="fw-bolder px-1">{{ is + 1 }}.</span>
           <div class="d-flex flex-column">
             <div id="definitions-container">
               <span
-                class="text-decoration-underline fs-5"
+                class="text-decoration-underline"
                 *ngFor="let item1 of item.categoriaGramatical"
-                >{{ item1.pos }}</span
+              >{{ item1.pos }}</span
               >
               <span
-                class="fs-5"
                 *ngFor="let item1 of item.definiciones[0]; index as i"
                 (click)="onLemmaWord(item1.lemmaid)"
                 [ngClass]="{
@@ -224,14 +224,12 @@
                   'fw-bolder':
                     item1.lemmaid === 'oRef' || item1.lemmaid === 'orthVariant'
                 }"
-                >{{ item1.textos }}</span
+              >{{ item1.textos }}</span
               >
             </div>
-            <br/>
             <div id="examples-container">
               <span *ngFor="let item1 of item.ejemplos[0]; index as i">
                 <span
-                  class="fs-5"
                   (click)="onLemmaWord(item1.lemmaid)"
                   [ngClass]="[
                     item1.lemmaid === 'no have id'
@@ -241,25 +239,48 @@
                       ? 'fw-bolder fst-italic'
                       : 'fst-italic'
                   ]"
-                  >{{ item1.textos }}</span
+                >{{ item1.textos }}</span
                 >
-                <span *ngIf="item1.textos === '.'"><br /></span>
+                <span *ngIf="item1.textos === '.'"><br/></span>
+              </span>
+            </div>
+            <div class="" *ngFor="let itemRe of item.entradasRelacionadas">
+              <span>// {{itemRe.myForms.lbl}} <span class="fw-bolder">{{itemRe.myForms.orthography}}</span></span>
+              <span><br></span>
+              <span *ngFor="let itemReSense of itemRe.mySense.definition">
+                <span
+                  (click)="onLemmaWord(itemReSense.lemmaid)"
+                  [ngClass]="[
+                  itemReSense.lemmaid === 'no have id'
+                  ? 'fst-italic'
+                  :'lemma-css fst-italic',
+                  itemReSense.lemmaid === 'orthVariant'
+                  ?'fw-bolder fst-italic'
+                  :'fst-italic']">
+                  {{itemReSense.textos}}</span>
+                <span *ngIf="itemReSense.textos === '.'"><br/>
+              </span>
+              </span>
+              <span *ngFor="let itemReSenseEx of itemRe.mySense.examples">
+                <span
+                  (click)="onLemmaWord(itemReSenseEx.lemmaid)"
+                  [ngClass]="[
+                  itemReSenseEx.lemmaid === 'no have id' ? 'fst-italic':'lemma-css fst-italic',
+                  itemReSenseEx.lemmaid === 'orthVariant' ?'fw-bolder fst-italic':'fst-italic']"
+                >{{itemReSenseEx.textos}}</span>
+                <span *ngIf="itemReSenseEx.textos === '.'"><br/></span>
               </span>
             </div>
           </div>
-          <div class="" *ngFor="let itemRe of item.entradasRelacionadas">
-            <span>// {{itemRe.myForms.lbl}} <span class="fw-bolder">{{itemRe.myForms.orthography}}</span></span>
 
-          </div>
         </div>
-        <hr />
+        <hr/>
       </div>
-      <hr />
       <div class="d-flex">
-        <span class="fs-5">{{ word.palabra.form.syllable }}</span>
+        <span>{{ word.palabra.form.syllable }}</span>
         <span class="p-1"></span>
         <div *ngFor="let item of word.palabra.another">
-          <span class="fs-5">{{ item.orthography }} {{ item.number }}</span>
+          <span>{{ item.orthography }} {{ item.number }}</span>
           <span class="p-1"></span>
         </div>
       </div>
