@@ -55,10 +55,18 @@
 .text-orange{
   color: orange;
 }
-.container{
+
+.container {
   padding: 3% 25%;
 }
 
-.btn{
+.btn {
   height: 50px;
+}
+
+cdk-virtual-scroll-viewport {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
 }
