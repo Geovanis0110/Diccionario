@@ -1,13 +1,5 @@
-import {
-  catGram,
-  ReTypeFormField,
-  SenseField,
-  SenseSrcType,
-  SrcType,
-  UsgSuperType,
-  UsgType
-} from "../Interfaces/word.interface";
-import {testWord, testWordPlus} from "../Services/transform-data-json.service";
+import {catGramWithId, ReTypeFormField, SenseField, SenseSrcType, UsgSuperType} from "../Interfaces/word.interface";
+import {testWordPlus} from "../Services/transform-data-json.service";
 
 
 export class SenseFieldBuilder {
@@ -26,7 +18,7 @@ export class SenseFieldBuilder {
     return new SenseFieldBuilder();
   }
 
-  withCategoriaGramatical(categoriaGramatical: Array<catGram>): SenseFieldBuilder {
+  withCategoriaGramatical(categoriaGramatical: Array<catGramWithId>): SenseFieldBuilder {
     this._senseField.categoriaGramatical = categoriaGramatical;
     return this;
   }

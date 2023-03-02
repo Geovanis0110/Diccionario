@@ -1,9 +1,5 @@
-import { Injectable } from '@angular/core';
-import {
-  testWordPlus,
-  xmlObjPlus,
-  xmlObjPlusUltra,
-} from './transform-data-json.service';
+import {Injectable} from '@angular/core';
+import {testWordPlus, xmlObjPlus, xmlObjPlusUltra,} from './transform-data-json.service';
 import {
   AnotherForms,
   CrossReference,
@@ -14,8 +10,8 @@ import {
   StandardReType,
   XrFieldType,
 } from '../Interfaces/word.interface';
-import { FinalFormBuilder } from '../Builders/final-form.builder';
-import { FormFieldBuilder } from '../Builders/form-field.builder';
+import {FinalFormBuilder} from '../Builders/final-form.builder';
+import {FormFieldBuilder} from '../Builders/form-field.builder';
 
 @Injectable({
   providedIn: 'root',
@@ -502,10 +498,10 @@ export class DataParserService {
               this.firstForm.number = obj.textContent;
               break;
             case 'gram':
-              this.firstForm.gen = obj.textContent;
+              this.firstForm.gram = obj.textContent;
               break;
             case 'syll':
-              this.firstForm.gen = obj.textContent;
+              this.firstForm.syllable = obj.textContent;
               break;
           }
         });

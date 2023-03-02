@@ -6,10 +6,10 @@ import {FilterField, FilterForm, FilterUsg} from "../Interfaces/filter.interface
 @Pipe({
   name: 'advfilter'
 })
-  
+
 export class AdvFilterPipe implements PipeTransform{
   test: Array<AllWord> = [];
-  testResult: Array<FilterUsg> = []; 
+  testResult: Array<FilterUsg> = [];
 
   transform(value: Array<AllWord>, args: FilterForm) {
     if (args != undefined) {
@@ -30,7 +30,7 @@ export class AdvFilterPipe implements PipeTransform{
         case 'afjGram':
           value = this.handleFilterWithAfj(value, options);
           break;
-      
+
         default:
           break;
       }
@@ -54,7 +54,7 @@ export class AdvFilterPipe implements PipeTransform{
         result.push({ ...usgForm });
       })
     })
-    
+
     if (isDespectivo) {
       result.forEach((item: FilterUsg) => {
         despectivo.forEach((obj) => {if(item.value === obj) {response.push({...item.item})}})
@@ -63,7 +63,7 @@ export class AdvFilterPipe implements PipeTransform{
       result.filter((item: FilterUsg) => item.type === atype && item.value === avalue[0].selectedValue)
       .forEach((item) => response.push({ ...item.item }));
     }
-    
+
     return response;
   }
 
@@ -115,5 +115,6 @@ export class AdvFilterPipe implements PipeTransform{
       response = a.filter((item: AllWord) => item.afjGram[0] === selVal && item.afjGram.length === 1);
     }
     return response;
+    console.log("Hola Mundo ");
   }
 }

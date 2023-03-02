@@ -1,6 +1,4 @@
-import {
-  testWordPlus
-} from '../Services/transform-data-json.service';
+import {testWordPlus} from '../Services/transform-data-json.service';
 
 export interface UsgType {
   type: string;
@@ -15,7 +13,7 @@ export interface SuggestType {
 export interface FinalWord {
   palabra: FinalForm;
   palabraSrc: Array<SrcType>;
-  grupoGramatical: catGram;
+  grupoGramatical: Array<catGram>;
   senses: Array<SenseField>;
   usg: UsgType;
   notes: Array<NoteType>
@@ -36,6 +34,7 @@ export interface AnotherForms {
   number: string;
   syllable: string;
   gen: string;
+  gram: string;
 }
 
 export interface FinalForm {
@@ -52,7 +51,7 @@ export interface UsgSuperType{
 export interface SenseField {
   senseSrc: Array<SenseSrcType>;
   senseUsg: Array<UsgSuperType>;
-  categoriaGramatical: Array<catGram>;
+  categoriaGramatical: Array<catGramWithId>;
   definiciones: Array<Array<testWordPlus>>;
   ejemplos: Array<Array<testWordPlus>>;
   entradasRelacionadas: Array<ReTypeFormField>;
@@ -61,8 +60,9 @@ export interface SenseField {
 }
 
 export interface catGram {
-  pos: string;
-  itype: string;
+  value: string;
+  type: string;
+  tooltipName: string;
 }
 
 export interface catGramWithId {

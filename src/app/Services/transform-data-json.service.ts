@@ -8,7 +8,8 @@ import {
   ReTypeFormField,
   SenseField,
   SrcType,
-  StandardReType, UsgSuperType,
+  StandardReType,
+  UsgSuperType,
   UsgType,
   Word,
   WordData,
@@ -17,6 +18,7 @@ import {
 import {SenseFieldBuilder} from '../Builders/sense-field.builder';
 import {FinalWordBuilder} from '../Builders/final-word.builder';
 import {DataParserService} from './data-parser.service';
+import {CatGramBuilder} from "../Builders/cat-gram.builder";
 
 export interface testWord {
   textos: string;
@@ -182,7 +184,7 @@ export class TrasformDataJson {
 
   onTransformDataWord(dataWord: any) {
     const palabrasSrc: Array<SrcType> = [];
-    if (dataWord.attributes.length > 1) {
+    if (dataWord.attributes!.length > 1) {
       console.log('Tiene dos atributos');
       Array.from(dataWord.attributes).forEach((item: any) => {
         if (item.name === 'itarget') {
@@ -337,15 +339,21 @@ export class TrasformDataJson {
     console.log('!!!!!GRAMTICAL DEFINITIONS => ', defGramGrp);
     console.log('!!!!!EXAMPLES => ', finalExample);
 
-    const some2: catGram = {pos: '', itype: ''};
+    const some2: catGram = CatGramBuilder.newInstance().build();
+    const gramaticalGroup: Array<catGram> = [];
     gramTry1.forEach((item) => {
       if (item.name === 'pos') {
-        some2.pos = item.content;
+        some2.type = "pos";
+        some2.value = item.content;
       } else if (item.name === 'itype') {
-        some2.itype = item.content;
+        some2.type = "itype";
+        some2.value = item.content;
       }
+
+      gramaticalGroup.push({...some2});
     });
     console.log('Gramatica', some2);
+    console.log("Array gramatical", gramaticalGroup);
 
     const resultsOfGram: Array<catGramWithId> = [];
     defGramGrp.forEach((item, index) => {
@@ -375,7 +383,7 @@ export class TrasformDataJson {
     const sensesVector: Array<SenseField> = [];
     let usgToSense: UsgType;
     senseCount.forEach((item, index) => {
-      const gramGrp: Array<catGram> = resultsOfGram.filter(
+      const gramGrp: Array<catGramWithId> = resultsOfGram.filter(
         (x) => x.id === (index + 1).toString()
       );
       const def: Array<Array<testWordPlus>> = resultsOfResults.filter(
@@ -409,7 +417,7 @@ export class TrasformDataJson {
     return FinalWordBuilder.newInstance()
       .withPalabra(formResult)
       .withPalabraSrc(palabrasSrc)
-      .withGrupoGramatical(some2)
+      .withGrupoGramatical(gramaticalGroup)
       .withSense(sensesVector)
       .withNotes(notesTry1)
       .build();
