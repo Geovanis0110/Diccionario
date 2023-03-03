@@ -1,10 +1,11 @@
-import {catGram, FinalForm, FinalWord, NoteType, SenseField, SrcType, UsgType} from "../Interfaces/word.interface";
+import {catGram, FinalForm, FinalWord, NoteType, Resources, SenseField, UsgType} from "../Interfaces/word.interface";
 import {FormFieldBuilder} from "./form-field.builder";
+import {ResourcesBuilder} from "./resources.builder";
 
 export class FinalWordBuilder{
   private readonly _finalWord: FinalWord = {
     palabra: {form: FormFieldBuilder.newInstance().build(), forms: [], another: []},
-    palabraSrc: [],
+    palabraSrc: ResourcesBuilder.newInstance().build(),
     grupoGramatical: [],
     usg: {type: '', value: ''},
     senses: [],
@@ -19,7 +20,7 @@ export class FinalWordBuilder{
     return this;
   }
 
-  withPalabraSrc(palabraSrc: Array<SrcType>): FinalWordBuilder {
+  withPalabraSrc(palabraSrc: Resources): FinalWordBuilder {
     this._finalWord.palabraSrc = palabraSrc;
     return this;
   }

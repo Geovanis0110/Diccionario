@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Observable} from "rxjs";
@@ -26,6 +26,7 @@ export class DashBoardHeaderComponent implements OnInit {
       map(results => results.matches),
       shareReplay()
     );
+
   snapshotWord: string = '';
   tempWord: string = '';
   count: number = 0;
@@ -34,6 +35,8 @@ export class DashBoardHeaderComponent implements OnInit {
   wordSearch: string = '';
   input_search: boolean = false;
   hiddenSelect = new FormControl(false);
+  filterInput = new FormControl();
+  regexpPattern: string = "[A-Za-z ]*";
   disableSelect: boolean = false;
   description: string | null = '';
   panelOpenState: boolean = false;

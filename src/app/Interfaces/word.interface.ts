@@ -12,7 +12,7 @@ export interface SuggestType {
 
 export interface FinalWord {
   palabra: FinalForm;
-  palabraSrc: Array<SrcType>;
+  palabraSrc: Resources;
   grupoGramatical: Array<catGram>;
   senses: Array<SenseField>;
   usg: UsgType;
@@ -153,8 +153,16 @@ export interface XrFieldType {
   ref: Array<SuggestType> | SuggestType;
 }
 
-export interface NoteType{
+export interface NoteType {
   id: number,
   type: string,
   noteDefinition: Array<testWordPlus>
 }
+
+export interface Resources {
+  img: SrcType;
+  video: SrcType;
+  audio: SrcType;
+  conj: SrcType;
+}
+

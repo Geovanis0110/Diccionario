@@ -4,7 +4,9 @@ import {
   catGram,
   catGramWithId,
   CrossReference,
+  NoteType,
   Reference,
+  Resources,
   ReTypeFormField,
   SenseField,
   SrcType,
@@ -19,6 +21,7 @@ import {SenseFieldBuilder} from '../Builders/sense-field.builder';
 import {FinalWordBuilder} from '../Builders/final-word.builder';
 import {DataParserService} from './data-parser.service';
 import {CatGramBuilder} from "../Builders/cat-gram.builder";
+import {ResourcesBuilder} from "../Builders/resources.builder";
 
 export interface testWord {
   textos: string;
@@ -184,31 +187,37 @@ export class TrasformDataJson {
 
   onTransformDataWord(dataWord: any) {
     const palabrasSrc: Array<SrcType> = [];
+    const wordResources: Resources = ResourcesBuilder.newInstance().build();
     if (dataWord.attributes!.length > 1) {
       console.log('Tiene dos atributos');
       Array.from(dataWord.attributes).forEach((item: any) => {
         if (item.name === 'itarget') {
-          console.log(item.value);
+          wordResources.img.type = "img";
+          wordResources.img.url = '../../../../assets/img/' + item.value;
           const imgTarget: SrcType = {
             url: '../../../../assets/img/' + item.value,
             type: 'img',
           };
           palabrasSrc.push({...imgTarget});
         } else if (item.name === 'vtarget') {
-          console.log(item.value);
+          wordResources.video.type = "video";
+          wordResources.video.url = '../../../../assets/videos' + item.value;
           const videoTarget: SrcType = {
             url: '../../../../assets/videos' + item.value,
             type: 'video',
           };
           palabrasSrc.push({...videoTarget});
         } else if (item.name === 'atarget') {
-          console.log('../../../../assets/audios/' + item.value);
+          wordResources.audio.type = "audio";
+          wordResources.audio.url = '../../../../assets/audios' + item.value;
           const audioTarget: SrcType = {
             url: '../../../../assets/audios' + item.value,
             type: 'audio',
           };
           palabrasSrc.push({...audioTarget});
         } else if (item.name === 'conjtarget') {
+          wordResources.conj.type = "conjugativo";
+          wordResources.conj.url = item.value;
           const conjugateTarget: SrcType = {
             url: item.value,
             type: 'conjugativo',
@@ -237,7 +246,7 @@ export class TrasformDataJson {
     let wordTry1: Array<xmlObjPlus> = [];
     let gramTry1: Array<xmlObjPlus> = [];
     let senseTry1: Array<xmlObjPlus> = [];
-    let notesTry1: Array<any> = [];
+    let notesTry1: Array<NoteType> = [];
     let definity: Array<testWordPlus> = [];
     let eg: Array<xmlObjPlus> = [];
     let defGramGrp: Array<xmlObjPlus> = [];
@@ -416,7 +425,7 @@ export class TrasformDataJson {
 
     return FinalWordBuilder.newInstance()
       .withPalabra(formResult)
-      .withPalabraSrc(palabrasSrc)
+      .withPalabraSrc(wordResources)
       .withGrupoGramatical(gramaticalGroup)
       .withSense(sensesVector)
       .withNotes(notesTry1)

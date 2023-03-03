@@ -122,38 +122,33 @@
         class="example-card mat-elevation-z0"
       >
         <div class="d-flex">
+          &nbsp;
           <div class="d-flex justify-content-center align-items-center">
             <span class="fw-bold">{{ word.palabra.form.orthography }}</span>
-            <!--              <div *ngFor="let itemNotes of word.notes">-->
-            <!--              <span-->
-            <!--                *ngFor="let notes of itemNotes.noteDefinition"-->
-            <!--              >-->
-            <!--                <span-->
-            <!--                  *ngIf="itemNotes.id === iword+1"-->
-            <!--                  (click)="onLemmaWord(notes.lemmaid)"-->
-            <!--                ></span>-->
-            <!--                {{notes.textos}}-->
-            <!--              </span>-->
-            <!--              </div>-->
-            &nbsp;
           </div>
           <div class="d-flex justify-content-center align-items-center">
             <span
               *ngFor="let gG of word.grupoGramatical; index as gIndex"
-            >{{ gG.value }}<span *ngIf="gIndex !== word.grupoGramatical.length -  1" class="p-1"> y </span></span>
+            >
+              <span *ngIf="gG.type !=='itype'" [matTooltip]="getGramaticalTooltip(gG.value)">{{ gG.value }} <span
+                *ngIf="gIndex !== word.grupoGramatical.length -  1" class="p-1"> y </span></span></span>
           </div>
           <div
             class="p-1 d-flex justify-content-center"
+            *ngIf="word.palabraSrc.audio.type !== ''"
           >
-            <button class="border-0" matTooltip="Reproducir Audio">
+            <button
+              (click)="onOpenWordAudio(word.palabraSrc.audio.url)"
+              class="border-0" matTooltip="Reproducir Audio">
               <mat-icon color="primary" matPrefix svgIcon="volume_up"></mat-icon>
             </button>
           </div>
           <div
             class=" p-1 d-flex justify-content-center"
+            *ngIf="word.palabraSrc.video.type !== ''"
           >
             <button
-              (click)="onOpenWordVideo(word.palabraSrc[0].url)"
+              (click)="onOpenWordVideo(word.palabraSrc.video.url)"
               class="border-0"
               matTooltip="Play Video"
             >
@@ -162,9 +157,10 @@
           </div>
           <div
             class=" p-1 d-flex justify-content-center"
+            *ngIf="word.palabraSrc.img.type !== ''"
           >
             <button
-              (click)="onOpenWordImage(word.palabraSrc[0].url)"
+              (click)="onOpenWordImage(word.palabraSrc.img.url)"
               class="border-0"
               matTooltip="Ver Imagen"
             >
@@ -173,9 +169,10 @@
           </div>
           <div
             class="p-1 d-flex justify-content-center"
+            *ngIf="word.palabraSrc.conj.type !== ''"
           >
             <button
-              (click)="onConj(word.palabraSrc[0].url)"
+              (click)="onConj(word.palabraSrc.conj.url)"
               class="border-0"
               matTooltip="Conjugar"
               color="primary"
@@ -186,7 +183,23 @@
           </div>
         </div>
         &nbsp;
+        <div *ngIf="word.notes.length !== 0">
+          <div *ngFor="let itemNotes of word.notes">
+            <span *ngFor="let notes of itemNotes.noteDefinition">
+              <span
+                (click)="onLemmaWord(notes.lemmaid)"
+                [ngClass]="{
+                  'lemma-css': notes.lemmaid !== 'no have id',
+                  'fw-bolder':
+                   notes.lemmaid === 'oRef' ||
+                   notes.lemmaid === 'orthVariant'}"
+              >
+                {{notes.textos}}
+              </span>
 
+            </span>
+          </div>
+        </div>
         &nbsp;
         <span class="fs-5">{{ word.usg.value }}</span>
         &nbsp;
@@ -237,7 +250,7 @@
             <div class="d-flex flex-column">
               <div id="definitions-container">
               <span
-                class="text-decoration-underline"
+                class="text-decoration-underline p-1"
                 *ngFor="let item1 of item.categoriaGramatical"
               >{{ item1.pos }}</span
               >
@@ -299,8 +312,8 @@
               </div>
             </div>
           </div>
-          <hr/>
         </div>
+        &nbsp;
         <div class="d-flex">
           <span>{{ word.palabra.form.syllable }}</span>
           <span class="p-1"></span>
@@ -313,6 +326,7 @@
             <span class="p-1"></span>
           </div>
         </div>
+        <hr>
       </mat-card>
     </cdk-virtual-scroll-viewport>
   </div>

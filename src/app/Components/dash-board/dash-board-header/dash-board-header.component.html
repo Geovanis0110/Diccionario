@@ -10,8 +10,10 @@
       name="filtrar"
       placeholder="Escriba una palabra..."
       (keyup.enter)="onCurrentSearch(myInput)"
-      (focus)="(true)"
       [value]="snapshotWord === undefined ? '' : snapshotWord"
+      [formControl]="filterInput"
+      autofocus
+      pattern="[A-Za-z ]*"
     />
     <span
       matTooltip="Click aquí para buscar"
@@ -23,6 +25,9 @@
         (click)="onCurrentSearch(myInput)"
       ></mat-icon>
     </span>
+  </div>
+  <div *ngIf="filterInput.errors" class="mat-error">
+    Palabra incorrecta o inexistente.
   </div>
 </div>
 

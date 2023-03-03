@@ -1,31 +1,21 @@
-import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
-import {
-  animate,
-  keyframes,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { SharedData } from '../../../Services/shared-data.service';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {animate, keyframes, state, style, transition, trigger,} from '@angular/animations';
+import {SharedData} from '../../../Services/shared-data.service';
+import {MatIconRegistry} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
 import * as MyIcons from '../../../Icons/icons';
-import {
-  FilterAbreviations,
-  FilterField,
-  FilterForm
-} from '../../../Interfaces/filter.interface';
-import { FilterBuilder } from '../../../Builders/filter.builder';
-import { FinalWord } from 'src/app/Interfaces/word.interface';
-import { EntryWordDescriptionService } from 'src/app/Services/entry-word-description.service';
-import { TrasformDataJson } from 'src/app/Services/transform-data-json.service';
-import { EntryWordVerbsTableService } from '../../../Services/entry-word-verbs-table.service';
-import { MatDialog } from '@angular/material/dialog';
-import { VerbalTableModalComponent } from '../../modals/verbal-table-modal/verbal-table-modal.component';
+import {FilterAbreviations, FilterField, FilterForm} from '../../../Interfaces/filter.interface';
+import {FilterBuilder} from '../../../Builders/filter.builder';
+import {FinalWord} from 'src/app/Interfaces/word.interface';
+import {EntryWordDescriptionService} from 'src/app/Services/entry-word-description.service';
+import {TrasformDataJson} from 'src/app/Services/transform-data-json.service';
+import {EntryWordVerbsTableService} from '../../../Services/entry-word-verbs-table.service';
+import {MatDialog} from '@angular/material/dialog';
+import {VerbalTableModalComponent} from '../../modals/verbal-table-modal/verbal-table-modal.component';
 import * as ShareContent from '../../../Models/shared-content';
-import { ImageModalComponent } from '../../modals/image-modal/image-modal.component';
+import {ImageModalComponent} from '../../modals/image-modal/image-modal.component';
 import {VideoModalComponent} from "../../modals/video-modal/video-modal.component";
+
 
 @Component({
   selector: 'app-dash-board-content',
@@ -285,7 +275,16 @@ export class DashBoardContentComponent implements OnInit {
     this._dialog.open(ImageModalComponent, {data: url})
   }
 
-  onOpenWordVideo(url: string){
+  onOpenWordVideo(url: string) {
     this._dialog.open(VideoModalComponent, {data: url});
   }
+
+  onOpenWordAudio(url: string) {
+  }
+
+  getGramaticalTooltip(abrv: string): string {
+    return "Hello World";
+  }
+
+
 }

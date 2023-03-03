@@ -4,6 +4,7 @@ import {
   AnotherForms,
   CrossReference,
   FormField,
+  NoteType,
   Reference,
   ReType,
   SenseSrcType,
@@ -289,14 +290,14 @@ export class DataParserService {
    * @param data
    * @param tag
    * @return */
-  onNotesChildrenSplitter(data: Array<any>, tag: string) {
+  onNotesChildrenSplitter(data: Array<any>, tag: string): NoteType {
     let noteId: number = 0;
     const results: Array<testWordPlus> = [];
     data.forEach((item, index) => {
-      if(item.tagName === tag){
+      if (item.tagName === tag) {
         noteId++;
         Array.from(item.childNodes).forEach((n: any, nIndex) => {
-          if(n.tagName === 'w'){
+          if (n.tagName === 'w') {
             results.push({
               id: (nIndex).toString(),
               lemmaid: n.getAttributeNode('lemmaidtarget').value,
@@ -322,7 +323,11 @@ export class DataParserService {
     })
 
     console.log("Notes Test", {noteId, results});
-    return {noteId, results};
+    let note: NoteType = {id: 0, noteDefinition: [], type: " "};
+    note.id = noteId;
+    note.noteDefinition = results;
+    note.type = " ";
+    return note;
   }
 
   /**
