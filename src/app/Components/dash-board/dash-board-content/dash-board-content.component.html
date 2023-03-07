@@ -54,17 +54,17 @@
             <button
               [hidden]="addDisabled"
               *ngIf="i < 2"
-              class="btn btn-primary mb-1"
+              class="btn btn-primary"
               (click)="onAddSelectionField()"
             >
-              <mat-icon class="mb-1" svgIcon="add"></mat-icon>
+              <mat-icon svgIcon="add"></mat-icon>
             </button>
             <button
               *ngIf="i > 0"
-              class="btn btn-primary mb-1"
+              class="btn btn-primary"
               (click)="onDeleteSelectionField(item)"
             >
-              <mat-icon class="mb-1" svgIcon="remove"></mat-icon>
+              <mat-icon svgIcon="remove"></mat-icon>
             </button>
           </div>
         </div>
@@ -245,7 +245,7 @@
               </button>
             </div>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="fw-bolder px-1">{{ is + 1 }} </span>
+            <span *ngIf="word.senses.length !== 1" class="fw-bolder px-1">{{ is + 1 }} </span>
             &nbsp; &nbsp;
             <div class="d-flex flex-column">
               <div id="definitions-container">
@@ -279,7 +279,7 @@
                   ]"
                 >{{ item1.textos }}</span
                 >
-                <span *ngIf="item1.textos === '.'"><br/></span>
+                <span *ngIf="item1.textos.endsWith('.')"><br/></span>
               </span>
               </div>
               <div *ngFor="let itemRe of item.entradasRelacionadas" class="">
@@ -297,7 +297,7 @@
                   ?'fw-bolder fst-italic'
                   :'fst-italic']">
                   {{itemReSense.textos}}</span>
-                <span *ngIf="itemReSense.textos === '.'"><br/>
+                <span *ngIf="itemReSense.textos.endsWith('.')"><br/>
               </span>
               </span>
                 <span *ngFor="let itemReSenseEx of itemRe.mySense.examples">
@@ -307,9 +307,10 @@
                   itemReSenseEx.lemmaid === 'no have id' ? 'fst-italic':'lemma-css fst-italic',
                   itemReSenseEx.lemmaid === 'orthVariant' ? 'fw-bolder no-lemma fst-italic':'fst-italic']"
                 >{{itemReSenseEx.textos}}</span>
-                <span *ngIf="itemReSenseEx.textos === '.'"><br/></span>
+                <span *ngIf="itemReSenseEx.textos.endsWith('.')"><br/></span>
               </span>
               </div>
+              <hr>
             </div>
           </div>
         </div>

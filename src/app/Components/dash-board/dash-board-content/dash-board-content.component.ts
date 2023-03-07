@@ -202,7 +202,7 @@ export class DashBoardContentComponent implements OnInit {
 
   onCloseAdvSearch() {
     console.log("Closing!!!")
-    this.hideSelect ? this.hideSelect = true : this.hideSelect = false;
+    this.hideSelect ? this.hideSelect = false : this.hideSelect = true;
     this.sharedService.advancedSearchClose.emit(this.hideSelect);
   }
 
