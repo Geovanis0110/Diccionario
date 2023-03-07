@@ -150,7 +150,8 @@ export interface XrFieldType {
   senseFather: number;
   xrNumber: number;
   lbl: string;
-  ref: Array<SuggestType> | SuggestType;
+  ref: Array<SuggestType>;
+  refArr: Array<SuggestType>
 }
 
 export interface NoteType {

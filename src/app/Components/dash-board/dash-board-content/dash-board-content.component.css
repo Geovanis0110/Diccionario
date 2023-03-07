@@ -78,3 +78,16 @@ cdk-virtual-scroll-viewport {
   flex-direction: column;
 }
 
+.not-found {
+  /*position: absolute;*/
+  /*top: 50px;*/
+  /*left: 50px;*/
+  /*transform: translate(-50%,-50%);*/
+  margin-top: 25%;
+  margin-bottom: 25%;
+}
+
+.not-found-icon {
+  transform: scale(3);
+}
+

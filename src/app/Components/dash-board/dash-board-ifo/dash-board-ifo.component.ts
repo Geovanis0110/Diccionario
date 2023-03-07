@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { EntryWordDescriptionService } from '../../../Services/entry-word-description.service';
-import { TrasformDataJson } from '../../../Services/transform-data-json.service';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {EntryWordDescriptionService} from '../../../Services/entry-word-description.service';
+import {TrasformDataJson} from '../../../Services/transform-data-json.service';
 import {SharedData} from "../../../Services/shared-data.service";
 
 import {AllWord, FinalWord, SuggestType} from '../../../Interfaces/word.interface';
@@ -48,7 +48,6 @@ export class DashBoardIfoComponent implements OnInit {
     this._shared.advancedSearchActivated.subscribe(arg => this.isAdvSearch = arg);
     this._shared.advCleanOptions.subscribe(arg => { if(arg) this.itemList = [] });
     this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
-    this._shared.strDontMatch.subscribe(arg => this.isMatch = arg);
   }
 
 

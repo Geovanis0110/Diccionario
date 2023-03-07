@@ -358,7 +358,6 @@ export class TrasformDataJson {
         some2.type = "itype";
         some2.value = item.content;
       }
-
       gramaticalGroup.push({...some2});
     });
     console.log('Gramatica', some2);
@@ -426,7 +425,7 @@ export class TrasformDataJson {
     return FinalWordBuilder.newInstance()
       .withPalabra(formResult)
       .withPalabraSrc(wordResources)
-      .withGrupoGramatical(gramaticalGroup)
+      .withGrupoGramatical(gramaticalGroup.filter((x) => x.type === 'pos'))
       .withSense(sensesVector)
       .withNotes(notesTry1)
       .build();

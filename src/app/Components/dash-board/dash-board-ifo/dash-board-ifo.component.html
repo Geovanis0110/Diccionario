@@ -2,7 +2,7 @@
   <label class="fw-bold">Lista de palabras: </label>
   <select
     #Select
-    *ngIf="isAdvSearch" class="form-select mat-elevation-z1 bg-light"
+    *ngIf="isAdvSearch; else advSearch" class="form-select mat-elevation-z1 bg-light"
     size="8">
     <option
       class="fw-bold"
@@ -11,31 +11,32 @@
       [selected]="item.word == currentEntry"
       [value]="item.id"
     >
-      {{ item.word }}
+      {{ item.word}}
     </option>
   </select>
-  <select
-    #Select
-    *ngIf="!isAdvSearch" class="form-select mat-elevation-z1 bg-light"
-    size="8">
-    <option
-      class="fw-bold"
-      (click)="onSelectWord($event)"
-      *ngFor="let item of itemList | duplicate; index as i"
-      [selected]="item.word.includes(currentEntry)"
-
-      [value]="item.id"
-    >
-      {{ item.word }}
-      <!--      | {{ item.pos | json }}-->
-    </option>
-  </select>
+  <ng-template #advSearch>
+    <select
+      #Select
+      class="form-select mat-elevation-z1 bg-light"
+      size="8">
+      <option
+        (click)="onSelectWord($event)"
+        *ngFor="let item of itemList | duplicate; index as i"
+        [selected]="item.word.includes(currentEntry)"
+        [value]="item.id"
+        class="fw-bold"
+      >
+        {{ item.word }}
+        <!--      | {{ item.pos | json }}-->
+      </option>
+    </select>
+  </ng-template>
 </div>
 <div class="mt-2">
   <label class="fw-bold"> ¿No querrás decir? </label>
-  <select size="3" class="form-select mat-elevation-z1 bg-light w-100">
+  <select class="form-select mat-elevation-z1 bg-light w-100" size="2">
     <option
-    *ngFor="let suggest of suggestedWord"
+      *ngFor="let suggest of suggestedWord"
       [value]="suggest?.id"
       class="fw-bold text-success"
       (click)="onSelectWord($event)"

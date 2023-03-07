@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
 import {animate, keyframes, state, style, transition, trigger,} from '@angular/animations';
 import {SharedData} from '../../../Services/shared-data.service';
 import {MatIconRegistry} from '@angular/material/icon';
@@ -23,18 +23,18 @@ import {VideoModalComponent} from "../../modals/video-modal/video-modal.componen
   styleUrls: ['./dash-board-content.component.css'],
   animations: [
     trigger('fade', [
-      state('in', style({ opacity: 1 })),
+      state('in', style({opacity: 1})),
       transition('void => *', [
         animate(
           '2s ease-in',
           keyframes([
-            style({ opacity: 0, transform: 'translateX(75px)', offset: 0 }),
+            style({opacity: 0, transform: 'translateX(75px)', offset: 0}),
             style({
               opacity: 0.5,
               transform: 'translateX(-25px)',
               offset: 0.3,
             }),
-            style({ opacity: 1, transform: 'translateX(0)', offset: 1 }),
+            style({opacity: 1, transform: 'translateX(0)', offset: 1}),
           ])
         ),
       ]),
@@ -65,6 +65,8 @@ export class DashBoardContentComponent implements OnInit {
   currentSelectedOption: string = '';
   addDisabled: boolean = false;
   id: number = 1;
+  otherBoolean!: EventEmitter<boolean>;
+  strShow!: string;
 
   constructor(
     private sharedService: SharedData,
@@ -111,6 +113,11 @@ export class DashBoardContentComponent implements OnInit {
       'aod_table',
       sanitizer.bypassSecurityTrustHtml(MyIcons.AOD_TABLE_ICON)
     );
+    iconRegistry.addSvgIconLiteral(
+      'warning',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.WARNING_ICON)
+    );
+    this.otherBoolean = this.sharedService.strDontMatch;
   }
 
   ngOnInit(): void {
@@ -292,6 +299,4 @@ export class DashBoardContentComponent implements OnInit {
   getGramaticalTooltip(abrv: string): string {
     return "Hello World";
   }
-
-
 }

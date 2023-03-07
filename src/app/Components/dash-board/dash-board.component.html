@@ -23,15 +23,18 @@
           class="p-0"
           ></mat-icon>
           <mat-checkbox
-          [checked]="activateMode"
-          class="p-0"
-          color="primary"
-          labelPosition="before"
-          (change)="onAdvActivate($event)"
+            (change)="onAdvActivate($event)"
+            [checked]="activateMode"
+            class="p-0"
+            color="primary"
+            labelPosition="before"
           >
-          <span *ngIf="!activateMode" class="fw-bold">Búsqueda Avanzada</span>
-          <span *ngIf="activateMode" class="fw-bold">Búsqueda Normal</span>
-        </mat-checkbox>
+            <span *ngIf="!activateMode; else mode" class="fw-bold">Búsqueda Avanzada</span>
+            <ng-template #mode>
+              <span class="fw-bold">Búsqueda Normal</span>
+            </ng-template>
+
+          </mat-checkbox>
         </mat-card>
       </div>
       <div class="col-lg-9 col-md-8 col-sm">

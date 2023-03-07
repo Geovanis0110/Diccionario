@@ -9,6 +9,7 @@ import {
   ReType,
   SenseSrcType,
   StandardReType,
+  SuggestType,
   XrFieldType,
 } from '../Interfaces/word.interface';
 import {FinalFormBuilder} from '../Builders/final-form.builder';
@@ -243,7 +244,7 @@ export class DataParserService {
    * @return Vector de todos las referencias cruzadas en formato JSON.
    */
   onCrossReferenceChildrenSplitter(data: Array<CrossReference>, tag: string) {
-    let references: Array<{ id: number; ref: string }> = [];
+    let references: Array<SuggestType> = [];
     let count = 0;
     let initial = 1;
     let result: any;
@@ -260,16 +261,16 @@ export class DataParserService {
           senseFather: item.crossRefId,
           xrNumber: count,
           lbl: tempItem[0].textContent,
-          ref: {
+          ref: [{
             id: tempItem[1].getAttributeNode('target')?.value,
             word: tempItem[1].textContent,
-          },
+          }]
         };
       } else {
         for (let i = 1; i < tempItem.length; i++) {
           references.push({
             id: tempItem[i].getAttributeNode('target')?.value,
-            ref: tempItem[i].textContent,
+            word: tempItem[i].textContent,
           });
         }
         result = {
