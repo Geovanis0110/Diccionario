@@ -207,33 +207,40 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onLemmaWord(lemmaId: string) {
-    this.fapi.setWordIndex(lemmaId.substring(0, 1));
-    this.fapi.setWordId(lemmaId);
-    this.fapi.getWordListDescription().subscribe((arg) => {
-      const dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
-      this.dataWord = this._transformData.getEntrysCount(dataToParse);
-      this.wordList = [];
-      if (this.dataWord.length > 1) {
-        this.dataWord.forEach((item) => {
-          this.wordListResults = this._transformData.onTransformDataWord(item);
-          this.wordList.push({ ...this.wordListResults});
-        })
-      } else {
-        this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[0]);
-        this.wordList.push({ ...this.wordListResults });
-      }
+    if (lemmaId === 'orthVariant') {
+      console.log("Nothing");
+    } else if (lemmaId === 'no have id') {
+      console.log("No tiene id");
+    } else {
+      this.fapi.setWordIndex(lemmaId.substring(0, 1));
+      this.fapi.setWordId(lemmaId);
+      this.fapi.getWordListDescription().subscribe((arg) => {
+        const dataToParse = new DOMParser().parseFromString(arg, 'text/xml');
+        this.dataWord = this._transformData.getEntrysCount(dataToParse);
+        this.wordList = [];
+        if (this.dataWord.length > 1) {
+          this.dataWord.forEach((item) => {
+            this.wordListResults = this._transformData.onTransformDataWord(item);
+            this.wordList.push({...this.wordListResults});
+          })
+        } else {
+          this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[0]);
+          this.wordList.push({...this.wordListResults});
+        }
 
-      // if (this.dataWord.length > 1) {
-      //   for (let i = 0; i < this.dataWord.length; i++) {
-      //     this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[i]);
-      //     this.wordList.push({ ...this.wordListResults });
-      //   }
-      // } else {
-      //   this.wordListResults = this._transformData.onTransformDataWord(this.dataWord);
-      //   this.wordList.push(this.wordListResults);
-      // }
-      console.log(this.dataWord);
-    });
+        // if (this.dataWord.length > 1) {
+        //   for (let i = 0; i < this.dataWord.length; i++) {
+        //     this.wordListResults = this._transformData.onTransformDataWord(this.dataWord[i]);
+        //     this.wordList.push({ ...this.wordListResults });
+        //   }
+        // } else {
+        //   this.wordListResults = this._transformData.onTransformDataWord(this.dataWord);
+        //   this.wordList.push(this.wordListResults);
+        // }
+        // console.log(this.dataWord);
+      });
+    }
+
   }
 
   onConj(conjtarget: string) {

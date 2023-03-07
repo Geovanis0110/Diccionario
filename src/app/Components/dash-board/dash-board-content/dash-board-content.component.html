@@ -126,7 +126,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <span class="fw-bold">{{ word.palabra.form.orthography }}</span>
           </div>
-          <div class="d-flex justify-content-center align-items-center">
+          <div class="d-flex mx-1 justify-content-center align-items-center">
             <span
               *ngFor="let gG of word.grupoGramatical; index as gIndex"
             >
@@ -274,7 +274,7 @@
                       ? 'fst-italic'
                       : 'lemma-css fst-italic',
                     item1.lemmaid === 'orthVariant'
-                      ? 'fw-bolder fst-italic'
+                      ? 'fw-bolder fst-italic no-lemma'
                       : 'fst-italic'
                   ]"
                 >{{ item1.textos }}</span
@@ -305,7 +305,7 @@
                   (click)="onLemmaWord(itemReSenseEx.lemmaid)"
                   [ngClass]="[
                   itemReSenseEx.lemmaid === 'no have id' ? 'fst-italic':'lemma-css fst-italic',
-                  itemReSenseEx.lemmaid === 'orthVariant' ?'fw-bolder fst-italic':'fst-italic']"
+                  itemReSenseEx.lemmaid === 'orthVariant' ? 'fw-bolder no-lemma fst-italic':'fst-italic']"
                 >{{itemReSenseEx.textos}}</span>
                 <span *ngIf="itemReSenseEx.textos === '.'"><br/></span>
               </span>

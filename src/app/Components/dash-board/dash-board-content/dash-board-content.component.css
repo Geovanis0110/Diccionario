@@ -45,11 +45,17 @@
 .select-style2 button{
   margin: 0 3px;
 }
-.lemma-css:hover{
+.lemma-css:hover {
   cursor: pointer;
   color: blue;
 }
-.bttn-style button{
+
+.no-lemma:hover {
+  cursor: text;
+  color: black;
+}
+
+.bttn-style button {
   margin: 0 3px;
 }
 .text-orange{
