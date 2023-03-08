@@ -427,7 +427,7 @@ export class DataParserService {
             this.firstForm.syllable = obj.textContent;
             break;
           case 'posErrores':
-            this.firstForm.positionError = obj.textContent;
+            this.firstForm.positionError = obj.textContent.split("|");
             break;
           case 'gen':
             this.firstForm.gen = obj.textContent;
@@ -476,7 +476,7 @@ export class DataParserService {
               this.firstForm.syllable = obj.textContent;
               break;
             case 'posErrores':
-              this.firstForm.positionError = obj.textContent;
+              this.firstForm.positionError = obj.textContent.split("|");
               break;
             case 'gen':
               this.firstForm.gen = obj.textContent;

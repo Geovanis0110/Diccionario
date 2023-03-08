@@ -21,7 +21,7 @@ export interface FinalWord {
 
 export interface FormField {
   orthography: string;
-  positionError: string;
+  positionError: Array<string>;
   syllable: string;
   gram: string;
   gen: string;

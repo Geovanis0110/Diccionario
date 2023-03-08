@@ -4,7 +4,7 @@ export class FormFieldBuilder{
   private readonly _formField: FormField = {
     gram: '',
     orthography: '',
-    positionError: '',
+    positionError: [],
     syllable: '',
     gen: '',
     lbl: '',
@@ -15,15 +15,17 @@ export class FormFieldBuilder{
     return new FormFieldBuilder();
   }
 
-  withOrthography(orthography: string): FormFieldBuilder{
+  withOrthography(orthography: string): FormFieldBuilder {
     this._formField.orthography = orthography;
     return this;
   }
-  withPositionError(positionError: string): FormFieldBuilder{
+
+  withPositionError(positionError: Array<string>): FormFieldBuilder {
     this._formField.positionError = positionError;
     return this;
   }
-  withSyllable(syllable: string): FormFieldBuilder{
+
+  withSyllable(syllable: string): FormFieldBuilder {
     this._formField.syllable = syllable;
     return this;
   }

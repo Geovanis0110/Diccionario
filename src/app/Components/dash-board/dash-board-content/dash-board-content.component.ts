@@ -306,4 +306,16 @@ export class DashBoardContentComponent implements OnInit {
     else
       return "Hello World";
   }
+
+  onPositionErrorProcess(index: number, pos: Array<string>): boolean {
+    let isPaint: boolean = false;
+    pos.forEach((x) => {
+      x === (index + 1).toString() ? isPaint = true : isPaint = false
+    })
+    return false;
+  }
+
+  onCharWordSplitter(word: string) {
+    return word.split("");
+  }
 }
