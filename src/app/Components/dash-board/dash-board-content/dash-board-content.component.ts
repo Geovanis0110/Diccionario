@@ -297,6 +297,12 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   getGramaticalTooltip(abrv: string): string {
-    return "Hello World";
+    let result: Array<FilterAbreviations>;
+    result = ShareContent.catGram.filter(x => x.abr.includes(abrv));
+    console.log("Resultado de filtrar la categoria gramatical: ", result);
+    if (result.length === 1)
+      return result[0].criteria;
+    else
+      return "Hello World";
   }
 }
