@@ -142,12 +142,15 @@
         <div class="d-flex">
           &nbsp;
           <div class="d-flex justify-content-center align-items-center">
-            <span class="fw-bold">{{ word.palabra.form.orthography }}</span>
-            <!--            <span *ngFor="let letter of onCharWordSplitter(word.palabra.form.orthography); index as charIndex">-->
-            <!--              <span-->
-            <!--                [ngClass]="onPositionErrorProcess(charIndex, word.palabra.form.positionError) ? '':'text-primary'"-->
-            <!--              >{{letter}}</span>-->
-            <!--            </span>-->
+            <!--            <span paintWord [word]="word.palabra.form.orthography"  [posError]="word.palabra.form.positionError" class="fw-bold"></span>-->
+            <span *ngFor="let letter of onCharWordSplitter(word.palabra.form.orthography); index as charIndex">
+                          <span
+                            [currentIndex]="charIndex"
+                            [posError]="word.palabra.form.positionError"
+                            class="fw-bold"
+                            paintWord
+                          >{{letter}}</span>
+                        </span>
 
           </div>
           <div class="d-flex mx-1 justify-content-center align-items-center ">
