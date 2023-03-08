@@ -7,7 +7,9 @@
       mat-icon-button
       class="btn btn-outline-secondary icon-button"
       (click)="onCloseAdvSearch()"
+
     >
+
       <mat-icon class="mb-3" svgIcon="close"></mat-icon>
     </button>
   </div>
@@ -121,6 +123,7 @@
     <div class="not-found d-flex justify-content-center">
       <mat-icon class="not-found-icon" svgIcon="warning"></mat-icon>
       <h2>Not Found</h2>
+      <p>Esa palabra no se encuentra en el diccionario o no existe...</p>
     </div>
   </div>
 </div>
@@ -147,6 +150,7 @@
             >
               <span
                 [matTooltip]="getGramaticalTooltip(gG.value)"
+                [matTooltipClass]="'bg-primary fs-6'"
               >{{gG.value}} <span *ngIf="gIndex+1 !== word.grupoGramatical.length"> y &nbsp;</span></span>
             </span>
           </div>
@@ -156,7 +160,10 @@
           >
             <button
               (click)="onOpenWordAudio(word.palabraSrc.audio.url)"
-              class="border-0" matTooltip="Reproducir Audio">
+              [matTooltipClass]="'bg-primary fs-6'"
+              class="border-0"
+              matTooltip="Reproducir audio"
+            >
               <mat-icon color="primary" matPrefix svgIcon="volume_up"></mat-icon>
             </button>
           </div>
@@ -167,7 +174,8 @@
             <button
               (click)="onOpenWordVideo(word.palabraSrc.video.url)"
               class="border-0"
-              matTooltip="Play Video"
+              [matTooltipClass]="'bg-primary fs-6'"
+              matTooltip="Play video"
             >
               <mat-icon color="primary" matPrefix svgIcon="play_circle"></mat-icon>
             </button>
@@ -179,7 +187,8 @@
             <button
               (click)="onOpenWordImage(word.palabraSrc.img.url)"
               class="border-0"
-              matTooltip="Ver Imagen"
+              [matTooltipClass]="'bg-primary fs-6'"
+              matTooltip="Ver imagen"
             >
               <mat-icon color="primary" matPrefix svgIcon="image"></mat-icon>
             </button>
@@ -191,7 +200,8 @@
             <button
               (click)="onConj(word.palabraSrc.conj.url)"
               class="border-0"
-              matTooltip="Conjugar"
+              [matTooltipClass]="'bg-primary fs-6'"
+              matTooltip="Conjugar verbo"
               color="primary"
               mat-flat-button
             >
@@ -219,6 +229,7 @@
         &nbsp;
         <span class="fs-5">{{ word.usg.value }}</span>
         &nbsp;
+
         <!-- <button
         class="btn btn-light"
         (click)="onPlayAudio()"
@@ -243,27 +254,28 @@
 
         <div *ngFor="let item of word.senses; index as is" class="px-3">
           <div class="d-flex">
-            <div *ngIf="item.senseSrc.length===0" style="width: 24px; height: 24px;"></div>
+            <div *ngIf="item.senseSrc.length===0" style="width: 48px;"></div>
             <div *ngFor="let itemSrc of item.senseSrc" class="d-flex align-items-start">
+              #hola
               <button
                 (click)="onOpenWordImage(itemSrc.url)"
-                *ngIf="is + 1 == itemSrc.id && itemSrc.type === 'img'; else showbutton"
+                *ngIf="is + 1 == itemSrc.id && itemSrc.type === 'img'"
+                [matTooltipClass]="'bg-primary fs-6'"
+                matTooltip="Ver imagen"
                 class="border-0 p-0"
               >
                 <mat-icon color="primary" matPrefix svgIcon="image"></mat-icon>
               </button>
               <button
                 (click)="onOpenWordVideo(itemSrc.url)"
-                *ngIf="is + 1 == itemSrc.id && itemSrc.type === 'video'; else showbutton"
+                *ngIf="is + 1 == itemSrc.id && itemSrc.type === 'video'"
+                [matTooltipClass]="'bg-primary fs-6'"
+                matTooltip="Play video"
                 class="border-0 p-0"
-                matTooltip="Play Video"
               >
                 <mat-icon color="primary" matPrefix svgIcon="play_circle"></mat-icon>
               </button>
             </div>
-            <ng-template #showbutton>
-              <div style="width: 24px; height: 24px;"></div>
-            </ng-template>
 
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span *ngIf="word.senses.length !== 1" class="fw-bolder px-1">{{ is + 1 }} </span>
@@ -272,6 +284,8 @@
               <div id="definitions-container">
               <span
                 class="text-decoration-underline p-1"
+                [matTooltipClass]="'bg-primary fs-6'"
+                [matTooltip]="getGramaticalTooltip(item1.pos)"
                 *ngFor="let item1 of item.categoriaGramatical"
               >{{ item1.pos }}</span
               >
@@ -355,7 +369,7 @@
           <div *ngFor="let item of word.palabra.another; index as i">
             <span>
               {{ item.orthography }}
-              <span *ngIf="i === 0">{{ item.number }}</span>
+              <span *ngIf="i === 0 || item.orthography.endsWith('s')">{{ item.number }}</span>
               <span *ngIf="!item.orthography.endsWith('s')">{{item.gram}}</span>
             </span>
             <span class="p-1"></span>

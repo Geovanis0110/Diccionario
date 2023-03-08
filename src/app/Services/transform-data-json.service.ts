@@ -348,9 +348,10 @@ export class TrasformDataJson {
     console.log('!!!!!GRAMTICAL DEFINITIONS => ', defGramGrp);
     console.log('!!!!!EXAMPLES => ', finalExample);
 
-    const some2: catGram = CatGramBuilder.newInstance().build();
+
     const gramaticalGroup: Array<catGram> = [];
     gramTry1.forEach((item) => {
+      const some2: catGram = CatGramBuilder.newInstance().build();
       if (item.name === 'pos') {
         some2.type = "pos";
         some2.value = item.content;
@@ -360,7 +361,7 @@ export class TrasformDataJson {
       }
       gramaticalGroup.push({...some2});
     });
-    console.log('Gramatica', some2);
+    // console.log('Gramatica', some2);
     console.log("Array gramatical", gramaticalGroup);
 
     const resultsOfGram: Array<catGramWithId> = [];

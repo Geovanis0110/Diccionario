@@ -52,6 +52,7 @@ export class DashBoardContentComponent implements OnInit {
       selectedValue: 'defaultOption',
     },
   ];
+
   isDefaultValue: boolean = true;
   dataWord: Array<any> = [];
   wordListResults!: FinalWord;

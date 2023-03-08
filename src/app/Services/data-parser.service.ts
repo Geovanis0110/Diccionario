@@ -267,6 +267,7 @@ export class DataParserService {
           }]
         };
       } else {
+        references = [];
         for (let i = 1; i < tempItem.length; i++) {
           references.push({
             id: tempItem[i].getAttributeNode('target')?.value,
@@ -416,6 +417,7 @@ export class DataParserService {
       Array.from(data.children).filter((x: any) => x.tagName === 'form')
         .length === 0
     ) {
+      this.firstForm = FormFieldBuilder.newInstance().build();
       Array.from(data.children).forEach((obj: any) => {
         switch (obj.tagName) {
           case 'orth':

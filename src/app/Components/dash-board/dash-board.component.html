@@ -16,11 +16,16 @@
     </div>
     <div class="row">
       <div class="col-lg-3 col-md-4 col-sm">
-        <mat-card class="w-100 p-2 adv-css mat-elevation-z1" matTooltip="Click aqui para activar busqueda avazanda">
+        <mat-card
+          [matTooltipClass]="'bg-primary fs-6'"
+          class="w-100 p-2 adv-css mat-elevation-z1"
+          matTooltip="Click para activar busqueda avazanda"
+          matTooltipPosition="above"
+        >
           <mat-icon
-          svgIcon="manage_search"
-          matPrefix
-          class="p-0"
+            class="p-0"
+            matPrefix
+            svgIcon="manage_search"
           ></mat-icon>
           <mat-checkbox
             (change)="onAdvActivate($event)"
