@@ -323,7 +323,9 @@
                   <span
                     (click)="onLemmaWord(itemx.id)"
                     style="cursor: pointer"
-                  ><span class="link-primary text-decoration-underline">{{itemx.word}}</span><span
+                  ><span
+                    [ngClass]="itemx.id === undefined ? '':'link-primary text-decoration-underline'"
+                  >{{itemx.word}}</span><span
                     [ngClass]="x+1 === itemXr.ref.length ? 'd-none':'text-decoration-none'"> , </span></span>
                 </span>
 
