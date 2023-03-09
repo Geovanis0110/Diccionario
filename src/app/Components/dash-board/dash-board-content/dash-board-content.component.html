@@ -118,12 +118,14 @@
   </div>
 </div>
 
-<div *ngIf="( this.sharedService.notFound | async)" class="mt-3 welcome ">
-  <div class="card p-0">
-    <div class="not-found d-flex justify-content-center">
-      <mat-icon class="not-found-icon" svgIcon="warning"></mat-icon>
-      <h2>Not Found</h2>
-      <p>Esa palabra no se encuentra en el diccionario o no existe...</p>
+<div *ngIf="( this.sharedService.notFound | async)" class="mt-3 welcome">
+  <div class="card p-0 bg-color">
+    <div class="not-found d-flex justify-content-center flex-column align-items-center p-1">
+      <h4 class="pt-1">
+        <mat-icon class="not-found-icon" matPrefix svgIcon="warning"></mat-icon>
+        Palabra no encontrada
+      </h4>
+      <p>La palabra buscada no se encuentra en la versi&oacute;n actual DBE, o no existe...</p>
     </div>
   </div>
 </div>

@@ -48,7 +48,8 @@ export class DashBoardIfoComponent implements OnInit {
       this.suggestedWord = arg;
       if (this.suggestedWord.length === 0) {
         this._shared.notFound.emit(true);
-      }
+      } else
+        this._shared.notFound.emit(false);
     });
     this._shared.advancedSearchActivated.subscribe(arg => this.isAdvSearch = arg);
     this._shared.advCleanOptions.subscribe(arg => {
