@@ -95,7 +95,7 @@
 
 <!-- Initial Content -->
 <div *ngIf="!selectClick"
-     [ngClass]="(otherBoolean | async) ? 'd-none':''"
+     [ngClass]="(this.sharedService.notFound | async) ? 'd-none':''"
      class="mt-3 welcome"
 >
   <div class="card bg-dark text-white p-0" [@fade]>
@@ -118,7 +118,7 @@
   </div>
 </div>
 
-<div *ngIf="(otherBoolean | async)" class="mt-3 welcome ">
+<div *ngIf="( this.sharedService.notFound | async)" class="mt-3 welcome ">
   <div class="card p-0">
     <div class="not-found d-flex justify-content-center">
       <mat-icon class="not-found-icon" svgIcon="warning"></mat-icon>
@@ -130,7 +130,7 @@
 
 <!-- Search Content -->
 <div *ngIf="selectClick"
-     [ngClass]="(otherBoolean | async) ? 'd-none':''"
+     [ngClass]="(this.sharedService.notFound | async) ? 'd-none':''"
      class="welcome mt-3"
 >
   <div>

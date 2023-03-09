@@ -41,7 +41,7 @@
       class="fw-bold text-success"
       (click)="onSelectWord($event)"
     >
-      {{ suggest?.word }}
+      <span *ngIf="(_shared.strDontMatch | async)">{{ suggest?.word }}</span>
     </option>
   </select>
 </div>

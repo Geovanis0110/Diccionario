@@ -40,13 +40,20 @@ export class DashBoardIfoComponent implements OnInit {
   constructor(
     private entryService: EntryWordDescriptionService,
     private dataTransform: TrasformDataJson,
-    private _shared: SharedData
+    public _shared: SharedData
   ) {}
 
   ngOnInit(): void {
-    this._shared.suggestActivated.subscribe(arg => this.suggestedWord = arg);
+    this._shared.suggestActivated.subscribe(arg => {
+      this.suggestedWord = arg;
+      if (this.suggestedWord.length === 0) {
+        this._shared.notFound.emit(true);
+      }
+    });
     this._shared.advancedSearchActivated.subscribe(arg => this.isAdvSearch = arg);
-    this._shared.advCleanOptions.subscribe(arg => { if(arg) this.itemList = [] });
+    this._shared.advCleanOptions.subscribe(arg => {
+      if (arg) this.itemList = []
+    });
     this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
   }
 

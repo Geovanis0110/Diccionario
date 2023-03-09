@@ -13,7 +13,7 @@
       [value]="snapshotWord === undefined ? '' : snapshotWord"
       [formControl]="filterInput"
       autofocus
-      pattern="[A-Za-z ]*"
+      pattern="^[a-zA-Z\u00C0-\u017F]+$"
     />
     <span
       matTooltip="Click aquí para buscar"

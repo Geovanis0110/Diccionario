@@ -1,5 +1,4 @@
-import {EventEmitter} from "@angular/core";
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from "@angular/core";
 import {SuggestType} from "../Interfaces/word.interface";
 import {FilterForm} from "../Interfaces/filter.interface";
 
@@ -15,6 +14,7 @@ export class SharedData{
   suggestActivated = new EventEmitter<Array<SuggestType>>();
   advSearchObj = new EventEmitter<FilterForm>();
   strDontMatch = new EventEmitter<boolean>();
+  notFound = new EventEmitter<boolean>();
   advCleanOptions = new EventEmitter<boolean>();
   constructor() { }
 

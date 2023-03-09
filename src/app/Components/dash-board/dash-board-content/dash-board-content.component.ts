@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {animate, keyframes, state, style, transition, trigger,} from '@angular/animations';
 import {SharedData} from '../../../Services/shared-data.service';
 import {MatIconRegistry} from '@angular/material/icon';
@@ -66,11 +66,10 @@ export class DashBoardContentComponent implements OnInit {
   currentSelectedOption: string = '';
   addDisabled: boolean = false;
   id: number = 1;
-  otherBoolean!: EventEmitter<boolean>;
   strShow!: string;
 
   constructor(
-    private sharedService: SharedData,
+    public sharedService: SharedData,
     private verbalTable: EntryWordVerbsTableService,
     private fapi: EntryWordDescriptionService,
     private _transformData: TrasformDataJson,
@@ -118,7 +117,6 @@ export class DashBoardContentComponent implements OnInit {
       'warning',
       sanitizer.bypassSecurityTrustHtml(MyIcons.WARNING_ICON)
     );
-    this.otherBoolean = this.sharedService.strDontMatch;
   }
 
   ngOnInit(): void {
@@ -298,12 +296,14 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   getGramaticalTooltip(abrv: string): string {
-    let result: Array<FilterAbreviations>;
+    let result: Array<FilterAbreviations> = [];
     result = ShareContent.catGram.filter(x => x.abr.includes(abrv));
-    console.log("Resultado de filtrar la categoria gramatical: ", result);
+    console.log(result)
     if (result.length === 1)
       return result[0].criteria;
-    else
+    else if (result.length === 0) {
+      return "Zero";
+    } else
       return "Hello World";
   }
 
