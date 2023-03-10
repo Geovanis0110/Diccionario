@@ -36,7 +36,7 @@ export class DashBoardHeaderComponent implements OnInit {
   input_search: boolean = false;
   hiddenSelect = new FormControl(false);
   filterInput = new FormControl();
-  regexpPattern: string = "[A-Za-z ]*";
+  regexpPattern: string = '^[a-zA-Z\u00C0-\u017F]+$';
   disableSelect: boolean = false;
   description: string | null = '';
   panelOpenState: boolean = false;
@@ -82,7 +82,6 @@ export class DashBoardHeaderComponent implements OnInit {
     this._suggest.getSuggestionsFromServer().subscribe(arg => {
       this.suggestions = new DOMParser().parseFromString(arg, 'application/xml');
       this.suggestionsArray = Array.from((this.suggestions).querySelectorAll('option'));
-      console.log(this.suggestionsArray);
       const result: Array<SuggestType> = [];
       this.suggestionsArray.forEach((item: any) => {
         result.push({

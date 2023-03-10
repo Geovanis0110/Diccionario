@@ -148,7 +148,7 @@ export class DashBoardComponent implements OnInit {
             .filter((x) => x.word.includes(this.entry));
         });
     } else if (this.selectionMode === 'reg3') {
-      this.queryService.setWordIndex(this.indexWord);
+      this.queryService.setWordIndex('az');
       this.queryService.getWordList()
         .subscribe((data) => {
           const dataToParse = new DOMParser().parseFromString(data, 'text/xml');
