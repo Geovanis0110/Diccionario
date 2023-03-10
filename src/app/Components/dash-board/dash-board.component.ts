@@ -3,15 +3,7 @@ import {EntryWordListService} from '../../Services/entry-word-list.service';
 import {TrasformDataJson} from '../../Services/transform-data-json.service';
 import {SharedData} from '../../Services/shared-data.service';
 
-import {
-  animate,
-  keyframes,
-  query,
-  stagger,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import {animate, keyframes, query, stagger, style, transition, trigger,} from '@angular/animations';
 import {AllWord, FinalWord} from '../../Interfaces/word.interface';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {MatIconRegistry} from '@angular/material/icon';
@@ -61,14 +53,14 @@ export class DashBoardComponent implements OnInit {
   input_search: boolean = false;
   wordArray: Array<FinalWord> = [];
   isNewSearch: boolean = false;
-  selectionMode: string = '';
+  selectionMode: string = 'reg0';
   activateMode: boolean = false;
   dontMatch: boolean = false;
 
   constructor(
     private queryService: EntryWordListService,
     private dataTransform: TrasformDataJson,
-    private _sharedData: SharedData,
+    public _sharedData: SharedData,
     private _snackbar: MatSnackBar,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
@@ -80,7 +72,7 @@ export class DashBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._sharedData.advancedSearchClose
+    this._sharedData.advancedSearchActivated
       .subscribe((result) => {
         this.activateMode = result;
       });
@@ -92,7 +84,7 @@ export class DashBoardComponent implements OnInit {
 
   onAlphaWords(alphaData: { apLetter: string }) {
     this.indexWord = alphaData.apLetter;
-    if (this.selectionMode === 'reg1' || this.selectionMode === 'reg0') {
+    if (this.selectionMode === 'reg0' || this.selectionMode === 'reg1') {
       this.queryService.setWordIndex(this.indexWord);
       this.isNewSearch = true;
       this.queryService.getWordList()
@@ -103,6 +95,7 @@ export class DashBoardComponent implements OnInit {
             dataToParse,
             this.selectionMode
           );
+
         });
     } else if (this.selectionMode === 'reg2' || this.selectionMode === 'reg3') {
       this.queryService.setWordIndex('az');
@@ -173,18 +166,21 @@ export class DashBoardComponent implements OnInit {
   }
 
   onAdvActivate(e: MatCheckboxChange) {
-    e.checked ? this.activateMode = true : this.activateMode = false;
-    this._sharedData.advancedSearchActivated.emit(this.activateMode);
-    if (this.activateMode) {
-      this._snackbar
-        .open('Búsqueda Avanzada ha sido activada', '', {
-          duration: 2 * 1000,
-        });
-    } else {
-      this._snackbar
-        .open('Búsqueda Avazanda ha sido desactivada', '', {
-          duration: 2 * 1000,
-        });
-    }
+    // e.checked ? this.activateMode = true : this.activateMode = false;
+    this._sharedData.advancedSearchActivated.emit(e.checked);
+    this._sharedData.advancedSearchActivated.subscribe((arg) => {
+      if (arg) {
+        this._snackbar
+          .open('Búsqueda Avanzada ha sido activada', '', {
+            duration: 2 * 1000,
+          });
+      } else {
+        this._snackbar
+          .open('Búsqueda Avazanda ha sido desactivada', '', {
+            duration: 2 * 1000,
+          });
+      }
+    })
+
   }
 }

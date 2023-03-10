@@ -2,8 +2,8 @@
   <label class="fw-bold">Lista de palabras: </label>
   <select
     #Select
-    *ngIf="isAdvSearch; else advSearch" class="form-select mat-elevation-z1 bg-light"
-    size="8">
+    *ngIf="(_shared.advancedSearchActivated | async); else advSearch" class="form-select mat-elevation-z1 bg-light"
+    size="9">
     <option
       class="fw-bold"
       (click)="onSelectWord($event)"

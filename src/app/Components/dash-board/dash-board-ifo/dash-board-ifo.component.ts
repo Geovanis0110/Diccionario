@@ -51,11 +51,11 @@ export class DashBoardIfoComponent implements OnInit {
       } else
         this._shared.notFound.emit(false);
     });
-    this._shared.advancedSearchActivated.subscribe(arg => this.isAdvSearch = arg);
     this._shared.advCleanOptions.subscribe(arg => {
       if (arg) this.itemList = []
     });
     this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
+
   }
 
 

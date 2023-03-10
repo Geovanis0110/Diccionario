@@ -121,7 +121,7 @@ export class DashBoardContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedService.advancedSearchActivated.subscribe((result) => this.hideSelect = result);
-    this.sharedService.advancedSearchClose.subscribe((result) => this.hideSelect = result);
+    // this.sharedService.advancedSearchClose.subscribe((result) => this.hideSelect = result);
   }
 
   setDisabledTrue(sel: Event) {
@@ -209,7 +209,7 @@ export class DashBoardContentComponent implements OnInit {
   onCloseAdvSearch() {
     console.log("Closing!!!")
     this.hideSelect ? this.hideSelect = false : this.hideSelect = true;
-    this.sharedService.advancedSearchClose.emit(this.hideSelect);
+    this.sharedService.advancedSearchActivated.emit(this.hideSelect);
   }
 
   onLemmaWord(lemmaId: string) {

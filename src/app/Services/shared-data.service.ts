@@ -7,7 +7,7 @@ import {FilterForm} from "../Interfaces/filter.interface";
   providedIn: 'root'
 })
 
-export class SharedData{
+export class SharedData {
   results: Array<string> = [];
   advancedSearchActivated = new EventEmitter<boolean>();
   advancedSearchClose = new EventEmitter<boolean>();
@@ -16,7 +16,9 @@ export class SharedData{
   strDontMatch = new EventEmitter<boolean>();
   notFound = new EventEmitter<boolean>();
   advCleanOptions = new EventEmitter<boolean>();
-  constructor() { }
+
+  constructor() {
+  }
 
   onSplitWord(word: string): Array<string> {
     this.results = word.split("");

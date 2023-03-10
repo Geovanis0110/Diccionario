@@ -1,4 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {SharedData} from "../../Services/shared-data.service";
+
 @Component({
   selector: 'app-alphabeth',
   templateUrl: './alphabeth.component.html',
@@ -9,16 +11,19 @@ export class AlphabethComponent implements OnInit {
   tCell: any;
   @Output('alphaClick') apClick = new EventEmitter<{ apLetter: string }>();
 
-  constructor() { }
+  constructor(
+    private _sharedData: SharedData
+  ) {
+  }
 
   ngOnInit(): void {
   }
 
-  onTestTable(e: Event){
+  onTestTable(e: Event) {
     this.tCell = (e.target as HTMLTableCellElement).textContent;
-    if(this.tCell != null){
+    if (this.tCell != null) {
       this.alphaLetter = this.tCell.toLowerCase();
-      if(this.alphaLetter == 'ñ'){
+      if (this.alphaLetter == 'ñ') {
         this.alphaLetter = 'ny';
       }
     }

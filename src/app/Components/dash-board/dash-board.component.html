@@ -19,7 +19,7 @@
         <mat-card
           [matTooltipClass]="'bg-primary fs-6'"
           class="w-100 p-2 adv-css mat-elevation-z1"
-          matTooltip="Click para activar busqueda avazanda"
+          matTooltip="Click para activar b&uacute;squeda avazanda"
           matTooltipPosition="above"
         >
           <mat-icon
@@ -29,16 +29,16 @@
           ></mat-icon>
           <mat-checkbox
             (change)="onAdvActivate($event)"
-            [checked]="activateMode"
+            [checked]="(_sharedData.advancedSearchActivated | async)"
             class="p-0"
             color="primary"
             labelPosition="before"
           >
-            <span *ngIf="!activateMode; else mode" class="fw-bold">Búsqueda Avanzada</span>
+            <span *ngIf="!(_sharedData.advancedSearchActivated | async); else mode"
+                  class="fw-bold">Búsqueda normal</span>
             <ng-template #mode>
-              <span class="fw-bold">Búsqueda Normal</span>
+              <span class="fw-bold">Búsqueda avanzada</span>
             </ng-template>
-
           </mat-checkbox>
         </mat-card>
       </div>

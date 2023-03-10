@@ -54,7 +54,9 @@ export class DashBoardHeaderComponent implements OnInit {
     private _suggest: EntryWordSuggestService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(MyIcons.SEARCH_ICON));
+    iconRegistry.addSvgIconLiteral(
+      'search',
+      sanitizer.bypassSecurityTrustHtml(MyIcons.SEARCH_ICON));
   }
 
   ngOnInit(): void {
