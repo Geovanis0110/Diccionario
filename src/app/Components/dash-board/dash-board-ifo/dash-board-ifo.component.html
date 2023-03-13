@@ -8,7 +8,7 @@
       class="fw-bold"
       (click)="onSelectWord($event)"
       *ngFor="let item of itemList | advfilter: advSearchObj | duplicate; index as i"
-      [selected]="item.word == currentEntry"
+      [selected]="i === 0"
       [value]="item.id"
     >
       {{ item.word}}
@@ -22,7 +22,7 @@
       <option
         (click)="onSelectWord($event)"
         *ngFor="let item of itemList | duplicate; index as i"
-        [selected]="item.word.includes(currentEntry)"
+        [selected]="i === 0"
         [value]="item.id"
         class="fw-bold"
       >

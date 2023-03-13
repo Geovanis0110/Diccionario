@@ -6,7 +6,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import * as MyIcons from '../../../Icons/icons';
 import {FilterAbreviations, FilterField, FilterForm} from '../../../Interfaces/filter.interface';
 import {FilterBuilder} from '../../../Builders/filter.builder';
-import {FinalWord} from 'src/app/Interfaces/word.interface';
+import {FinalWord, UsgType} from 'src/app/Interfaces/word.interface';
 import {EntryWordDescriptionService} from 'src/app/Services/entry-word-description.service';
 import {TrasformDataJson} from 'src/app/Services/transform-data-json.service';
 import {EntryWordVerbsTableService} from '../../../Services/entry-word-verbs-table.service';
@@ -327,12 +327,23 @@ export class DashBoardContentComponent implements OnInit {
     return this.getTooltip(str);
   }
 
-  onPositionErrorProcess(index: number, pos: Array<string>): boolean {
-    let isPaint: boolean = false;
-    pos.forEach((x) => {
-      x === (index + 1).toString() ? isPaint = true : isPaint = false
-    })
-    return false;
+  onToolTipUsg(item: UsgType): string {
+    if (item.type === 'dom') {
+    }
+    switch (item.type) {
+      case 'dom':
+        return ShareContent.knowledgeArea.filter(x => x.abr === item.value)[0].criteria;
+        break;
+      case 'style':
+        return ShareContent.usgType.filter(x => x.abr === item.value)[0].criteria;
+        break;
+      case 'geo' :
+        return ShareContent.geoInfo.filter(x => x.abr === item.value)[0].criteria;
+        break;
+      default:
+        return "no hay tooltip disponible";
+        break;
+    }
   }
 
   onCharWordSplitter(word: string) {

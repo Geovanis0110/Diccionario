@@ -41,56 +41,29 @@ export class DashBoardIfoComponent implements OnInit {
     private entryService: EntryWordDescriptionService,
     private dataTransform: TrasformDataJson,
     public _shared: SharedData
-  ) {}
+  ) {
+    this._shared.instantMatchSearch.subscribe((arg) => {
+      this.onProccesSearch(arg.entry$.id, !arg.match$);
+    })
+  }
 
   ngOnInit(): void {
     this._shared.suggestActivated.subscribe(arg => {
       this.suggestedWord = arg;
-      if (this.suggestedWord.length === 0) {
+      if (this.suggestedWord.length === 0)
         this._shared.notFound.emit(true);
-      } else
-        this._shared.notFound.emit(false);
     });
     this._shared.advCleanOptions.subscribe(arg => {
       if (arg) this.itemList = []
     });
     this._shared.advSearchObj.subscribe(arg => this.advSearchObj = arg);
-
   }
 
 
   onSelectWord(e: Event) {
-    console.log(e);
     this.clicked = true;
-    this.wordDataTestResults = [];
     this.wordID = (<HTMLSelectElement>e.target).value;
-    this.entryService.setWordIndex(this.wordID.substring(0, 1));
-    this.entryService.setWordId(this.wordID);
-    this.entryService.getWordListDescription().subscribe((data) => {
-      this.dataWord = new DOMParser().parseFromString(data, 'application/xml');
-
-      this.wordData = this.dataTransform.getEntrysCount(
-        this.dataWord
-      );
-      if (this.wordData.length > 1) {
-        for (let i = 0; i < this.wordData.length; i++){
-          this.wordDataTest = this.dataTransform.onTransformDataWord(this.wordData[i]);
-          this.wordDataTestResults.push({ ...this.wordDataTest });
-        }
-        this.backClick.emit({
-          onClicked: this.clicked,
-          wordArray: this.wordDataTestResults
-        })
-        console.log("ITEMSON", this.wordDataTestResults);
-      } else {
-        this.wordDataTest = this.dataTransform.onTransformDataWord(this.wordData[0]);
-        this.wordDataTestResults.push(this.wordDataTest);
-        this.backClick.emit({
-          onClicked: this.clicked,
-          wordArray: this.wordDataTestResults
-        });
-      }
-    });
+    this.onProccesSearch(this.wordID, this.clicked);
   }
   // onSelectWordRoute(e: Event) {
   //   this.clicked = true;
@@ -132,4 +105,35 @@ export class DashBoardIfoComponent implements OnInit {
   //   console.log(option.value);
   //   return true;
   // }
+  onProccesSearch(wordId: string, clicked: boolean) {
+    this.wordDataTestResults = [];
+    this.entryService.setWordIndex(wordId.substring(0, 1));
+    this.entryService.setWordId(wordId);
+    this.entryService.getWordListDescription().subscribe((data) => {
+      this.dataWord = new DOMParser().parseFromString(data, 'application/xml');
+
+      this.wordData = this.dataTransform.getEntrysCount(
+        this.dataWord
+      );
+      if (this.wordData.length > 1) {
+        for (let i = 0; i < this.wordData.length; i++) {
+          this.wordDataTest = this.dataTransform.onTransformDataWord(this.wordData[i]);
+          this.wordDataTestResults.push({...this.wordDataTest});
+        }
+        this.backClick.emit({
+          onClicked: clicked,
+          wordArray: this.wordDataTestResults
+        })
+        console.log("ITEMSON", this.wordDataTestResults);
+      } else {
+        this.wordDataTest = this.dataTransform.onTransformDataWord(this.wordData[0]);
+        this.wordDataTestResults.push(this.wordDataTest);
+        this.backClick.emit({
+          onClicked: clicked,
+          wordArray: this.wordDataTestResults
+        });
+      }
+    });
+  }
+
 }

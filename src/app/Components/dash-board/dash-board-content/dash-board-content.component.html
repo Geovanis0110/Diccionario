@@ -170,7 +170,11 @@
               >{{gG.value}} <span *ngIf="gIndex+1 !== word.grupoGramatical.length"> y &nbsp;</span></span>
             </span>
           </div>
-          <span class="fst-italic">{{ word.usg.value }}</span>
+          <span
+            [matTooltipClass]="'bg-primary fs-6'"
+            [matTooltip]="onToolTipUsg(word.usg)"
+            class="fst-italic"
+          >{{ word.usg.value }}</span>
           <div
             class="p-1 d-flex justify-content-center"
             *ngIf="word.palabraSrc.audio.type !== ''"
@@ -303,7 +307,12 @@
                 [matTooltip]="getTooltip(item1.pos)"
                 *ngFor="let item1 of item.categoriaGramatical"
               >{{ item1.pos }}</span>
-                <span *ngFor="let itemUsg of item.senseUsg">
+                <span
+
+                  *ngFor="let itemUsg of item.senseUsg"
+                  [matTooltipClass]="'bg-primary fs-6'"
+                  [matTooltip]="onToolTipUsg(itemUsg.usg)"
+                >
                   {{itemUsg.usg.value}}
                 </span>
                 <span

@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable} from "@angular/core";
-import {SuggestType} from "../Interfaces/word.interface";
+import {AllWord, SuggestType} from "../Interfaces/word.interface";
 import {FilterForm} from "../Interfaces/filter.interface";
+import {Subject} from "rxjs";
 
 
 @Injectable({
@@ -14,9 +15,9 @@ export class SharedData {
   suggestActivated = new EventEmitter<Array<SuggestType>>();
   advSearchObj = new EventEmitter<FilterForm>();
   strDontMatch = new EventEmitter<boolean>();
-  notFound = new EventEmitter<boolean>();
+  notFound = new EventEmitter<boolean>(false);
   advCleanOptions = new EventEmitter<boolean>();
-
+  instantMatchSearch = new Subject<{ match$: boolean, entry$: AllWord }>();
   constructor() {
   }
 

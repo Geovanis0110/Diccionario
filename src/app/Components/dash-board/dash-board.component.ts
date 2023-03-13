@@ -126,6 +126,7 @@ export class DashBoardComponent implements OnInit {
             .filter((x) => x.word === this.entry);
           this.wordResults.length === 0 ? this.dontMatch = true : this.dontMatch = false;
           this._sharedData.strDontMatch.emit(this.dontMatch);
+          this._sharedData.instantMatchSearch.next({match$: this.dontMatch, entry$: this.wordResults[0]});
         });
     } else if (this.selectionMode === 'reg1') {
       this.queryService.setWordIndex(this.indexWord);
