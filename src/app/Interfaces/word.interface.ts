@@ -45,7 +45,7 @@ export interface FinalForm {
 
 export interface UsgSuperType{
   id: number,
-  usg: Array<UsgType>
+  usg: UsgType
 }
 
 export interface SenseField {

@@ -10,6 +10,7 @@ import {
   SenseSrcType,
   StandardReType,
   SuggestType,
+  UsgType,
   XrFieldType,
 } from '../Interfaces/word.interface';
 import {FinalFormBuilder} from '../Builders/final-form.builder';
@@ -523,5 +524,16 @@ export class DataParserService {
       .withForms(this.allFirstsForms.splice(1))
       .withAnother(this.othersForms)
       .build();
+  }
+
+  onUsgWordSplitter(data: Array<any>) {
+    let usg: UsgType = {type: '', value: ''};
+    data.filter((x) => x.tagName === 'usg').forEach((x) => {
+      usg.value = x.textContent;
+      usg.type = x.getAttributeNode('type').value;
+    })
+    return usg;
+    // usg.type = result[0].getAttributeNode('type').value;
+    // usg.value = result[0].textContent;
   }
 }

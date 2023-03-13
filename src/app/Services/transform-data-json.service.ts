@@ -203,15 +203,15 @@ export class TrasformDataJson {
           wordResources.video.type = "video";
           wordResources.video.url = '../../../../assets/videos' + item.value;
           const videoTarget: SrcType = {
-            url: '../../../../assets/videos' + item.value,
+            url: '../../../../assets/videos/' + item.value,
             type: 'video',
           };
           palabrasSrc.push({...videoTarget});
         } else if (item.name === 'atarget') {
           wordResources.audio.type = "audio";
-          wordResources.audio.url = '../../../../assets/audios' + item.value;
+          wordResources.audio.url = '../../../../assets/audios/' + item.value;
           const audioTarget: SrcType = {
-            url: '../../../../assets/audios' + item.value,
+            url: '../../../../assets/audios/' + item.value,
             type: 'audio',
           };
           palabrasSrc.push({...audioTarget});
@@ -257,12 +257,12 @@ export class TrasformDataJson {
     senseTry1 = this._dataParser.onEntryChildrenSplitter(childrens, 'sense');
     notesTry1.push(this._dataParser.onNotesChildrenSplitter(childrens, 'note'));
     const senseMedia = this._dataParser.onMediaDataSplitter(childrens, 'sense');
-
+    const usgRes = this._dataParser.onUsgWordSplitter(childrens);
 
 
     const reChildrens: Array<Reference> = [];
-    const usg: Array<UsgType> = [];
-    const usgObj: Array<any> = [];
+    const usg: UsgType = {value: '', type: ''};
+    const usgObj: Array<UsgSuperType> = [];
     let idSense: number = 0;
     senseCount.forEach((item) => {
       const temp: Array<any> = Array.from(item.children);
@@ -275,15 +275,13 @@ export class TrasformDataJson {
             idReferencia: item.getAttributeNode('n').value,
             referencia: obj
           });
-        } else if(obj.tagName === 'usg'){
+        } else if(obj.tagName === 'usg') {
           idSense = item.getAttributeNode('n').value;
-          usg.push({
-            type: obj.getAttributeNode('type').value,
-            value: obj.textContent
-          })
+          usg.value = obj.textContent;
+          usg.type = obj.getAttributeNode('type').value;
           usgObj.push({
             id: idSense,
-            usg: usg
+            usg: {...usg}
           });
         }
       });
@@ -408,8 +406,8 @@ export class TrasformDataJson {
         (x) => x.senseFather.toString() === (index + 1).toString()
       );
 
-      const usgObjToSense: Array<UsgSuperType> = <Array<UsgSuperType>> usgObj.filter((x) => x.id === (index+1));
-
+      const usgObjToSense: Array<UsgSuperType> = usgObj.filter((x) => x.id.toString() === (index + 1).toString());
+      console.log(usgObjToSense);
       const sense: SenseField = SenseFieldBuilder.newInstance()
         .withCategoriaGramatical(gramGrp)
         .withUsg(usgObjToSense)
@@ -429,6 +427,7 @@ export class TrasformDataJson {
       .withGrupoGramatical(gramaticalGroup.filter((x) => x.type === 'pos'))
       .withSense(sensesVector)
       .withNotes(notesTry1)
+      .withUsg(usgRes)
       .build();
   }
 

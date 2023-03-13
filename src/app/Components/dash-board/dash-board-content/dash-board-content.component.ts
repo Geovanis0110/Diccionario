@@ -293,6 +293,9 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onOpenWordAudio(url: string) {
+    console.log(url);
+    const audio = new Audio(url);
+    audio.play();
   }
 
   getGramaticalTooltip(abrv: string): string {
@@ -305,6 +308,23 @@ export class DashBoardContentComponent implements OnInit {
       return "Zero";
     } else
       return "Hello World";
+  }
+
+  getLblTooltip(abrv: string) {
+    return ShareContent.abrev_Sin_Ant_Af.filter(x => x.abr === abrv)[0].criteria;
+  }
+
+  getTooltip(abrv: string) {
+    return ShareContent.abbrevationsTooltip.filter(x => x.abr === abrv)[0].criteria;
+  }
+
+  getTooltipGramEndWord(abrv: string): string {
+    let newStr = abrv.split("");
+    let str = "";
+    newStr.shift();
+    newStr.pop();
+    newStr.forEach((x) => str = str.concat(x));
+    return this.getTooltip(str);
   }
 
   onPositionErrorProcess(index: number, pos: Array<string>): boolean {
