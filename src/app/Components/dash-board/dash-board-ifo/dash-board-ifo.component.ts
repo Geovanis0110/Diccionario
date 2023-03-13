@@ -44,15 +44,16 @@ export class DashBoardIfoComponent implements OnInit {
   ) {
     this._shared.instantMatchSearch.subscribe((arg) => {
       this.onProccesSearch(arg.entry$.id, !arg.match$);
-    })
+    });
   }
 
   ngOnInit(): void {
     this._shared.suggestActivated.subscribe(arg => {
       this.suggestedWord = arg;
-      if (this.suggestedWord.length === 0)
-        this._shared.notFound.emit(true);
+      // if (this.suggestedWord.length === 0)
+      // this._shared.notFound.emit(true);
     });
+
     this._shared.advCleanOptions.subscribe(arg => {
       if (arg) this.itemList = []
     });

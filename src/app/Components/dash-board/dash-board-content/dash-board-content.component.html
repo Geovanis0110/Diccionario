@@ -169,12 +169,13 @@
                 [matTooltipClass]="'bg-primary fs-6'"
               >{{gG.value}} <span *ngIf="gIndex+1 !== word.grupoGramatical.length"> y &nbsp;</span></span>
             </span>
+            &nbsp;
+            <span
+              [matTooltipClass]="'bg-primary fs-6'"
+              [matTooltip]="onToolTipUsg(word.usg)"
+              class="fst-italic"
+            > {{word.usg.value }}</span>
           </div>
-          <span
-            [matTooltipClass]="'bg-primary fs-6'"
-            [matTooltip]="onToolTipUsg(word.usg)"
-            class="fst-italic"
-          >{{ word.usg.value }}</span>
           <div
             class="p-1 d-flex justify-content-center"
             *ngIf="word.palabraSrc.audio.type !== ''"
@@ -407,7 +408,7 @@
           </span>
           </span>
           <div *ngFor="let item of word.palabra.another; index as i">
-            <span>{{ item.orthography }}
+            <span> {{ item.orthography }}
               <span
                 *ngIf="item.orthography.endsWith('s')"
               ><span

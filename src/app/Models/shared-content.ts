@@ -218,6 +218,7 @@ export const abbrevationsTooltip: Array<FilterAbreviations> = [
   {abr: "dim.", criteria: "diminutivo."},
   {abr: "fig.", criteria: "sentido figurado."},
   {abr: "fras.", criteria: "fraseologismo."},
+  {abr: "fras. coloq.", criteria: "fraseologismo coloquial."},
   {abr: "interj.", criteria: "interjección."},
   {abr: "invar.", criteria: "invariable."},
   {abr: "oc. adj.", criteria: "locución adjetiva."},

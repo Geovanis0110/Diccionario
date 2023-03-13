@@ -293,7 +293,6 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onOpenWordAudio(url: string) {
-    console.log(url);
     const audio = new Audio(url);
     audio.play();
   }
@@ -319,12 +318,16 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   getTooltipGramEndWord(abrv: string): string {
-    let newStr = abrv.split("");
-    let str = "";
-    newStr.shift();
-    newStr.pop();
-    newStr.forEach((x) => str = str.concat(x));
-    return this.getTooltip(str);
+    if (abrv === '') {
+      return " ";
+    } else {
+      let newStr = abrv.split("");
+      let str = "";
+      newStr.shift();
+      newStr.pop();
+      newStr.forEach((x) => str = str.concat(x));
+      return this.getTooltip(str);
+    }
   }
 
   onToolTipUsg(item: UsgType): string {
