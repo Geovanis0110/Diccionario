@@ -42,8 +42,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-
+//import {Touc} from "node_modules/caniuse-lite/data/features/Touch";
+import {CdkAccordionModule} from '@angular/cdk/accordion';
 //Components
+
 import {ShowVideosComponent} from './Components/show-videos/show-videos.component';
 import {ShowImagesComponent} from './Components/show-images/show-images.component';
 import {ShowInfoComponent} from './Components/show-info/show-info.component';
@@ -60,7 +62,9 @@ import {ImageModalComponent} from './Components/modals/image-modal/image-modal.c
 import {VideoModalComponent} from './Components/modals/video-modal/video-modal.component';
 import {VerbalTableModalComponent} from './Components/modals/verbal-table-modal/verbal-table-modal.component';
 import {AdvFilterPipe} from './Pipes/adv-filter.pipe';
-import {PaintWordDirective} from './Directives/paint-word.directive'
+import {PaintWordDirective} from './Directives/paint-word.directive';
+//import { HammerModule } from "../../node_modules/@angular/platform-browser";
+//import { ImproveReadabilityDirective } from './Directives/improve-readability.directive';
 
 @NgModule({
   declarations: [
@@ -123,7 +127,9 @@ import {PaintWordDirective} from './Directives/paint-word.directive'
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    //HammerModule,
     FormsModule,
+    //ImproveReadabilityDirective,
     ScrollingModule
   ],
   providers: [],

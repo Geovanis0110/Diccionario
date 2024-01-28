@@ -9,42 +9,42 @@
     <div class="toolbar p-2">
       <img class="imgBg" src="./assets/img/cla_logo.png" alt="">
     </div>
-    <hr>
+<!--     <hr>
     <div class="container mx-3 d-flex align-items-center">
       <mat-icon svgIcon="segment"></mat-icon>
       <h5 class="toolbarHeader">Contenido</h5>
-    </div>
+    </div> -->
 
     <hr>
     <div class="container">
       <mat-nav-list>
-        <a mat-list-item class="iconCSS" routerLink="/diccionario" href="">
+        <a mat-list-item class="iconCSS" routerLink="/diccionario" href="" (click)="drawer.toggle()">
           <mat-icon svgIcon="menu_book"></mat-icon>
           <!--       <mat-icon class="mx-1 iconCss1" aria-hidden="false" aria-label="Diccionary"></mat-icon>-->
           <h5 class="mt-2 mx-3">Diccionario</h5></a>
-        <a mat-list-item href="#" class="iconCSS" routerLink="/videos">
+        <a mat-list-item class="iconCSS" routerLink="/videos" href="#" (click)="drawer.toggle()">
           <mat-icon svgIcon="movies"></mat-icon>
           <!--       <mat-icon class="mx-1 iconCss2" aria-hidden="false" aria-label="Videos"></mat-icon>-->
           <h5 class="mt-2 mx-3">Videos</h5></a>
         <div class="icon">
-          <a mat-list-item href="#" class="iconCSS" routerLink="/images">
+          <a mat-list-item href="#" class="iconCSS" routerLink="/images" (click)="drawer.toggle()">
             <mat-icon svgIcon="image"></mat-icon>
             <!--         <mat-icon class="mx-1 iconCss3" aria-hidden="false" aria-label="Image"></mat-icon>-->
             <h5 class="mt-2 mx-3">Imágenes</h5></a>
         </div>
-        <a mat-list-item href="#" class="iconCSS" routerLink="/info">
+        <a mat-list-item href="#" class="iconCSS" routerLink="/info" (click)="drawer.toggle()">
           <mat-icon svgIcon="info"></mat-icon>
           <!--      <mat-icon class="mx-1 iconCss4" aria-hidden="false" aria-label="Info"></mat-icon>-->
           <h5 class="mt-2 mx-3">Información</h5></a>
-        <a mat-list-item href="#" class="iconCSS" routerLink="/estadistics">
+        <a mat-list-item href="#" class="iconCSS" routerLink="/estadistics" (click)="drawer.toggle()">
           <mat-icon svgIcon="leaderboard"></mat-icon>
           <!--      <mat-icon class="mx-1 iconCss5 " aria-hidden="false" aria-label="Estadistics"></mat-icon>-->
           <h5 class="mt-2 mx-3">Estad&iacute;sticas</h5></a>
-        <a mat-list-item href="" class="iconCSS" routerLink="/help">
+        <a mat-list-item href="" class="iconCSS" routerLink="/help" (click)="drawer.toggle()">
           <mat-icon svgIcon="help"></mat-icon>
           <!--      <mat-icon class="mx-1 iconCss6"  aria-hidden="false" aria-label="Help"></mat-icon>-->
           <h5 class="mt-2 mx-3">Ayuda</h5></a>
-        <a mat-list-item href="" class="iconCSS">
+        <a mat-list-item href="" class="iconCSS" (click)="drawer.toggle()">
           <mat-icon svgIcon="close"></mat-icon>
           <!--       <mat-icon class="mx-1 iconCss7"   aria-hidden="false" aria-label="Exit"></mat-icon>-->
           <h5 class="mt-2 mx-3">Salir</h5>

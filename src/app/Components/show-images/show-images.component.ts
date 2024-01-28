@@ -39,7 +39,7 @@ export class ShowImagesComponent implements OnInit {
   imagesGalery: Array<imgWord> = [
     {
       word: 'aborigen',
-      img: '../../../assets/img/aborigen.jpg'
+      img: '../../../assets/img/a_10.jpg'
     },
     {
       word: 'abotonar',

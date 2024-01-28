@@ -15,6 +15,7 @@ import {
 } from '../Interfaces/word.interface';
 import {FinalFormBuilder} from '../Builders/final-form.builder';
 import {FormFieldBuilder} from '../Builders/form-field.builder';
+//import { exit } from 'process';
 
 @Injectable({
   providedIn: 'root',
@@ -386,6 +387,8 @@ export class DataParserService {
   onMediaDataSplitter(data: Array<any>, tag: string) {
     const result: Array<SenseSrcType> = [];
     const obj: SenseSrcType = { id: 0, url: '', type: '' };
+    //console.log({data});
+    //exit(1);
     data.forEach((item: any) => {
       if (item.tagName === tag) {
         if (item.getAttributeNode('itarget')) {
@@ -394,12 +397,20 @@ export class DataParserService {
           obj.url =
             '../../../../assets/img/' + item.getAttributeNode('itarget').value;
           result.push({ ...obj });
-        } else if (item.getAttributeNode('vtarget')) {
+        }     if (item.getAttributeNode('vtarget')) {
           obj.id = item.getAttributeNode('n')?.value;
           obj.type = 'video';
           obj.url =
             '../../../../assets/videos/' +
             item.getAttributeNode('vtarget').value;
+          result.push({ ...obj });
+        }
+        if (item.getAttributeNode('atarget')) {
+          obj.id = item.getAttributeNode('n')?.value;
+          obj.type = 'audio';
+          obj.url =
+            '../../../../assets/audio/' +
+            item.getAttributeNode('atarget').value;
           result.push({ ...obj });
         }
       }

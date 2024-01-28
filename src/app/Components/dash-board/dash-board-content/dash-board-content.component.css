@@ -1,7 +1,6 @@
 .welcome{
   width: 100%;
 }
-
 .example-card{
   background-color: #f1f1f1;
 }
@@ -93,4 +92,15 @@ cdk-virtual-scroll-viewport {
 
 .not-found-icon {
   transform: scale(1);
+}
+
+
+
+.tltipG{
+  text-decoration-line: underline;
+  border-bottom: 1px dotted black;
+  }
+
+span[matTooltipClass="'bg-primary fs-6'"]{
+  border-bottom: 1px dotted black;
 }

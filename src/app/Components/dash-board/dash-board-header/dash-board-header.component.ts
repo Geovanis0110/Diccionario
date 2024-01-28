@@ -67,6 +67,7 @@ export class DashBoardHeaderComponent implements OnInit {
   }
 
   onSelectMode(e: Event) {
+    e.preventDefault();
     console.log((<HTMLSelectElement>e.target).value);
     this.selectMode = (<HTMLSelectElement>e.target).value;
     this.selectModeSignal.emit({selMod: this.selectMode});
@@ -116,6 +117,7 @@ export class DashBoardHeaderComponent implements OnInit {
   }
 
   onKeyboardLetter(e: Event, myInput: HTMLInputElement) {
+    e.preventDefault();
     console.log((e.target as HTMLButtonElement).textContent);
     let letterValue: any = (e.target as HTMLButtonElement).textContent;
     if (letterValue != null) {

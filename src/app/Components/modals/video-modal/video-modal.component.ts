@@ -22,6 +22,13 @@ export class VideoModalComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.videoSrc = this.data;
+    //parche para que salgan los videos , en realidad solo deberia ser la ultima linea
+    //pero con esto garantiza que los videos sean .webm
+    var src = this.data;
+    var src1=src.split(".sw");
+    if(src1[1]=="f")src=src1[0] + ".webm";
+    console.log(this.data,"xxxx\n", src);
+    this.videoSrc = src;
+    //this.videoSrc = this.data;
   }
 }

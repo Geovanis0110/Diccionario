@@ -165,9 +165,12 @@ export class DashBoardComponent implements OnInit {
     this.wordArray = ifoData.wordArray;
     console.log(this.wordArray);
   }
+/*   handleTouchStart( ifoData: { onClicked: boolean; wordArray: Array<FinalWord> }) {
+    this.onClickButton(ifoData);
+  } */
 
   onAdvActivate(e: MatCheckboxChange) {
-    // e.checked ? this.activateMode = true : this.activateMode = false;
+     //e.checked ? this.activateMode = true : this.activateMode = false;
     this._sharedData.advancedSearchActivated.emit(e.checked);
     this._sharedData.advancedSearchActivated.subscribe((arg) => {
       if (arg) {

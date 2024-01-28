@@ -194,16 +194,20 @@ export class TrasformDataJson {
         if (item.name === 'itarget') {
           wordResources.img.type = "img";
           wordResources.img.url = '../../../../assets/img/' + item.value;
+          //wordResources.img.url = 'http://localhost:2021/ilustraciones/' + item.value;
           const imgTarget: SrcType = {
             url: '../../../../assets/img/' + item.value,
+          //  url: 'http://localhost:2021/ilustraciones/' + item.value,
             type: 'img',
           };
           palabrasSrc.push({...imgTarget});
         } else if (item.name === 'vtarget') {
           wordResources.video.type = "video";
-          wordResources.video.url = '../../../../assets/videos' + item.value;
+          wordResources.video.url = '../../../../assets/videos/' + item.value;
+          //wordResources.video.url = 'http://localhost:2021/videos/' + item.value;
           const videoTarget: SrcType = {
             url: '../../../../assets/videos/' + item.value,
+           // url: 'http://localhost:2021/videos/' + item.value,
             type: 'video',
           };
           palabrasSrc.push({...videoTarget});

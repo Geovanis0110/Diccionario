@@ -19,9 +19,11 @@
         >
           <mat-icon class="svgcss" svgIcon="video_library"></mat-icon>
         </button>
-        <span class="fw-bold">{{ item.word }}</span>
+        <span class="fw-bold" (click)="onShowWord(item.word)">{{
+          item.word
+        }}</span>
       </div>
-      <video class="container-fluid" [width]="'640'" [height]="'480'" [autoplay]="true" src="assets/videos/a_1.swf"  controls="controls"></video>
+
     </div>
   </div>
 </section>

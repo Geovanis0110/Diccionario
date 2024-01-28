@@ -7,9 +7,7 @@
       mat-icon-button
       class="btn btn-outline-secondary icon-button"
       (click)="onCloseAdvSearch()"
-
     >
-
       <mat-icon class="mb-3" svgIcon="close"></mat-icon>
     </button>
   </div>
@@ -167,6 +165,7 @@
               <span
                 [matTooltip]="getGramaticalTooltip(gG.value)"
                 [matTooltipClass]="'bg-primary fs-6'"
+                class="tltipG"
               >{{gG.value}} <span *ngIf="gIndex+1 !== word.grupoGramatical.length"> y &nbsp;</span></span>
             </span>
             &nbsp;
@@ -174,7 +173,7 @@
               [matTooltipClass]="'bg-primary fs-6'"
               [matTooltip]="onToolTipUsg(word.usg)"
               class="fst-italic"
-            > {{word.usg.value }}</span>
+            > {{ word.usg.value }}</span>
           </div>
           <div
             class="p-1 d-flex justify-content-center"
@@ -303,7 +302,7 @@
             <div class="d-flex flex-column">
               <div id="definitions-container">
               <span
-                class="text-decoration-underline p-1"
+              class="tltipG"
                 [matTooltipClass]="'bg-primary fs-6'"
                 [matTooltip]="getTooltip(item1.pos)"
                 *ngFor="let item1 of item.categoriaGramatical"
@@ -313,6 +312,7 @@
                   *ngFor="let itemUsg of item.senseUsg"
                   [matTooltipClass]="'bg-primary fs-6'"
                   [matTooltip]="onToolTipUsg(itemUsg.usg)"
+                  class="tltipG"
                 >
                   {{itemUsg.usg.value}}
                 </span>
@@ -345,7 +345,7 @@
               </span>
               </div>
               <div *ngFor="let itemXr of item.referenciasCruzadas;" class="">
-                <span
+                <span class="tltipG"
                   [matTooltipClass]="'bg-primary fs-6'"
                   [matTooltip]="getLblTooltip(itemXr.lbl)"
                 >{{itemXr.lbl}} </span>
@@ -364,6 +364,7 @@
                 <span>// <span
                   [matTooltipClass]="'bg-primary fs-6'"
                   [matTooltip]="getTooltip(itemRe.myForms.lbl)"
+                  class="tltipG"
                 >{{itemRe.myForms.lbl}} </span> <span class="fw-bolder">{{itemRe.myForms.orthography}}</span></span>
                 <span><br></span>
                 <span *ngFor="let itemReSense of itemRe.mySense.definition">
@@ -414,12 +415,14 @@
               ><span
                 [matTooltipClass]="'bg-primary fs-6'"
                 [matTooltip]="'plural'"
+                class="tltipG"
               >{{ item.number }}</span></span>
               <span
                 *ngIf="!item.orthography.endsWith('s')"
               ><span
                 [matTooltipClass]="'bg-primary fs-6'"
                 [matTooltip]="getTooltipGramEndWord(item.gram)"
+                class="tltipG"
               >{{item.gram}}</span></span><span *ngIf="i !== word.palabra.another.length - 1">;</span>
             </span>
             <span class="p-1"></span>

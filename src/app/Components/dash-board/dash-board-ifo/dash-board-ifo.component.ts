@@ -62,6 +62,7 @@ export class DashBoardIfoComponent implements OnInit {
 
 
   onSelectWord(e: Event) {
+    e.preventDefault();
     this.clicked = true;
     this.wordID = (<HTMLSelectElement>e.target).value;
     this.onProccesSearch(this.wordID, this.clicked);

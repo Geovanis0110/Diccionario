@@ -81,7 +81,7 @@ export const usgType: Array<FilterAbreviations> = [
   },
   {
     criteria: 'despectivo',
-    abr: 'despect.|en ocasiones despect.'
+    abr: 'despect.'
   },
   {
     criteria: 'familiar',
@@ -221,7 +221,6 @@ export const abbrevationsTooltip: Array<FilterAbreviations> = [
   {abr: "fras. coloq.", criteria: "fraseologismo coloquial."},
   {abr: "interj.", criteria: "interjección."},
   {abr: "invar.", criteria: "invariable."},
-  {abr: "oc. adj.", criteria: "locución adjetiva."},
   {abr: "loc. adv.", criteria: "locución adverbial."},
   {abr: "loc. conj.", criteria: "locución conjuntiva."},
   {abr: "loc. nom.", criteria: "locución nominal."},

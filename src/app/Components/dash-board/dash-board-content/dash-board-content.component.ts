@@ -15,6 +15,7 @@ import {VerbalTableModalComponent} from '../../modals/verbal-table-modal/verbal-
 import * as ShareContent from '../../../Models/shared-content';
 import {ImageModalComponent} from '../../modals/image-modal/image-modal.component';
 import {VideoModalComponent} from "../../modals/video-modal/video-modal.component";
+import {usgType} from "../../../Models/shared-content";
 
 
 @Component({
@@ -125,6 +126,7 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   setDisabledTrue(sel: Event) {
+    sel.preventDefault();
     this.currentSelectedOption = (<HTMLSelectElement>sel.target).value;
     this.disableSelect = true;
     if (this.currentSelectedOption === 'defaultValue') {
@@ -290,6 +292,7 @@ export class DashBoardContentComponent implements OnInit {
 
   onOpenWordVideo(url: string) {
     this._dialog.open(VideoModalComponent, {data: url});
+    console.log({data: url});
   }
 
   onOpenWordAudio(url: string) {
@@ -300,7 +303,6 @@ export class DashBoardContentComponent implements OnInit {
   getGramaticalTooltip(abrv: string): string {
     let result: Array<FilterAbreviations> = [];
     result = ShareContent.catGram.filter(x => x.abr.includes(abrv));
-    console.log(result)
     if (result.length === 1)
       return result[0].criteria;
     else if (result.length === 0) {
@@ -331,6 +333,7 @@ export class DashBoardContentComponent implements OnInit {
   }
 
   onToolTipUsg(item: UsgType): string {
+    console.log(item)
     if (item.type === 'dom') {
     }
     switch (item.type) {
