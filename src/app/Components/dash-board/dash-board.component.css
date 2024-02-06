@@ -27,14 +27,14 @@
   display: flex;
   justify-content: center;
 }
-
+/*
 #menu0 div{
   display: inline-block;
   margin: 2px;
 
   min-width:70px;
 }
-/* div.mi1div
+ div.mi1div
 {
   display: flex;
 	position: absolute;
