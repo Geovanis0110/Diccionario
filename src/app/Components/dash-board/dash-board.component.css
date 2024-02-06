@@ -21,9 +21,66 @@
 }
 .dictionary{
   width: 200px;
+  float: left;
 }
 .adv-css{
   display: flex;
   justify-content: center;
 }
 
+#menu0 div{
+  display: inline-block;
+  margin: 2px;
+
+  min-width:70px;
+}
+/* div.mi1div
+{
+  display: flex;
+	position: absolute;
+	TOP: 0px
+
+}
+DIV.mi2div
+{
+	LEFT: 70px;
+	POSITION: absolute;
+	TOP: 0px
+
+}
+DIV.mi3div
+{
+	LEFT: 140px;
+	POSITION: absolute;
+	TOP: 0px
+
+}
+DIV.mi4div
+{
+	LEFT: 210px;
+	POSITION: absolute;
+	TOP: 0px
+
+}
+DIV.mi5div
+{
+	LEFT: 280px;
+	POSITION: absolute;
+	TOP: 0px
+
+}
+DIV.mi6div
+{
+	LEFT: 350px;
+	POSITION: absolute;
+	TOP: 0px
+
+}
+DIV.mi7div
+{
+	LEFT: 420px;
+	POSITION: absolute;
+	TOP: 0px
+
+}
+ */

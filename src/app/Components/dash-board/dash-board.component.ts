@@ -113,6 +113,7 @@ export class DashBoardComponent implements OnInit {
   }
 
   onSearch(headerData: { indexWord: string; currentEntry: string }): void {
+    console.log(headerData);
     this.indexWord = headerData.indexWord;
     this.entry = headerData.currentEntry;
     if (this.selectionMode === 'reg0') {
@@ -122,11 +123,11 @@ export class DashBoardComponent implements OnInit {
           const dataToParse = new DOMParser()
             .parseFromString(data, 'text/xml');
           this.wordResults = this.dataTransform
-            .onTransformData(dataToParse, this.selectionMode)
-            .filter((x) => x.word === this.entry);
-          this.wordResults.length === 0 ? this.dontMatch = true : this.dontMatch = false;
+            .onTransformData(dataToParse, this.selectionMode);
+          var tempWordResult = this.wordResults.filter((x) => x.word === this.entry);
+          tempWordResult.length === 0 ? this.dontMatch = true : this.dontMatch = false;
           this._sharedData.strDontMatch.emit(this.dontMatch);
-          this._sharedData.instantMatchSearch.next({match$: this.dontMatch, entry$: this.wordResults[0]});
+          this._sharedData.instantMatchSearch.next({match$: this.dontMatch, entry$: tempWordResult[0]});
         });
     } else if (this.selectionMode === 'reg1') {
       this.queryService.setWordIndex(this.indexWord);

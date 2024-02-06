@@ -1,6 +1,7 @@
 <div class="mt-2">
   <label class="fw-bold">Lista de palabras: </label>
   <select
+    id="listaPalabras"
     #Select
     *ngIf="(_shared.advancedSearchActivated | async); else advSearch" class="form-select mat-elevation-z1 bg-light"
     size="9">
@@ -16,13 +17,14 @@
   </select>
   <ng-template #advSearch>
     <select
+    id="listaPalabras1"
       #Select
       class="form-select mat-elevation-z1 bg-light"
       size="8">
       <option
         (click)="onSelectWord($event)"
         *ngFor="let item of itemList | duplicate; index as i"
-        [selected]="i === 0"
+        [selected]="item.word === this.currentEntry"
         [value]="item.id"
         class="fw-bold"
       >
